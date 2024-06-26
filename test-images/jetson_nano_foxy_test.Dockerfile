@@ -19,11 +19,5 @@ RUN apt-get install -y --no-install-recommends gcc-8 \
                                                build-essential \
                                                software-properties-common \
                                                cmake
-
-RUN /usr/local/cuda-10.2/bin/cuda-install-samples-10.2.sh .
                                                
-WORKDIR /NVIDIA_CUDA-10.2_Samples/1_Utilities/deviceQuery
-                                               
-CMD ["make clean && make HOST_COMPILER=/usr/bin/g++-8 && ./deviceQuery"]
-
-
+CMD ["/usr/local/cuda-10.2/bin/cuda-install-samples-10.2.sh . && /NVIDIA_CUDA-10.2_Samples/1_Utilities/deviceQuery && make clean && make HOST_COMPILER=/usr/bin/g++-8 && ./deviceQuery"]

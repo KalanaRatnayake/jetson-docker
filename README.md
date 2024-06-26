@@ -27,3 +27,23 @@ RUN the docker container with
 docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/l4t-foxy-base:r32.7.1 bash
 ```
 <br>
+
+## Ubuntu Foxy Test Image (r32.7.1)
+
+Use this to test the Ubuntu Foxy (r32.7.1) base container built above
+
+Get the docker container
+```bash
+docker pull ghcr.io/kalanaratnayake/l4t-foxy-base-test:r32.7.1
+```
+
+Build the docker container locally
+```bash
+docker buildx build --load --platform linux/arm64 -f test-images/jetson_nano_foxy_test.Dockerfile -t l4t-foxy-base-test:r32.7.1 .
+```
+
+RUN the docker container with
+```bash
+docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/l4t-foxy-base-test:r32.7.1
+```
+<br>
