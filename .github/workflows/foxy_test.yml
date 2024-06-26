@@ -1,26 +1,31 @@
-name: Jetson Ubuntu Foxy Image (r32.7.1)
+name: Jetson Ubuntu Foxy Image Test (r32.7.1)
 
 on:
   workflow_dispatch:
+
+  workflow_run:
+    workflows: [Jetson Ubuntu Foxy Image (r32.7.1)]
+    types:
+      - completed
 
   push:
     branches: 
       - main
     paths:
-      - ".github/workflows/jetson_nano_foxy.yml"
-      - "base-images/jetson_nano_foxy.Dockerfile"
+      - ".github/workflows/foxy_test.yml"
+      - "test-images/foxy_test.Dockerfile"
 
   pull_request:
     branches: 
       - main
     paths:
-      - ".github/workflows/jetson_nano_foxy.yml"
-      - "base-images/jetson_nano_foxy.Dockerfile"
+      - ".github/workflows/foxy_test.yml"
+      - "test-images/foxy_test.Dockerfile"
 
 env:
   REGISTRY: ghcr.io
   OWNER: kalanaratnayake
-  IMAGE_NAME: l4t-foxy-base
+  IMAGE_NAME: l4t-foxy-base-test
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency
 concurrency:
@@ -60,7 +65,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./base-images/jetson_nano_foxy.Dockerfile
+          file: ./test-images/foxy_test.Dockerfile
           push: true
           platforms: linux/arm64
           tags: |

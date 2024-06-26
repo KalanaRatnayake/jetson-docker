@@ -1,4 +1,12 @@
-# jetson-docker
+# Jetson Nano Docker
+
+This repository contains docker containers that are built on top of an modified [nvcr.io/nvidia/l4t-base:r32.7.1](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-base/tags) container. The container has been modified by upgrading core Ubuntu 18.04 to Ubuntu 20.04. 
+
+[dusty-nv/jetson-containers](https://github.com/dusty-nv/jetson-containers) allows building containers for Jetson nano but they are based on offical [nvcr.io/nvidia/l4t-base:r32.7.1](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-base/tags) which is based on Ubuntu 18.04 and is limited by Python 3.6.9. 
+
+Due to this, being inspired from [Qengineering/Jetson-Nano-Ubuntu-20-image](https://github.com/Qengineering/Jetson-Nano-Ubuntu-20-image) and based on [gpshead/Dockerfile](https://gist.github.com/gpshead/0c3a9e0a7b3e180d108b6f4aef59bc19), this container provides an Ubuntu 20.04 version of [nvcr.io/nvidia/l4t-base:r32.7.1](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-base/tags)
+
+> Ubuntu 22.04 was also attempted, but later abandoned due to lack of support for gcc-8, g++8 and clang-8 required by CUDA 10.2 in r32.7.1
 
 ## Docker buildx for ARM64 platform
 
@@ -9,21 +17,21 @@ docker buildx create --use --driver-opt network=host --name MultiPlatform --plat
 
 ## Ubuntu Foxy (r32.7.1) - Size 822 MB
 
-[dustynv/ros:humble-ros-core-l4t-r32.7.1](https://hub.docker.com/layers/dustynv/ros/humble-ros-core-l4t-r32.7.1/images/sha256-833447d4c81735c71cd61587b9cd61275cf7158f44bec074a135e6f3e662187a?context=explore) bases itself on offical [nvcr.io/nvidia/l4t-base:r32.7.1](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-base/tags) which is a variant of Ubuntu 18.04. Though dusty's container provides ROS Humble, It is limited by Python 3.6.9. Due to this, being inspired from [Qengineering/Jetson-Nano-Ubuntu-20-image](https://github.com/Qengineering/Jetson-Nano-Ubuntu-20-image) and based on [gpshead/Dockerfile](https://gist.github.com/gpshead/0c3a9e0a7b3e180d108b6f4aef59bc19), this container provides an Ubuntu 20.04 version of [nvcr.io/nvidia/l4t-base:r32.7.1](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-base/tags)
+### Pull or Build
 
-> Ubuntu 22.04 was also attempted, but later abandoned due to lack of support for gcc-8, g++8 and clang-8 required by CUDA 10.2 in r32.7.1
-
-Get the docker container
+Pull the docker container
 ```bash
 docker pull ghcr.io/kalanaratnayake/l4t-foxy-base:r32.7.1
 ```
 
-Build the docker container locally
+Build the docker container
 ```bash
-docker buildx build --load --platform linux/arm64 -f base-images/jetson_nano_foxy.Dockerfile -t l4t-foxy-base:r32.7.1 .
+docker buildx build --load --platform linux/arm64 -f base-images/foxy.Dockerfile -t l4t-foxy-base:r32.7.1 .
 ```
 
-RUN the docker container with
+### Start
+
+Start the docker container
 ```bash
 docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/l4t-foxy-base:r32.7.1 bash
 ```
@@ -36,21 +44,28 @@ Use this to test the Ubuntu Foxy (r32.7.1) base container built above and it con
 - g++-8
 - python 3.8
  
+### Pull or Build
 
-Get the docker container
+Pull the docker container
 ```bash
 docker pull ghcr.io/kalanaratnayake/l4t-foxy-base-test:r32.7.1
 ```
 
-Build the docker container locally
+Build the docker container
 ```bash
-docker buildx build --load --platform linux/arm64 -f test-images/jetson_nano_foxy_test.Dockerfile -t l4t-foxy-base-test:r32.7.1 .
+docker buildx build --load --platform linux/arm64 -f test-images/foxy_test.Dockerfile -t l4t-foxy-base-test:r32.7.1 .
 ```
-Run the docker container with
+
+### Start
+
+Start the docker container
 ```bash
 docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/l4t-foxy-base-test:r32.7.1 bash
 ```
-and run the following commands internally
+
+### Test
+
+Run the following commands inside the docker container to test the nvcc and other jetson nano specific functionality
 ```bash
 /usr/local/cuda-10.2/bin/cuda-install-samples-10.2.sh .
 cd /NVIDIA_CUDA-10.2_Samples/1_Utilities/deviceQuery
