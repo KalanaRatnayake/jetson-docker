@@ -21,4 +21,9 @@ Build the docker container locally
 ```bash
 docker buildx build --load --platform linux/arm64 -f base-images/jetson_nano_foxy.Dockerfile -t l4t-foxy-base:r32.7.1 .
 ```
+
+RUN the docker container with
+```bash
+docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/l4t-foxy-base:r32.7.1 bash
+```
 <br>

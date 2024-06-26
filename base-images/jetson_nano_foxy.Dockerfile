@@ -31,17 +31,6 @@ RUN apt-get autoremove -y
 RUN apt-get clean
 
 #######################################################################################
-###                  Install gcc-8, g++-8, clang8 and python3.8
-#######################################################################################
-
-RUN apt-get update -y
-
-RUN apt-get install -y --no-install-recommends gcc-8 \
-                                               g++-8 \
-                                               clang-8 \
-                                               python3
-
-#######################################################################################
 ###                  Clean the files for size reduction
 #######################################################################################
 
@@ -59,4 +48,5 @@ FROM scratch as final
 
 COPY --from=base / /
 
-
+ENV PATH=${PATH}:/usr/local/cuda/bin
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64
