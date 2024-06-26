@@ -1,0 +1,210 @@
+#---------------------------------------------------------------------------------------------------------------------------
+#----
+#----   Start base image
+#----
+#---------------------------------------------------------------------------------------------------------------------------
+
+FROM ghcr.io/kalanaratnayake/l4t-foxy-base:r32.7.1 as base
+
+#############################################################################################################################
+#####
+#####   Install core packages and python3
+#####
+#############################################################################################################################
+
+RUN apt-get update -y
+RUN apt-get install -y --no-install-recommends cmake \
+                                               build-essential \
+                                               wget \
+                                               unzip \
+                                               locales \                                               
+                                               software-properties-common \
+                                               curl \
+                                               git \
+                                               gnupg2 \
+                                               ca-certificates \
+                                               pkg-config \
+                                               lsb-release\
+                                               python3 \
+                                               python3-dev \
+                                               python3-distutils \
+                                               python3-pip \
+                                               python3-numpy \
+                                               python3-venv \
+                                               python3-pytest-cov \
+                                               libpython3-dev                                               
+                                               
+RUN locale-gen en_US en_US.UTF-8 && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+
+ENV LANG=en_US.UTF-8
+ENV PYTHONIOENCODING=utf-8
+
+#############################################################################################################################
+#####
+#####   Install latest opencv minimal version
+#####
+#############################################################################################################################
+
+WORKDIR /download
+
+RUN wget -O opencv.zip https://github.com/opencv/opencv/archive/4.10.0.zip && unzip opencv.zip
+RUN wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.10.0.zip && unzip opencv_contrib.zip
+
+RUN cd opencv-4.10.0 && \
+    mkdir -p build && \
+    cd build && \
+    cmake -D CMAKE_BUILD_TYPE=RELEASE \
+          -D CMAKE_INSTALL_PREFIX=/usr/local \
+          -D OPENCV_EXTRA_MODULES_PATH=/download/opencv_contrib-4.10.0/modules \
+          -D INSTALL_PYTHON_EXAMPLES=OFF \
+          -D INSTALL_C_EXAMPLES=OFF \
+          -D PYTHON3_PACKAGES_PATH=/usr/lib/python3/dist-packages \
+          -D OPENCV_GENERATE_PKGCONFIG=ON \
+          -D BUILD_opencv_python3=ON \
+          -D PYTHON_EXECUTABLE=$(which python3) \
+          -D BUILD_EXAMPLES=OFF .. && \
+    make -j4 && \
+    make install && \
+    ldconfig
+
+WORKDIR /
+
+# remove opencv source and build files
+RUN rm -rf download
+
+#############################################################################################################################
+#####
+#####   Install ROS2 humble ros base
+#####
+#############################################################################################################################
+
+ARG ROS_VERSION=humble
+ARG ROS_PACKAGE=ros_base
+
+RUN add-apt-repository universe
+
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] \
+ http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
+
+RUN apt-get update -y
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ros-dev-tools  \
+                                                                              python3-rosinstall-generator 
+
+RUN python3 -m pip install -U "pytest>=5.3" \
+                              pytest-repeat \
+                              pytest-rerunfailures
+
+ENV ROS_DISTRO=${ROS_VERSION}
+ENV ROS_ROOT=/opt/ros/${ROS_DISTRO}
+ENV ROS_PYTHON_VERSION=3
+
+WORKDIR ${ROS_ROOT}/src
+
+RUN rosinstall_generator --deps --rosdistro ${ROS_DISTRO} ${ROS_PACKAGE} \
+                                                            launch_xml \
+                                                            launch_yaml \
+                                                            camera_calibration_parsers \
+                                                            camera_info_manager \
+                                                            cv_bridge \
+                                                            v4l2_camera \
+                                                            vision_opencv \
+                                                            vision_msgs \
+                                                            image_geometry \
+                                                            image_pipeline \
+                                                            image_transport \
+                                                            compressed_image_transport \
+                                                            compressed_depth_image_transport \
+                                                            cyclonedds \
+                                                            rmw_cyclonedds \
+                                                        > ros2.${ROS_DISTRO}.${ROS_PACKAGE}.rosinstall
+
+RUN vcs import ${ROS_ROOT}/src < ros2.${ROS_DISTRO}.${ROS_PACKAGE}.rosinstall
+
+WORKDIR ${ROS_ROOT}
+
+RUN rosdep init && rosdep update
+
+RUN rosdep install -y \
+	               --ignore-src \
+	               --from-paths src \
+	               --rosdistro ${ROS_DISTRO} \
+                   --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers"
+
+RUN colcon build \
+            --merge-install \
+            --cmake-args -DCMAKE_BUILD_TYPE=Release 
+
+WORKDIR /
+
+# remove ros source and build files
+RUN rm -rf ${ROS_ROOT}/src
+RUN rm -rf ${ROS_ROOT}/log
+RUN rm -rf ${ROS_ROOT}/build
+
+RUN apt-get clean
+
+#############################################################################################################################
+#####
+#####   Remove dev packages to reduce size
+#####
+#############################################################################################################################
+
+RUN apt-get update -y
+
+# general packages
+RUN apt-get purge --yes python3-dev \
+                        libpython3-dev \
+                        build-essential \
+                        software-properties-common \
+                        cmake \
+                        git \
+                        gnupg2 \
+                        curl \
+                        unzip \
+                        ca-certificates \
+                        wget \
+                        pkg-config \
+                        lsb-release 
+
+RUN rm -rf /var/lib/apt/lists/*
+RUN rm -rf /tmp/*
+RUN apt-get clean
+
+#---------------------------------------------------------------------------------------------------------------------------
+#----
+#----   Start final release image
+#----
+#---------------------------------------------------------------------------------------------------------------------------
+FROM nvcr.io/nvidia/l4t-base:r32.7.1 as final
+
+COPY --from=base / /
+
+COPY ros-images/ros_entrypoint.sh /ros_entrypoint.sh
+
+RUN chmod +x /ros_entrypoint.sh
+
+#############################################################################################################################
+#####
+#####  ROS Humble environment variables and configuration
+#####
+#############################################################################################################################
+
+# Set the default DDS middleware to cyclonedds
+# https://github.com/ros2/rclcpp/issues/1335
+ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+
+ENV OPENBLAS_CORETYPE=ARMV8
+
+ARG ROS_VERSION=humble
+
+ENV ROS_DISTRO=${ROS_VERSION}
+
+ENV ROS_ROOT=/opt/ros/${ROS_DISTRO}
+
+WORKDIR /
+
+# Set entry point
+ENTRYPOINT ["/ros_entrypoint.sh"]
