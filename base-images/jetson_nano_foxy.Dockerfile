@@ -39,7 +39,10 @@ RUN apt-get update -y
 RUN apt-get install -y --no-install-recommends gcc-8 \
                                                g++-8 \
                                                clang-8 \
-                                               python3
+                                               python3 \
+                                               build-essential \
+                                               software-properties-common \
+                                               cmake
 
 #######################################################################################
 ###                  Clean the files for size reduction
