@@ -41,9 +41,18 @@ Build the docker container locally
 ```bash
 docker buildx build --load --platform linux/arm64 -f test-images/jetson_nano_foxy_test.Dockerfile -t l4t-foxy-base-test:r32.7.1 .
 ```
+or 
 
 RUN the docker container with
 ```bash
 docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/l4t-foxy-base-test:r32.7.1
+```
+and run the following commands internally
+```bash
+/usr/local/cuda-10.2/bin/cuda-install-samples-10.2.sh .
+cd /NVIDIA_CUDA-10.2_Samples/1_Utilities/deviceQuery
+make clean
+make HOST_COMPILER=/usr/bin/g++-8
+./deviceQuery
 ```
 <br>
