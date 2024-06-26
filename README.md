@@ -28,7 +28,7 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 ```
 <br>
 
-## Ubuntu Foxy Test Image (r32.7.1) - Size 1.25 GB
+## Ubuntu Foxy Test Image (r32.7.1) - Size 1.11 GB
 
 Use this to test the Ubuntu Foxy (r32.7.1) base container built above
 
