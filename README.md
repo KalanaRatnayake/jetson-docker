@@ -8,14 +8,18 @@ Due to this, being inspired from [Qengineering/Jetson-Nano-Ubuntu-20-image](http
 
 > Ubuntu 22.04 was also attempted, but later abandoned due to lack of support for gcc-8, g++8 and clang-8 required by CUDA 10.2 in r32.7.1
 
-## Docker buildx for ARM64 platform
+## Docker buildx for ARM64 platform (for AMD64 systems)
 
+Run the following command on a AMD64 computer to setup buildx to build arm64 docker containers.
 ```bash
 docker buildx create --use --driver-opt network=host --name MultiPlatform --platform linux/arm64
 ```
-<br>
 
-## Ubuntu Foxy (r32.7.1) - Size 822 MB
+## Base Containers
+
+<details> 
+
+<summary>  Ubuntu Foxy (r32.7.1) - Size 822 MB  </summary>
 
 ### Pull or Build
 
@@ -37,13 +41,11 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 ```
 <br>
 
-## Ubuntu Foxy Test Image (r32.7.1) - Size 1.11 GB
+</details>
 
-Use this to test the Ubuntu Foxy (r32.7.1) base container built above and it contains,
-- gcc+8
-- g++-8
-- python 3.8
- 
+<details> 
+<summary>  Ubuntu Foxy Test Image (r32.7.1) with gcc8, g++8 and python 3.8 - Size 1.11 GB  </summary>
+
 ### Pull or Build
 
 Pull the docker container
@@ -74,3 +76,5 @@ make HOST_COMPILER=/usr/bin/g++-8
 ./deviceQuery
 ```
 <br>
+
+</details>
