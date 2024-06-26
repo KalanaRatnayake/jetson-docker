@@ -15,11 +15,11 @@ Run the following command on a AMD64 computer to setup buildx to build arm64 doc
 docker buildx create --use --driver-opt network=host --name MultiPlatform --platform linux/arm64
 ```
 
-## Base Containers
+## Base Containers (modified r32.7.1)
 
 <details> 
 
-<summary>  Ubuntu Foxy (r32.7.1) - Size 822 MB  </summary>
+<summary> <b> Ubuntu Foxy (Size 822 MB) </b> </summary>
 
 ### Pull or Build
 
@@ -44,7 +44,7 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 </details>
 
 <details> 
-<summary>  Ubuntu Foxy Test Image (r32.7.1) with gcc8, g++8 and python 3.8 - Size 1.11 GB  </summary>
+<summary> <b> Ubuntu Foxy Test Image with gcc8, g++8 and python 3.8 (Size 1.11 GB) </b> </summary>
 
 ### Pull or Build
 
