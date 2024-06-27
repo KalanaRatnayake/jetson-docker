@@ -4,7 +4,7 @@
 #----
 #---------------------------------------------------------------------------------------------------------------------------
 
-FROM ghcr.io/kalanaratnayake/l4t-foxy-base:r32.7.1 AS base
+FROM ghcr.io/kalanaratnayake/foxy-base:r32.7.1 AS base
 
 #############################################################################################################################
 #####
@@ -143,7 +143,7 @@ RUN apt-get clean
 #----   Start final release image
 #----
 #---------------------------------------------------------------------------------------------------------------------------
-FROM ghcr.io/kalanaratnayake/l4t-foxy-base:r32.7.1 AS final
+FROM ghcr.io/kalanaratnayake/foxy-base:r32.7.1 AS final
 
 COPY --from=base / /
 

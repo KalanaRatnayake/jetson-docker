@@ -4,7 +4,7 @@
 #----
 #---------------------------------------------------------------------------------------------------------------------------
 
-FROM ghcr.io/kalanaratnayake/l4t-foxy-base:r32.7.1 AS base
+FROM ghcr.io/kalanaratnayake/foxy-base:r32.7.1 AS base
 
 #######################################################################################
 ###                  Install gcc-8, g++-8, clang8 and python3.8
@@ -29,7 +29,7 @@ RUN apt-get clean
 #----
 #---------------------------------------------------------------------------------------------------------------------------
 
-FROM ghcr.io/kalanaratnayake/l4t-foxy-base:r32.7.1 as final
+FROM ghcr.io/kalanaratnayake/foxy-base:r32.7.1 as final
 
 COPY --from=base / /
     
