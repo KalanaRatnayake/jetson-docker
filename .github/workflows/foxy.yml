@@ -20,7 +20,7 @@ on:
 env:
   REGISTRY: ghcr.io
   OWNER: kalanaratnayake
-  IMAGE_NAME: l4t-foxy-base
+  IMAGE_NAME: foxy-base
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency
 concurrency:
@@ -64,5 +64,5 @@ jobs:
           push: true
           platforms: linux/arm64
           tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:jetson-nano
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:j-nano
             ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:r32.7.1
