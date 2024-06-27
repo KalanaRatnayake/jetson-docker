@@ -29,15 +29,16 @@ RUN apt-get install -y --no-install-recommends cmake \
                                                python3-dev \
                                                python3-distutils \
                                                python3-pip \
-                                               python3-numpy \
                                                python3-venv \
-                                               python3-pytest-cov \
                                                libpython3-dev                                         
                                                
 RUN locale-gen en_US en_US.UTF-8 && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
 ENV LANG=en_US.UTF-8
 ENV PYTHONIOENCODING=utf-8
+
+RUN python3 -m pip install numpy \
+                           pytest-cov
 
 #############################################################################################################################
 #####

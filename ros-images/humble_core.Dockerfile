@@ -29,15 +29,17 @@ RUN apt-get install -y --no-install-recommends cmake \
                                                python3-dev \
                                                python3-distutils \
                                                python3-pip \
-                                               python3-numpy \
                                                python3-venv \
-                                               python3-pytest-cov \
                                                libpython3-dev                                               
                                                
 RUN locale-gen en_US en_US.UTF-8 && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
 ENV LANG=en_US.UTF-8
 ENV PYTHONIOENCODING=utf-8
+
+RUN python3 -m pip install numpy \
+                           pytest-cov
+                           
 
 #############################################################################################################################
 #####
@@ -68,9 +70,9 @@ RUN apt-get update -y
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ros-dev-tools  \
                                                                               python3-rosinstall-generator 
 
-RUN python3 -m pip install -U "pytest>=5.3" \
-                              pytest-repeat \
-                              pytest-rerunfailures
+RUN python3 -m pip install "pytest>=5.3" \
+                            pytest-repeat \
+                            pytest-rerunfailures
 
 ENV ROS_DISTRO=${ROS_VERSION}
 ENV ROS_ROOT=/opt/ros/${ROS_DISTRO}
