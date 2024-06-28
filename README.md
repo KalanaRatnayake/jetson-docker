@@ -15,19 +15,6 @@ Run the following command on a AMD64 computer to setup buildx to build arm64 doc
 docker buildx create --use --driver-opt network=host --name MultiPlatform --platform linux/arm64
 ```
 
-## Docker build commands when github workflow exceeds 6hrs
-
-Run the following command on a AMD64 computer to setup build the containers locally and push to ghcr.io with build cache. This can be needed because ARM64 image compilation can be slow on github actions.
-
-```bash
-docker buildx build --push \
-                    --platform linux/arm64 \
-                    --cache-from=type=registry,ref=ghcr.io/kalanaratnayake/foxy-ros:buildcache \
-                    --cache-to=type=registry,ref=ghcr.io/kalanaratnayake/foxy-ros:buildcache,mode=max  \
-                    -f ros-images/humble_core.Dockerfile  \
-                    -t ghcr.io/kalanaratnayake/foxy-ros:humble-ros-core-r32.7.1 .
-```
-
 ## Docker container list
 
 <details> 
@@ -111,6 +98,17 @@ Build the docker container
 docker buildx build --load --platform linux/arm64 -f ros-images/humble_core.Dockerfile -t foxy-humble:ros-core-r32.7.1 .
 ```
 
+or to build with cache locally and push when image compilation can be slow on github actions and exceeds 6rs
+
+```bash
+docker buildx build --push \
+                    --platform linux/arm64 \
+                    --cache-from=type=registry,ref=ghcr.io/kalanaratnayake/foxy-ros:humble-ros-core-buildcache \
+                    --cache-to=type=registry,ref=ghcr.io/kalanaratnayake/foxy-ros:humble-ros-core-buildcache,mode=max  \
+                    -f ros-images/humble_core.Dockerfile  \
+                    -t ghcr.io/kalanaratnayake/foxy-ros:humble-ros-core-r32.7.1 .
+```
+
 ### Start
 
 Start the docker container
@@ -138,6 +136,17 @@ docker pull ghcr.io/kalanaratnayake/foxy-humble:ros-base-r32.7.1
 Build the docker container
 ```bash
 docker buildx build --load --platform linux/arm64 -f ros-images/humble_base.Dockerfile -t foxy-humble:ros-base-r32.7.1 .
+```
+
+or to build with cache locally and push when image compilation can be slow on github actions and exceeds 6rs
+
+```bash
+docker buildx build --push \
+                    --platform linux/arm64 \
+                    --cache-from=type=registry,ref=ghcr.io/kalanaratnayake/foxy-ros:humble-ros-base-buildcache \
+                    --cache-to=type=registry,ref=ghcr.io/kalanaratnayake/foxy-ros:humble-ros-base-buildcache,mode=max  \
+                    -f ros-images/humble_base.Dockerfile  \
+                    -t ghcr.io/kalanaratnayake/foxy-ros:humble-ros-base-r32.7.1 .
 ```
 
 ### Start
