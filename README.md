@@ -15,8 +15,12 @@ Run the following command on a AMD64 computer to setup buildx to build arm64 doc
 docker buildx create --use --driver-opt network=host --name MultiPlatform --platform linux/arm64
 ```
 
+## Docker container list
+
 <details> 
-<summary> <h3> Ubuntu Foxy Base Container (Size 822 MB) </h3> </summary>
+<summary> <h3> Jetson Ubuntu Foxy Base Image </h3> </summary>
+
+- Size is about 822 MB
 
 ### Pull or Build
 
@@ -41,7 +45,9 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 </details>
 
 <details> 
-<summary> <h3> Ubuntu Foxy Base Container with gcc8, g++8 and python 3.8 (Size 1.11 GB) </h3> </summary>
+<summary> <h3> Jetson Ubuntu Foxy Minimal Image </h3> </summary>
+
+- Size is about 1.11GB
 
 ### Pull or Build
 
@@ -76,8 +82,10 @@ make HOST_COMPILER=/usr/bin/g++-8
 </details>
 
 <details> 
-<summary> <h3> ROS Humble ROS Core Container (Size 822 MB) </h3> </summary>
-
+<summary> <h3> Jetson ROS Humble Core Image </h3> </summary>
+  
+- Size is about 1.11GB
+  
 ### Pull or Build
 
 Pull the docker container
@@ -101,8 +109,10 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 </details>
 
 <details> 
-<summary> <h3> ROS Humble ROS Base (Size 822 MB) </h3> </summary>
+<summary> <h3> Jetson ROS Humble Base Image </h3> </summary>
 
+- Size is about 1.11GB
+  
 ### Pull or Build
 
 Pull the docker container
