@@ -101,9 +101,11 @@ docker buildx build --load --platform linux/arm64 -f ros-images/humble_core.Dock
 ### Start
 
 Start the docker container
+
 ```bash
 docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-humble:ros-core-r32.7.1 bash
 ```
+
 <br>
 
 </details>
