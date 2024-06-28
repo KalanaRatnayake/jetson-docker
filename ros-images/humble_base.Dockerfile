@@ -156,6 +156,8 @@ RUN chmod +x /ros_entrypoint.sh
 #####
 #############################################################################################################################
 
+LABEL org.opencontainers.image.description="Jetson ROS Humble Base Image"
+
 # Set the default DDS middleware to cyclonedds
 # https://github.com/ros2/rclcpp/issues/1335
 

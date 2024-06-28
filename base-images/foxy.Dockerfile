@@ -46,6 +46,8 @@ RUN apt-get clean
 
 FROM scratch as final
 
+LABEL org.opencontainers.image.description="Jetson Ubuntu Foxy Base Image"
+
 COPY --from=base / /
 
 ENV PATH=${PATH}:/usr/local/cuda/bin

@@ -31,6 +31,8 @@ RUN apt-get clean
 
 FROM ghcr.io/kalanaratnayake/foxy-base:r32.7.1 as final
 
+LABEL org.opencontainers.image.description="Jetson Ubuntu Foxy Minimal Image"
+
 COPY --from=base / /
     
 ENV PATH=${PATH}:/usr/local/cuda/bin

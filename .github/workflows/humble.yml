@@ -1,4 +1,4 @@
-name: Jetson ROS Humble Core Image
+name: Jetson ROS Humble Images
 
 on:
   workflow_dispatch:
@@ -13,26 +13,25 @@ on:
       - main
     paths:
       - ".github/workflows/humble_core.yml"
+      - ".github/workflows/humble_base.yml"
       - "ros-images/humble_core.Dockerfile"
-      - "ros-images/ros_entrypoint.sh"
       - "ros-images/humble_base.Dockerfile"
       - "ros-images/ros_entrypoint.sh"
-
 
   pull_request:
     branches: 
       - main
     paths:
       - ".github/workflows/humble_core.yml"
-      - "ros-images/humble_core.Dockerfile"
       - ".github/workflows/humble_base.yml"
+      - "ros-images/humble_core.Dockerfile"
       - "ros-images/humble_base.Dockerfile"
       - "ros-images/ros_entrypoint.sh"
 
 env:
   REGISTRY: ghcr.io
   OWNER: kalanaratnayake
-  IMAGE_NAME: foxy-humble
+  IMAGE_NAME: foxy-ros
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency
 concurrency:
@@ -75,11 +74,11 @@ jobs:
           file: ./ros-images/humble_core.Dockerfile
           push: true
           platforms: linux/arm64
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=registry,ref=user/app:buildcache
+          cache-to: type=registry,ref=user/app:buildcache,mode=max
           tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:ros-core-j-nano
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:ros-core-r32.7.1
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-core-j-nano
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-core-r32.7.1
 
       - name: Build and Push ROS Humble Base image
         uses: docker/build-push-action@v5
@@ -88,8 +87,8 @@ jobs:
           file: ./ros-images/humble_base.Dockerfile
           push: true
           platforms: linux/arm64
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=registry,ref=user/app:buildcache
+          cache-to: type=registry,ref=user/app:buildcache,mode=max
           tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:ros-base-j-nano
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:ros-base-r32.7.1
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-base-j-nano
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-base-r32.7.1
