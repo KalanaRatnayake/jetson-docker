@@ -15,6 +15,9 @@ on:
       - ".github/workflows/humble_core.yml"
       - "ros-images/humble_core.Dockerfile"
       - "ros-images/ros_entrypoint.sh"
+      - "ros-images/humble_base.Dockerfile"
+      - "ros-images/ros_entrypoint.sh"
+
 
   pull_request:
     branches: 
@@ -22,6 +25,8 @@ on:
     paths:
       - ".github/workflows/humble_core.yml"
       - "ros-images/humble_core.Dockerfile"
+      - ".github/workflows/humble_base.yml"
+      - "ros-images/humble_base.Dockerfile"
       - "ros-images/ros_entrypoint.sh"
 
 env:
@@ -63,13 +68,28 @@ jobs:
         #   username: ${{ github.actor }}
         #   password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push image
+      - name: Build and Push ROS Humble Core image
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./ros-images/humble_core.Dockerfile
           push: true
           platforms: linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           tags: |
             ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:ros-core-j-nano
             ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:ros-core-r32.7.1
+
+      - name: Build and Push ROS Humble Base image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./ros-images/humble_base.Dockerfile
+          push: true
+          platforms: linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:ros-base-j-nano
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:ros-base-r32.7.1
