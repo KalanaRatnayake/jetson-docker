@@ -22,8 +22,8 @@ Run the following command on a AMD64 computer to setup build the containers loca
 ```bash
 docker buildx build --push \
                     --platform linux/arm64 \
-                    --cache-from=type=registry,ref=ghcr.io/kalanaratnayake/foxy-ros:humble-ros-core-buildcache \
-                    --cache-to=type=registry,ref=ghcr.io/kalanaratnayake/foxy-ros:humble-ros-core-buildcache,mode=max  \
+                    --cache-from=type=registry,ref=ghcr.io/kalanaratnayake/foxy-ros:buildcache \
+                    --cache-to=type=registry,ref=ghcr.io/kalanaratnayake/foxy-ros:buildcache,mode=max  \
                     -f ros-images/humble_core.Dockerfile  \
                     -t ghcr.io/kalanaratnayake/foxy-ros:humble-ros-core-r32.7.1 .
 ```
