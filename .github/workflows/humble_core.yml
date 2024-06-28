@@ -1,4 +1,4 @@
-name: Jetson ROS Humble Images
+name: Jetson ROS Humble Core Images
 
 on:
   workflow_dispatch:
@@ -13,9 +13,7 @@ on:
       - main
     paths:
       - ".github/workflows/humble_core.yml"
-      - ".github/workflows/humble_base.yml"
       - "ros-images/humble_core.Dockerfile"
-      - "ros-images/humble_base.Dockerfile"
       - "ros-images/ros_entrypoint.sh"
 
   pull_request:
@@ -23,9 +21,7 @@ on:
       - main
     paths:
       - ".github/workflows/humble_core.yml"
-      - ".github/workflows/humble_base.yml"
       - "ros-images/humble_core.Dockerfile"
-      - "ros-images/humble_base.Dockerfile"
       - "ros-images/ros_entrypoint.sh"
 
 env:
@@ -79,16 +75,3 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-core-j-nano
             ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-core-r32.7.1
-
-      - name: Build and Push ROS Humble Base image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./ros-images/humble_base.Dockerfile
-          push: true
-          platforms: linux/arm64
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:buildcache
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }},mode=max
-          tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-base-j-nano
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-base-r32.7.1
