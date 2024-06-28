@@ -15,47 +15,44 @@ Run the following command on a AMD64 computer to setup buildx to build arm64 doc
 docker buildx create --use --driver-opt network=host --name MultiPlatform --platform linux/arm64
 ```
 
-## Base Containers (modified r32.7.1)
-
 <details> 
-
-<summary> <b> Ubuntu Foxy (Size 822 MB) </b> </summary>
+<summary> <h3> Ubuntu Foxy Base Container (Size 822 MB) </h3> </summary>
 
 ### Pull or Build
 
 Pull the docker container
 ```bash
-docker pull ghcr.io/kalanaratnayake/l4t-foxy-base:r32.7.1
+docker pull ghcr.io/kalanaratnayake/foxy-base:r32.7.1
 ```
 
 Build the docker container
 ```bash
-docker buildx build --load --platform linux/arm64 -f base-images/foxy.Dockerfile -t l4t-foxy-base:r32.7.1 .
+docker buildx build --load --platform linux/arm64 -f base-images/foxy.Dockerfile -t foxy-base:r32.7.1 .
 ```
 
 ### Start
 
 Start the docker container
 ```bash
-docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/l4t-foxy-base:r32.7.1 bash
+docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-base:r32.7.1 bash
 ```
 <br>
 
 </details>
 
 <details> 
-<summary> <b> Ubuntu Foxy Test Image with gcc8, g++8 and python 3.8 (Size 1.11 GB) </b> </summary>
+<summary> <h3> Ubuntu Foxy Base Container with gcc8, g++8 and python 3.8 (Size 1.11 GB) </h3> </summary>
 
 ### Pull or Build
 
 Pull the docker container
 ```bash
-docker pull ghcr.io/kalanaratnayake/l4t-foxy-base-test:r32.7.1
+docker pull ghcr.io/kalanaratnayake/foxy-base:test-r32.7.1
 ```
 
 Build the docker container
 ```bash
-docker buildx build --load --platform linux/arm64 -f test-images/foxy_test.Dockerfile -t l4t-foxy-base-test:r32.7.1 .
+docker buildx build --load --platform linux/arm64 -f test-images/foxy_test.Dockerfile -t foxy-base:test-r32.7.1 .
 ```
 
 ### Start
@@ -76,59 +73,53 @@ make HOST_COMPILER=/usr/bin/g++-8
 ./deviceQuery
 ```
 <br>
-
 </details>
 
-## ROS Containers (modified r32.7.1)
-
 <details> 
-
-<summary> <b> ROS Humble ROS Core (Size 822 MB) </b> </summary>
+<summary> <h3> ROS Humble ROS Core Container (Size 822 MB) </h3> </summary>
 
 ### Pull or Build
 
 Pull the docker container
 ```bash
-docker pull ghcr.io/kalanaratnayake/humble-ros-core:r32.7.1
+docker pull ghcr.io/kalanaratnayake/foxy-humble:ros-core-r32.7.1
 ```
 
 Build the docker container
 ```bash
-docker buildx build --load --platform linux/arm64 -f ros-images/humble_core.Dockerfile -t humble-ros-core:r32.7.1 .
+docker buildx build --load --platform linux/arm64 -f ros-images/humble_core.Dockerfile -t foxy-humble:ros-core-r32.7.1 .
 ```
 
 ### Start
 
 Start the docker container
 ```bash
-docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/humble-ros-core:r32.7.1 bash
+docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-humble:ros-core-r32.7.1 bash
 ```
 <br>
 
 </details>
 
 <details> 
-
-<summary> <b> ROS Humble ROS Base (Size 822 MB) </b> </summary>
+<summary> <h3> ROS Humble ROS Base (Size 822 MB) </h3> </summary>
 
 ### Pull or Build
 
 Pull the docker container
 ```bash
-docker pull ghcr.io/kalanaratnayake/humble-ros-base:r32.7.1
+docker pull ghcr.io/kalanaratnayake/foxy-humble:ros-base-r32.7.1
 ```
 
 Build the docker container
 ```bash
-docker buildx build --load --platform linux/arm64 -f ros-images/humble_base.Dockerfile -t humble-ros-base:r32.7.1 .
+docker buildx build --load --platform linux/arm64 -f ros-images/humble_base.Dockerfile -t foxy-humble:ros-base-r32.7.1 .
 ```
 
 ### Start
 
 Start the docker container
 ```bash
-docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/humble-ros-base:r32.7.1 bash
+docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-humble:ros-base-r32.7.1 bash
 ```
 <br>
-
 </details>
