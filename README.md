@@ -18,7 +18,7 @@ docker buildx create --use --driver-opt network=host --name MultiPlatform --plat
 ## Docker container list
 
 <details> 
-<summary> <h3> Ubuntu Foxy Base Container </h3> </summary>
+<summary> <h3> Jetson Ubuntu Foxy Base Image </h3> </summary>
 
 - Size is about 822 MB
 
@@ -45,7 +45,7 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 </details>
 
 <details> 
-<summary> <h3> Ubuntu Foxy Base Container with gcc8, g++8 and python 3.8 </h3> </summary>
+<summary> <h3> Jetson Ubuntu Foxy Minimal Image </h3> </summary>
 
 - Size is about 1.11GB
 
@@ -82,7 +82,7 @@ make HOST_COMPILER=/usr/bin/g++-8
 </details>
 
 <details> 
-<summary> <h3> ROS Humble ROS Core Container </h3> </summary>
+<summary> <h3> Jetson ROS Humble Core Image </h3> </summary>
   
 - Size is about 1.11GB
   
@@ -109,7 +109,7 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 </details>
 
 <details> 
-<summary> <h3> ROS Humble ROS Base Container </h3> </summary>
+<summary> <h3> Jetson ROS Humble Base Image </h3> </summary>
 
 - Size is about 1.11GB
   
