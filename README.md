@@ -125,6 +125,8 @@ docker pull ghcr.io/kalanaratnayake/foxy-humble:ros-base-r32.7.1
 Build the docker container
 ```bash
 docker buildx build --load --platform linux/arm64 -f ros-images/humble_base.Dockerfile -t foxy-humble:ros-base-r32.7.1 .
+
+docker buildx build --load --platform linux/arm64 -f ros-images/humble_base.Dockerfile -t ghcr.io/kalanaratnayake/foxy-humble:ros-base-r32.7.1 .
 ```
 
 ### Start
