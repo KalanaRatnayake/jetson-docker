@@ -6,6 +6,8 @@
 
 FROM ghcr.io/kalanaratnayake/foxy-base:r32.7.1 AS base
 
+LABEL org.opencontainers.image.description="Jetson ROS Humble Core Image"
+
 #############################################################################################################################
 #####
 #####   Install core packages and python3
@@ -143,7 +145,8 @@ RUN apt-get clean
 #----   Start final release image
 #----
 #---------------------------------------------------------------------------------------------------------------------------
-FROM ghcr.io/kalanaratnayake/foxy-base:r32.7.1 AS final
+
+FROM scratch AS final
 
 COPY --from=base / /
 
@@ -153,14 +156,10 @@ RUN chmod +x /ros_entrypoint.sh
 
 #############################################################################################################################
 #####
-#####  ROS Humble environment variables and configuration
+#####  ROS Humble environment variables and configuration and set the default DDS middleware to cyclonedds
+#####  https://github.com/ros2/rclcpp/issues/1335
 #####
 #############################################################################################################################
-
-LABEL org.opencontainers.image.description="Jetson ROS Humble Core Image"
-
-# Set the default DDS middleware to cyclonedds
-# https://github.com/ros2/rclcpp/issues/1335
 
 ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
@@ -174,5 +173,4 @@ ENV ROS_ROOT=/opt/ros/${ROS_DISTRO}
 
 WORKDIR /
 
-# Set entry point
 ENTRYPOINT ["/ros_entrypoint.sh"]

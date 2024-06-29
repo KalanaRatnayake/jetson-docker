@@ -29,7 +29,7 @@ RUN apt-get clean
 #----
 #---------------------------------------------------------------------------------------------------------------------------
 
-FROM ghcr.io/kalanaratnayake/foxy-base:r32.7.1 as final
+FROM scratch as final
 
 LABEL org.opencontainers.image.description="Jetson Ubuntu Foxy Minimal Image"
 

@@ -1,4 +1,4 @@
-name: Jetson ROS Humble Core Images
+name: Jetson ROS Humble Core Image
 
 on:
   workflow_dispatch:
