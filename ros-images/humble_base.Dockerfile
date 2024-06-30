@@ -55,6 +55,10 @@ RUN vcs import ${ROS_ROOT}/src < ros2.${ROS_DISTRO}.${ROS_PACKAGE}.rosinstall
 
 WORKDIR ${ROS_ROOT}
 
+RUN rm /etc/ros/rosdep/sources.list.d/20-default.list
+
+RUN rosdep init && rosdep update
+
 RUN rosdep install -y \
 	               --ignore-src \
 	               --from-paths src \
