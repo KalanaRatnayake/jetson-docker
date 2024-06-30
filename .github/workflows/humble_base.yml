@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
   workflow_run:
-    workflows: [Jetson ROS Humble Core]
+    workflows: [Jetson Ubuntu Foxy Base]
     types:
       - completed
 
