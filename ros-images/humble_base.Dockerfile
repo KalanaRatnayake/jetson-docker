@@ -46,23 +46,14 @@ ENV ROS_DISTRO=${ROS_VERSION}
 ENV ROS_ROOT=/opt/ros/${ROS_DISTRO}
 ENV ROS_PYTHON_VERSION=3
 
-## remove packages built for ros_core
-RUN rm -rf ${ROS_ROOT}/install
-
 WORKDIR ${ROS_ROOT}/src
 
 RUN rosinstall_generator --deps --rosdistro ${ROS_DISTRO} ${ROS_PACKAGE} \
-                                                            cyclonedds \
-                                                            rmw_cyclonedds \
                                                         > ros2.${ROS_DISTRO}.${ROS_PACKAGE}.rosinstall
 
 RUN vcs import ${ROS_ROOT}/src < ros2.${ROS_DISTRO}.${ROS_PACKAGE}.rosinstall
 
 WORKDIR ${ROS_ROOT}
-
-RUN rm /etc/ros/rosdep/sources.list.d/20-default.list
-
-RUN rosdep init && rosdep update
 
 RUN rosdep install -y \
 	               --ignore-src \
@@ -77,9 +68,9 @@ RUN colcon build \
 WORKDIR /
 
 # remove ros source and build files
-RUN rm -rf ${ROS_ROOT}/src
-RUN rm -rf ${ROS_ROOT}/log
-RUN rm -rf ${ROS_ROOT}/build
+# RUN rm -rf ${ROS_ROOT}/src
+# RUN rm -rf ${ROS_ROOT}/log
+# RUN rm -rf ${ROS_ROOT}/build
 
 RUN apt-get clean
 

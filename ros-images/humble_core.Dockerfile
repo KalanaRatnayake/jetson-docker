@@ -105,10 +105,11 @@ RUN colcon build \
 
 WORKDIR /
 
-# remove ros source and build files
-RUN rm -rf ${ROS_ROOT}/src
-RUN rm -rf ${ROS_ROOT}/log
-RUN rm -rf ${ROS_ROOT}/build
+# remove ros source and build files.
+
+# RUN rm -rf ${ROS_ROOT}/src
+# RUN rm -rf ${ROS_ROOT}/log
+# RUN rm -rf ${ROS_ROOT}/build
 
 RUN apt-get clean
 
