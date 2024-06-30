@@ -100,11 +100,11 @@ RUN rosdep install -y \
                    --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers"
 
 
-## ------------------------------------ upto this point for caching ---------------------------
-# RUN colcon build \
-#             --merge-install \
-#             --cmake-args -DCMAKE_BUILD_TYPE=Release 
+RUN colcon build \
+            --merge-install \
+            --cmake-args -DCMAKE_BUILD_TYPE=Release 
 
+## ------------------------------------ upto this point for caching ---------------------------
 # WORKDIR /
 
 # remove ros source and build files.
