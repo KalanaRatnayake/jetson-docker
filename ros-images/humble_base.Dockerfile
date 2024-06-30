@@ -99,19 +99,21 @@ RUN rosdep install -y \
 	               --rosdistro ${ROS_DISTRO} \
                    --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers"
 
-RUN colcon build \
-            --merge-install \
-            --cmake-args -DCMAKE_BUILD_TYPE=Release 
 
-WORKDIR /
+## ------------------------------------ upto this point for caching ---------------------------
+# RUN colcon build \
+#             --merge-install \
+#             --cmake-args -DCMAKE_BUILD_TYPE=Release 
+
+# WORKDIR /
 
 # remove ros source and build files.
 
-RUN rm -rf ${ROS_ROOT}/src
-RUN rm -rf ${ROS_ROOT}/log
-RUN rm -rf ${ROS_ROOT}/build
+# RUN rm -rf ${ROS_ROOT}/src
+# RUN rm -rf ${ROS_ROOT}/log
+# RUN rm -rf ${ROS_ROOT}/build
 
-RUN apt-get clean
+# RUN apt-get clean
 
 #############################################################################################################################
 #####
@@ -119,27 +121,27 @@ RUN apt-get clean
 #####
 #############################################################################################################################
 
-RUN apt-get update -y
+# RUN apt-get update -y
 
-RUN apt-get purge --yes cmake \
-                        build-essential \
-                        wget \
-                        unzip \
-                        software-properties-common \
-                        curl \
-                        git \
-                        gnupg2 \
-                        ca-certificates \
-                        pkg-config \
-                        lsb-release \
-                        python3-dev \
-                        libpython3-dev \
-                        ros-dev-tools  \
-                        python3-rosinstall-generator 
+# RUN apt-get purge --yes cmake \
+#                         build-essential \
+#                         wget \
+#                         unzip \
+#                         software-properties-common \
+#                         curl \
+#                         git \
+#                         gnupg2 \
+#                         ca-certificates \
+#                         pkg-config \
+#                         lsb-release \
+#                         python3-dev \
+#                         libpython3-dev \
+#                         ros-dev-tools  \
+#                         python3-rosinstall-generator 
 
-RUN rm -rf /var/lib/apt/lists/*
-RUN rm -rf /tmp/*
-RUN apt-get clean
+# RUN rm -rf /var/lib/apt/lists/*
+# RUN rm -rf /tmp/*
+# RUN apt-get clean
 
 #---------------------------------------------------------------------------------------------------------------------------
 #----
@@ -147,13 +149,13 @@ RUN apt-get clean
 #----
 #---------------------------------------------------------------------------------------------------------------------------
 
-FROM scratch AS final
+# FROM scratch AS final
 
-COPY --from=base / /
+# COPY --from=base / /
 
-COPY ros-images/ros_entrypoint.sh /ros_entrypoint.sh
+# COPY ros-images/ros_entrypoint.sh /ros_entrypoint.sh
 
-RUN chmod +x /ros_entrypoint.sh
+# RUN chmod +x /ros_entrypoint.sh
 
 #############################################################################################################################
 #####
@@ -162,16 +164,16 @@ RUN chmod +x /ros_entrypoint.sh
 #####
 #############################################################################################################################
 
-ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+# ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
-ENV OPENBLAS_CORETYPE=ARMV8
+# ENV OPENBLAS_CORETYPE=ARMV8
 
-ARG ROS_VERSION=humble
+# ARG ROS_VERSION=humble
 
-ENV ROS_DISTRO=${ROS_VERSION}
+# ENV ROS_DISTRO=${ROS_VERSION}
 
-ENV ROS_ROOT=/opt/ros/${ROS_DISTRO}
+# ENV ROS_ROOT=/opt/ros/${ROS_DISTRO}
 
-WORKDIR /
+# WORKDIR /
 
-ENTRYPOINT ["/ros_entrypoint.sh"]
+# ENTRYPOINT ["/ros_entrypoint.sh"]
