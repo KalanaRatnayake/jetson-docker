@@ -1,4 +1,4 @@
-name: Jetson Ubuntu Foxy Image (r32.7.1)
+name: Jetson Ubuntu Foxy Base
 
 on:
   workflow_dispatch:

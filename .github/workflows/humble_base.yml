@@ -1,10 +1,10 @@
-name: Jetson ROS Humble Base Image
+name: Jetson ROS Humble Base
 
 on:
   workflow_dispatch:
 
   workflow_run:
-    workflows: [Jetson ROS Humble Core Image]
+    workflows: [Jetson ROS Humble Core]
     types:
       - completed
 

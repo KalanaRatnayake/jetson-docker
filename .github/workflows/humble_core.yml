@@ -1,10 +1,10 @@
-name: Jetson ROS Humble Core Image
+name: Jetson ROS Humble Core
 
 on:
   workflow_dispatch:
 
   workflow_run:
-    workflows: [Jetson Ubuntu Foxy Image (r32.7.1)]
+    workflows: [Jetson Ubuntu Foxy Base]
     types:
       - completed
 
