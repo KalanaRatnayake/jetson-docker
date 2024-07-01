@@ -92,7 +92,7 @@ make HOST_COMPILER=/usr/bin/g++-8
   
 - Size is about 1.65GB
 - Contains,
-    * Python 3.8
+    * Python 3.8.10
     * ROS Humble [Core packages](https://www.ros.org/reps/rep-2001.html#id23)
   
 ### Pull or Build
@@ -135,7 +135,7 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 
 - Size is about 1.69GB
 - Contains,
-    * Python 3.8
+    * Python 3.8.10
     * ROS Humble [Base packages](https://www.ros.org/reps/rep-2001.html#id24)
   
 ### Pull or Build
@@ -168,4 +168,71 @@ Start the docker container
 docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-ros:humble-ros-base-r32.7.1 bash
 ```
 <br>
+</details>
+
+<details> 
+<summary> <h3> Jetson Ubuntu Foxy Pytorch 1.13 Image </h3> </summary>
+  
+- Size is about 1.65GB
+- Contains,
+    * Python 3.8.10
+    * PyTorch 1.13.0
+    * TorchVision 0.14.0
+  
+### Pull or Build
+
+Pull the docker container
+```bash
+docker pull ghcr.io/kalanaratnayake/foxy-pytorch:1-13-r32.7.1
+```
+
+Build the docker container
+```bash
+docker buildx build --load --platform linux/arm64 -f pytorch-images/foxy_pytorch_1_13.Dockerfile -t foxy-pytorch:1-13-r32.7.1 .
+```
+
+### Start
+
+Start the docker container
+
+```bash
+docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-pytorch:1-13-r32.7.1 bash
+```
+
+<br>
+
+</details>
+
+<details> 
+<summary> <h3> Jetson Ubuntu Foxy Humble Core Pytorch 1.13 Image </h3> </summary>
+  
+- Size is about 1.65GB
+- Contains,
+    * Python 3.8
+    * PyTorch 1.13.0
+    * TorchVision 0.14.0
+    * ROS Humble [Core packages](https://www.ros.org/reps/rep-2001.html#id23)
+  
+### Pull or Build
+
+Pull the docker container
+```bash
+docker pull ghcr.io/kalanaratnayake/foxy-ros-pytorch:ros-core-1-13-r32.7.1
+```
+
+Build the docker container
+```bash
+docker buildx build --load --platform linux/arm64 -f ros-pytorch-images/humble_core_pytorch_1_13.Dockerfile -t foxy-ros-pytorch:ros-core-1-13-r32.7.1 .
+```
+
+### Start
+
+Start the docker container
+
+```bash
+docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-ros-pytorch:ros-core-1-13-r32.7.1 bash
+```
+
+<br>
+
 </details>

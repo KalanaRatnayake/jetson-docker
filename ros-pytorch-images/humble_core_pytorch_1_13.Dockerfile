@@ -1,8 +1,10 @@
 #---------------------------------------------------------------------------------------------------------------------------
 #----
-#----   Start base image
+#----   Start foxy-ros image and use precompiled wheels provided by QEngineering team available 
+#----   at https://qengineering.eu/install-pytorch-on-jetson-nano.html
 #----
 #---------------------------------------------------------------------------------------------------------------------------
+
 
 FROM ghcr.io/kalanaratnayake/foxy-ros:humble-ros-core-r32.7.1 as base
 
@@ -22,7 +24,7 @@ RUN apt-get install -y --no-install-recommends python3-pip \
                                                libavcodec-dev \
                                                libavformat-dev \
                                                libswscale-dev \
-                                               zlib1g-dev
+                                               zlib1g-dev \
 
 RUN python3 -m pip install  future \
                             wheel \
@@ -31,7 +33,8 @@ RUN python3 -m pip install  future \
                             testresources \
                             setuptools==58.3.0 \
                             Cython \
-                            gdown
+                            gdown \
+                            protobuf
 
 #####################################################################################
 ##                           Install PyTorch 1.13.0
@@ -64,8 +67,7 @@ RUN rm torchvision-0.14.0a0+5ce4506-cp38-cp38-linux_aarch64.whl
 
 RUN apt-get update -y
 
-RUN apt-get purge --yes libpython3-dev \
-                        libjpeg-dev \
+RUN apt-get purge --yes libjpeg-dev \
                         libopenblas-dev \
                         libopenmpi-dev \
                         libomp-dev \
@@ -73,6 +75,8 @@ RUN apt-get purge --yes libpython3-dev \
                         libavformat-dev \
                         libswscale-dev \
                         zlib1g-dev
+
+RUN apt-get autoremove -y
 
 RUN rm -rf /var/lib/apt/lists/*
 RUN rm -rf /tmp/*

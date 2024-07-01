@@ -122,9 +122,7 @@ RUN apt-get clean
 
 RUN apt-get update -y
 
-RUN apt-get purge --yes cmake \
-                        build-essential \
-                        wget \
+RUN apt-get purge --yes wget \
                         unzip \
                         software-properties-common \
                         curl \
@@ -132,11 +130,9 @@ RUN apt-get purge --yes cmake \
                         gnupg2 \
                         ca-certificates \
                         pkg-config \
-                        lsb-release \
-                        python3-dev \
-                        libpython3-dev \
-                        ros-dev-tools  \
-                        python3-rosinstall-generator 
+                        lsb-release
+
+RUN apt-get autoremove -y
 
 RUN rm -rf /var/lib/apt/lists/*
 RUN rm -rf /tmp/*

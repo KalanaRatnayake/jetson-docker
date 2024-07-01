@@ -13,14 +13,14 @@ on:
       - main
     paths:
       - ".github/workflows/humble_core_pytorch_1_13.yml"
-      - "pytorch-images/humble_core_pytorch_1_13.Dockerfile"
+      - "ros-pytorch-images/humble_core_pytorch_1_13.Dockerfile"
 
   pull_request:
     branches: 
       - main
     paths:
       - ".github/workflows/humble_core_pytorch_1_13.yml"
-      - "pytorch-images/humble_core_pytorch_1_13.Dockerfile"
+      - "ros-pytorch-images/humble_core_pytorch_1_13.Dockerfile"
 
 env:
   REGISTRY: ghcr.io
@@ -66,11 +66,11 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./pytorch-images/humble_core_pytorch_1_13.Dockerfile
+          file: ./ros-pytorch-images/humble_core_pytorch_1_13.Dockerfile
           push: true
           platforms: linux/arm64
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-pytorch-1-13-buildcache
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-pytorch-1-13-buildcache,mode=max
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:1-13-humble-buildcache
+          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:1-13-humble-buildcache,mode=max
           tags: |
             ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:ros-core-1-13-j-nano
             ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:ros-core-1-13-r32.7.1
