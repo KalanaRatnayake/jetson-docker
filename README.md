@@ -57,7 +57,7 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 
 Pull the docker container
 ```bash
-docker pull ghcr.io/kalanaratnayake/foxy-base:test-r32.7.1
+docker pull ghcr.io/kalanaratnayake/foxy-minimal:r32.7.1
 ```
 
 Build the docker container
