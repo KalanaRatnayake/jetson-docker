@@ -106,7 +106,7 @@ RUN colcon build \
 
 WORKDIR /
 
-remove ros source and build files.
+# remove ros source and build files.
 
 RUN rm -rf ${ROS_ROOT}/src
 RUN rm -rf ${ROS_ROOT}/log
