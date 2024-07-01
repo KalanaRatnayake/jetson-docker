@@ -48,6 +48,10 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 <summary> <h3> Jetson Ubuntu Foxy Minimal Image </h3> </summary>
 
 - Size is about 1.11GB
+- Contains,
+    * Python 3.8
+    * GCC-8
+    * G++-8
 
 ### Pull or Build
 
@@ -88,7 +92,6 @@ make HOST_COMPILER=/usr/bin/g++-8
 - Contains,
     * Python 3.8
     * ROS Humble [Core packages](https://www.ros.org/reps/rep-2001.html#id23)
-- 
   
 ### Pull or Build
 
