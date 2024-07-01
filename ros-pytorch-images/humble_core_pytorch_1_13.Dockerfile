@@ -24,7 +24,7 @@ RUN apt-get install -y --no-install-recommends python3-pip \
                                                libavcodec-dev \
                                                libavformat-dev \
                                                libswscale-dev \
-                                               zlib1g-dev \
+                                               zlib1g-dev
 
 RUN python3 -m pip install  future \
                             wheel \
