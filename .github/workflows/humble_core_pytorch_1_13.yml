@@ -1,4 +1,4 @@
-name: Jetson Ubuntu Foxy Humble Core Pytorch 1.13
+name: Jetson ROS Humble Core Pytorch 1.13
 
 on:
   workflow_dispatch:
