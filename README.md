@@ -21,6 +21,8 @@ docker buildx create --use --driver-opt network=host --name MultiPlatform --plat
 <summary> <h3> Jetson Ubuntu Foxy Base Image </h3> </summary>
 
 - Size is about 822 MB
+- Contains,
+    * Python 3.8.10
 
 ### Pull or Build
 
@@ -49,9 +51,9 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 
 - Size is about 1.11GB
 - Contains,
-    * Python 3.8
-    * GCC-8
-    * G++-8
+    * Python 3.8.10
+    * GCC-8, G++-8 (for building CUDA 10.2 related applications)
+    * build-essential package (g++-9, gcc-9, make, dpkg-dev, libc6-dev)
 
 ### Pull or Build
 
