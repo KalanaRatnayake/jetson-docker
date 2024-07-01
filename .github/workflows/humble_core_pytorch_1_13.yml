@@ -1,4 +1,4 @@
-name: Jetson Ubuntu Foxy Humble Core Pytorch 1.12.1
+name: Jetson Ubuntu Foxy Humble Core Pytorch 1.13
 
 on:
   workflow_dispatch:
@@ -12,15 +12,15 @@ on:
     branches: 
       - main
     paths:
-      - ".github/workflows/humble_core_pytorch_1_12_1.yml"
-      - "pytorch-images/humble_core_pytorch_1_12_1.Dockerfile"
+      - ".github/workflows/humble_core_pytorch_1_13.yml"
+      - "pytorch-images/humble_core_pytorch_1_13.Dockerfile"
 
   pull_request:
     branches: 
       - main
     paths:
-      - ".github/workflows/humble_core_pytorch_1_12_1.yml"
-      - "pytorch-images/humble_core_pytorch_1_12_1.Dockerfile"
+      - ".github/workflows/humble_core_pytorch_1_13.yml"
+      - "pytorch-images/humble_core_pytorch_1_13.Dockerfile"
 
 env:
   REGISTRY: ghcr.io
@@ -66,11 +66,11 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./pytorch-images/humble_core_pytorch_1_12_1.Dockerfile
+          file: ./pytorch-images/humble_core_pytorch_1_13.Dockerfile
           push: true
           platforms: linux/arm64
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-pytorch-1121-buildcache
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-pytorch-1121-buildcache,mode=max
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-pytorch-1-13-buildcache
+          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-pytorch-1-13-buildcache,mode=max
           tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:ros-core-1-12-1-j-nano
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:ros-core-1-12-1-r32.7.1
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:ros-core-1-13-j-nano
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:ros-core-1-13-r32.7.1
