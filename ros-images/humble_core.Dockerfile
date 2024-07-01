@@ -121,16 +121,6 @@ RUN apt-get clean
 
 RUN apt-get update -y
 
-RUN apt-get purge --yes wget \
-                        unzip \
-                        software-properties-common \
-                        curl \
-                        git \
-                        gnupg2 \
-                        ca-certificates \
-                        pkg-config \
-                        lsb-release
-
 RUN apt-get autoremove -y
 
 RUN rm -rf /var/lib/apt/lists/*
