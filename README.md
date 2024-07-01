@@ -84,7 +84,11 @@ make HOST_COMPILER=/usr/bin/g++-8
 <details> 
 <summary> <h3> Jetson ROS Humble Core Image </h3> </summary>
   
-- Size is about 1.11GB
+- Size is about 1.65GB
+- Contains,
+    * Python 3.8
+    * ROS Humble [Core packages](https://www.ros.org/reps/rep-2001.html#id23)
+- 
   
 ### Pull or Build
 
@@ -124,7 +128,10 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 <details> 
 <summary> <h3> Jetson ROS Humble Base Image </h3> </summary>
 
-- Size is about 1.11GB
+- Size is about 1.69GB
+- Contains,
+    * Python 3.8
+    * ROS Humble [Base packages](https://www.ros.org/reps/rep-2001.html#id24)
   
 ### Pull or Build
 
