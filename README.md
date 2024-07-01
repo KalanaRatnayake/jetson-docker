@@ -97,12 +97,12 @@ make HOST_COMPILER=/usr/bin/g++-8
 
 Pull the docker container
 ```bash
-docker pull ghcr.io/kalanaratnayake/foxy-humble:ros-core-r32.7.1
+docker pull ghcr.io/kalanaratnayake/foxy-ros:humble-ros-core-r32.7.1
 ```
 
 Build the docker container
 ```bash
-docker buildx build --load --platform linux/arm64 -f ros-images/humble_core.Dockerfile -t foxy-humble:ros-core-r32.7.1 .
+docker buildx build --load --platform linux/arm64 -f ros-images/humble_core.Dockerfile -t foxy-ros:humble-ros-core-r32.7.1 .
 ```
 
 or build with cache locally and push when image compilation can be slow on github actions and exceeds 6rs
@@ -121,7 +121,7 @@ docker buildx build --push \
 Start the docker container
 
 ```bash
-docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-humble:ros-core-r32.7.1 bash
+docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-ros:humble-ros-core-r32.7.1 bash
 ```
 
 <br>
@@ -140,12 +140,12 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 
 Pull the docker container
 ```bash
-docker pull ghcr.io/kalanaratnayake/foxy-humble:ros-base-r32.7.1
+docker pull ghcr.io/kalanaratnayake/foxy-ros:humble-ros-base-r32.7.1
 ```
 
 Build the docker container
 ```bash
-docker buildx build --load --platform linux/arm64 -f ros-images/humble_base.Dockerfile -t foxy-humble:ros-base-r32.7.1 .
+docker buildx build --load --platform linux/arm64 -f ros-images/humble_base.Dockerfile -t foxy-ros:humble-ros-base-r32.7.1 .
 ```
 
 or build with cache locally and push when image compilation can be slow on github actions and exceeds 6rs
@@ -163,7 +163,7 @@ docker buildx build --push \
 
 Start the docker container
 ```bash
-docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-humble:ros-base-r32.7.1 bash
+docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-ros:humble-ros-base-r32.7.1 bash
 ```
 <br>
 </details>
