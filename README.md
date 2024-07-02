@@ -90,9 +90,10 @@ make HOST_COMPILER=/usr/bin/g++-8
 <details> 
 <summary> <h3> Jetson ROS Humble Core Image </h3> </summary>
   
-- Size is about 1.65GB
+- Size is about 1.71GB
 - Contains,
     * Python 3.8.10
+    * build-essential package (g++-9, gcc-9, make, dpkg-dev, libc6-dev)
     * ROS Humble [Core packages](https://www.ros.org/reps/rep-2001.html#id23)
   
 ### Pull or Build
@@ -133,9 +134,10 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 <details> 
 <summary> <h3> Jetson ROS Humble Base Image </h3> </summary>
 
-- Size is about 1.69GB
+- Size is about 1.76GB
 - Contains,
     * Python 3.8.10
+    * build-essential package (g++-9, gcc-9, make, dpkg-dev, libc6-dev)
     * ROS Humble [Base packages](https://www.ros.org/reps/rep-2001.html#id24)
   
 ### Pull or Build
@@ -206,7 +208,7 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 <details> 
 <summary> <h3> Jetson Ubuntu Foxy Humble Core Pytorch 1.13 Image </h3> </summary>
   
-- Size is about 1.65GB
+- Size is about 2.46GB
 - Contains,
     * Python 3.8
     * PyTorch 1.13.0
@@ -217,12 +219,12 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 
 Pull the docker container
 ```bash
-docker pull ghcr.io/kalanaratnayake/foxy-ros-pytorch:ros-core-1-13-r32.7.1
+docker pull ghcr.io/kalanaratnayake/foxy-ros-pytorch:humble-core-1-13-r32.7.1
 ```
 
 Build the docker container
 ```bash
-docker buildx build --load --platform linux/arm64 -f ros-pytorch-images/humble_core_pytorch_1_13.Dockerfile -t foxy-ros-pytorch:ros-core-1-13-r32.7.1 .
+docker buildx build --load --platform linux/arm64 -f ros-pytorch-images/humble_core_pytorch_1_13.Dockerfile -t foxy-ros-pytorch:humble-core-1-13-r32.7.1 .
 ```
 
 ### Start
@@ -230,7 +232,7 @@ docker buildx build --load --platform linux/arm64 -f ros-pytorch-images/humble_c
 Start the docker container
 
 ```bash
-docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-ros-pytorch:ros-core-1-13-r32.7.1 bash
+docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-ros-pytorch:humble-core-1-13-r32.7.1 bash
 ```
 
 <br>
