@@ -6,7 +6,7 @@
 #---------------------------------------------------------------------------------------------------------------------------
 
 
-FROM ghcr.io/kalanaratnayake/foxy-ros:humble-ros-core-r32.7.1 as base
+FROM ghcr.io/kalanaratnayake/foxy-ros:humble-core-r32.7.1 as base
 
 WORKDIR /
 
