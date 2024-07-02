@@ -100,12 +100,12 @@ make HOST_COMPILER=/usr/bin/g++-8
 
 Pull the docker container
 ```bash
-docker pull ghcr.io/kalanaratnayake/foxy-ros:humble-ros-core-r32.7.1
+docker pull ghcr.io/kalanaratnayake/foxy-ros:humble-core-r32.7.1
 ```
 
 Build the docker container
 ```bash
-docker buildx build --load --platform linux/arm64 -f ros-images/humble_core.Dockerfile -t foxy-ros:humble-ros-core-r32.7.1 .
+docker buildx build --load --platform linux/arm64 -f ros-images/humble_core.Dockerfile -t foxy-ros:humble-core-r32.7.1 .
 ```
 
 or build with cache locally and push when image compilation can be slow on github actions and exceeds 6rs
@@ -116,7 +116,7 @@ docker buildx build --push \
                     --cache-from=type=registry,ref=ghcr.io/kalanaratnayake/foxy-ros:humble-ros-core-buildcache \
                     --cache-to=type=registry,ref=ghcr.io/kalanaratnayake/foxy-ros:humble-ros-core-buildcache,mode=max  \
                     -f ros-images/humble_core.Dockerfile  \
-                    -t ghcr.io/kalanaratnayake/foxy-ros:humble-ros-core-r32.7.1 .
+                    -t ghcr.io/kalanaratnayake/foxy-ros:humble-core-r32.7.1 .
 ```
 
 ### Start
@@ -124,7 +124,7 @@ docker buildx build --push \
 Start the docker container
 
 ```bash
-docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-ros:humble-ros-core-r32.7.1 bash
+docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-ros:humble-core-r32.7.1 bash
 ```
 
 <br>
@@ -144,12 +144,12 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 
 Pull the docker container
 ```bash
-docker pull ghcr.io/kalanaratnayake/foxy-ros:humble-ros-base-r32.7.1
+docker pull ghcr.io/kalanaratnayake/foxy-ros:humble-base-r32.7.1
 ```
 
 Build the docker container
 ```bash
-docker buildx build --load --platform linux/arm64 -f ros-images/humble_base.Dockerfile -t foxy-ros:humble-ros-base-r32.7.1 .
+docker buildx build --load --platform linux/arm64 -f ros-images/humble_base.Dockerfile -t foxy-ros:humble-base-r32.7.1 .
 ```
 
 or build with cache locally and push when image compilation can be slow on github actions and exceeds 6rs
@@ -160,14 +160,14 @@ docker buildx build --push \
                     --cache-from=type=registry,ref=ghcr.io/kalanaratnayake/foxy-ros:humble-ros-base-buildcache \
                     --cache-to=type=registry,ref=ghcr.io/kalanaratnayake/foxy-ros:humble-ros-base-buildcache,mode=max  \
                     -f ros-images/humble_base.Dockerfile  \
-                    -t ghcr.io/kalanaratnayake/foxy-ros:humble-ros-base-r32.7.1 .
+                    -t ghcr.io/kalanaratnayake/foxy-ros:humble-base-r32.7.1 .
 ```
 
 ### Start
 
 Start the docker container
 ```bash
-docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-ros:humble-ros-base-r32.7.1 bash
+docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-ros:humble-base-r32.7.1bash
 ```
 <br>
 </details>
@@ -219,12 +219,12 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 
 Pull the docker container
 ```bash
-docker pull ghcr.io/kalanaratnayake/foxy-ros-pytorch:humble-core-1-13-r32.7.1
+docker pull ghcr.io/kalanaratnayake/foxy-ros-pytorch:1-13-humble-core-r32.7.1
 ```
 
 Build the docker container
 ```bash
-docker buildx build --load --platform linux/arm64 -f ros-pytorch-images/humble_core_pytorch_1_13.Dockerfile -t foxy-ros-pytorch:humble-core-1-13-r32.7.1 .
+docker buildx build --load --platform linux/arm64 -f ros-pytorch-images/humble_core_pytorch_1_13.Dockerfile -t foxy-ros-pytorch:1-13-humble-core-r32.7.1 .
 ```
 
 ### Start
@@ -232,7 +232,7 @@ docker buildx build --load --platform linux/arm64 -f ros-pytorch-images/humble_c
 Start the docker container
 
 ```bash
-docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-ros-pytorch:humble-core-1-13-r32.7.1 bash
+docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-ros-pytorch:1-13-humble-core-r32.7.1 bash
 ```
 
 <br>
