@@ -26,15 +26,15 @@ RUN apt-get install -y --no-install-recommends python3-pip \
                                                libswscale-dev \
                                                zlib1g-dev
 
-RUN python3 -m pip install  future \
-                            wheel \
-                            mock \
-                            pillow \
-                            testresources \
-                            setuptools==58.3.0 \
-                            Cython \
-                            gdown \
-                            protobuf
+RUN python3 -m pip install --no-cache-dir   future \
+                                            wheel \
+                                            mock \
+                                            pillow \
+                                            testresources \
+                                            setuptools==58.3.0 \
+                                            Cython \
+                                            gdown \
+                                            protobuf
 
 #####################################################################################
 ##                           Install PyTorch 1.13.0
@@ -42,7 +42,7 @@ RUN python3 -m pip install  future \
 
 RUN gdown https://drive.google.com/uc?id=1e9FDGt2zGS5C5Pms7wzHYRb0HuupngK1
 
-RUN python3 -m pip install torch-1.13.0a0+git7c98e70-cp38-cp38-linux_aarch64.whl
+RUN python3 -m pip install --no-cache-dir torch-1.13.0a0+git7c98e70-cp38-cp38-linux_aarch64.whl
 
 RUN rm torch-1.13.0a0+git7c98e70-cp38-cp38-linux_aarch64.whl
 
@@ -54,7 +54,7 @@ RUN rm torch-1.13.0a0+git7c98e70-cp38-cp38-linux_aarch64.whl
 
 RUN gdown https://drive.google.com/uc?id=19UbYsKHhKnyeJ12VPUwcSvoxJaX7jQZ2
 
-RUN python3 -m pip install torchvision-0.14.0a0+5ce4506-cp38-cp38-linux_aarch64.whl
+RUN python3 -m pip install --no-cache-dir torchvision-0.14.0a0+5ce4506-cp38-cp38-linux_aarch64.whl
 
 RUN rm torchvision-0.14.0a0+5ce4506-cp38-cp38-linux_aarch64.whl
 
