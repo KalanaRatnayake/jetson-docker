@@ -10,7 +10,7 @@ LABEL org.opencontainers.image.description="Jetson ROS Humble Base"
 
 #############################################################################################################################
 #####
-#####   Install core packages and python3
+#####   Install core packages, python3 and opencv
 #####
 #############################################################################################################################
 
@@ -39,17 +39,9 @@ RUN locale-gen en_US en_US.UTF-8 && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.
 ENV LANG=en_US.UTF-8
 ENV PYTHONIOENCODING=utf-8
 
-RUN python3 -m pip install numpy \
-                           pytest-cov
-                           
-
-#############################################################################################################################
-#####
-#####   Install latest opencv minimal version
-#####
-#############################################################################################################################
-
-RUN python3 -m pip install opencv-python
+RUN python3 -m pip install --no-cache-dir   numpy \
+                                            pytest-cov \
+                                            opencv-python
 
 #############################################################################################################################
 #####
@@ -72,9 +64,9 @@ RUN apt-get update -y
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ros-dev-tools  \
                                                                               python3-rosinstall-generator 
 
-RUN python3 -m pip install "pytest>=5.3" \
-                            pytest-repeat \
-                            pytest-rerunfailures
+RUN python3 -m pip install --no-cache-dir   "pytest>=5.3" \
+                                            pytest-repeat \
+                                            pytest-rerunfailures
 
 ENV ROS_DISTRO=${ROS_VERSION}
 ENV ROS_ROOT=/opt/ros/${ROS_DISTRO}
