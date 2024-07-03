@@ -32,7 +32,8 @@ RUN apt-get install -y --no-install-recommends cmake \
                                                python3-distutils \
                                                python3-pip \
                                                python3-venv \
-                                               libpython3-dev                                               
+                                               libpython3-dev \
+                                               libboost-python-dev                                          
                                                
 RUN locale-gen en_US en_US.UTF-8 && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
