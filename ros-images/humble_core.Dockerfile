@@ -112,7 +112,7 @@ RUN vcs import ${ROS_ROOT}/src < ros2.${ROS_DISTRO}.${ROS_PACKAGE}.rosinstall
 #             --merge-install \
 #             --cmake-args -DCMAKE_BUILD_TYPE=Release 
 
-WORKDIR /
+# WORKDIR /
 
 # remove ros source and build files.
 
