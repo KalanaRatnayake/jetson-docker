@@ -135,7 +135,7 @@ ros2 run demo_nodes_cpp talker
 ```
 
 Run the following commands on another instance of ros container or another Computer/Jetson device installed with ROS humble to check 
-connectivity over host network and discoverability.
+connectivity over host network and discoverability (while the above command is running).
 ```bash
 ros2 run demo_nodes_py listener
 ```
@@ -185,13 +185,13 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 
 ### Test
 
-Run the following commands inside the docker container to confirm that the container is working properly
+Run the following commands inside the docker container to confirm that the container is working properly.
 ```bash
 ros2 run demo_nodes_cpp talker
 ```
 
 Run the following commands on another instance of ros container or another Computer/Jetson device installed with ROS humble to check 
-connectivity over host network and discoverability.
+connectivity over host network and discoverability (while the above command is running).
 ```bash
 ros2 run demo_nodes_py listener
 ```
@@ -202,7 +202,7 @@ ros2 run demo_nodes_py listener
 <details> 
 <summary> <h3> Jetson Ubuntu Foxy Pytorch 1.13 Image </h3> </summary>
   
-- Size is about 1.65GB
+- Size is about 1.83GB
 - Contains,
     * Python 3.8.10
     * PyTorch 1.13.0
@@ -226,6 +226,14 @@ Start the docker container
 
 ```bash
 docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-pytorch:1-13-r32.7.1 bash
+```
+
+### Test
+
+Run the following commands inside the docker container to confirm that the container is working properly.
+```bash
+python3 -c "import torch; print(torch.__version__)"
+python3 -c "import torchvision; print(torchvision.__version__)"
 ```
 
 <br>
@@ -260,6 +268,25 @@ Start the docker container
 
 ```bash
 docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-ros-pytorch:1-13-humble-core-r32.7.1 bash
+```
+
+### Test
+
+Run the following commands inside the docker container to confirm that the container is working properly.
+```bash
+python3 -c "import torch; print(torch.__version__)"
+python3 -c "import torchvision; print(torchvision.__version__)"
+```
+
+Run the following commands inside the docker container to confirm that the container is working properly.
+```bash
+ros2 run demo_nodes_cpp talker
+```
+
+Run the following commands on another instance of ros container or another Computer/Jetson device installed with ROS humble to check 
+connectivity over host network and discoverability (while the above command is running).
+```bash
+ros2 run demo_nodes_py listener
 ```
 
 <br>
