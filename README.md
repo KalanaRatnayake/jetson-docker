@@ -127,6 +127,19 @@ Start the docker container
 docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-ros:humble-core-r32.7.1 bash
 ```
 
+### Test
+
+Run the following commands inside the docker container to confirm that the container is working properly
+```bash
+ros2 run demo_nodes_cpp talker
+```
+
+Run the following commands on another instance of ros container or another Computer/Jetson device installed with ROS humble to check 
+connectivity over host network and discoverability.
+```bash
+ros2 run demo_nodes_py listener
+```
+
 <br>
 
 </details>
@@ -169,6 +182,20 @@ Start the docker container
 ```bash
 docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-ros:humble-base-r32.7.1 bash
 ```
+
+### Test
+
+Run the following commands inside the docker container to confirm that the container is working properly
+```bash
+ros2 run demo_nodes_cpp talker
+```
+
+Run the following commands on another instance of ros container or another Computer/Jetson device installed with ROS humble to check 
+connectivity over host network and discoverability.
+```bash
+ros2 run demo_nodes_py listener
+```
+
 <br>
 </details>
 

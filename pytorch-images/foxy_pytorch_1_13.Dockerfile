@@ -66,15 +66,6 @@ RUN rm torchvision-0.14.0a0+5ce4506-cp38-cp38-linux_aarch64.whl
 
 RUN apt-get update -y
 
-RUN apt-get purge --yes libjpeg-dev \
-                        libopenblas-dev \
-                        libopenmpi-dev \
-                        libomp-dev \
-                        libavcodec-dev \
-                        libavformat-dev \
-                        libswscale-dev \
-                        zlib1g-dev
-
 RUN apt-get autoremove -y
 
 RUN rm -rf /var/lib/apt/lists/*
