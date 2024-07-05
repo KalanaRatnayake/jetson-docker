@@ -32,10 +32,11 @@ RUN python3 -m pip install --no-cache-dir   future \
                                             pillow \
                                             testresources \
                                             setuptools==58.3.0 \
-                                            typing-extensions \
                                             Cython \
                                             gdown \
                                             protobuf
+
+RUN python3 -m pip install --no-cache-dir typing-extensions --upgrade
 
 #####################################################################################
 ##                           Install PyTorch 1.13.0
