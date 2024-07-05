@@ -241,6 +241,49 @@ python3 -c "import torchvision; print(torchvision.__version__)"
 </details>
 
 <details> 
+<summary> <h3> Jetson Ubuntu Foxy Pytorch 1.13 with TensorRT Image </h3> </summary>
+  
+- Size is about 1.83GB
+- Contains,
+    * Python 3.8.10
+    * PyTorch 1.13.0
+    * TorchVision 0.14.0
+  
+### Pull or Build
+
+Pull the docker container
+```bash
+docker pull ghcr.io/kalanaratnayake/foxy-pytorch:1-13-tensorrt-j-nano
+```
+
+Build the docker container
+```bash
+docker buildx build --load --platform linux/arm64 -f pytorch-images/foxy_pytorch_1_13.Dockerfile -t foxy-pytorch:1-13-tensorrt-j-nano .
+```
+
+### Start
+
+Start the docker container
+
+```bash
+docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-pytorch:1-13-tensorrt-j-nano bash
+```
+
+### Test
+
+Run the following commands inside the docker container to confirm that the container is working properly.
+```bash
+python3 -c "import torch; print(torch.__version__)"
+python3 -c "import torchvision; print(torchvision.__version__)"
+python3 -c "import tensorrt as trt; print(trt.__version__)"
+dpkg -l | grep TensorRT
+```
+
+<br>
+
+</details>
+
+<details> 
 <summary> <h3> Jetson Ubuntu Foxy Humble Core Pytorch 1.13 Image </h3> </summary>
   
 - Size is about 3.05GB
