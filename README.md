@@ -243,7 +243,7 @@ python3 -c "import torchvision; print(torchvision.__version__)"
 <details> 
 <summary> <h3> Jetson Ubuntu Foxy Humble Core Pytorch 1.13 Image </h3> </summary>
   
-- Size is about 2.46GB
+- Size is about 3.05GB
 - Contains,
     * Python 3.8
     * PyTorch 1.13.0

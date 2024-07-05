@@ -32,6 +32,7 @@ RUN python3 -m pip install --no-cache-dir   future \
                                             pillow \
                                             testresources \
                                             setuptools==58.3.0 \
+                                            typing-extensions \
                                             Cython \
                                             gdown \
                                             protobuf
