@@ -1,26 +1,31 @@
-name: Jetson Ubuntu Foxy Base
+name: Jetson ROS Humble Core Pytorch 1.13 r32.7.1
 
 on:
   workflow_dispatch:
+
+  workflow_run:
+    workflows: [Jetson ROS Humble Core r32.7.1]
+    types:
+      - completed
 
   push:
     branches: 
       - main
     paths:
-      - ".github/workflows/foxy.yml"
-      - "base-images/foxy.Dockerfile"
+      - ".github/workflows/r3271-humblecore-pytorch113.yml"
+      - "ros-pytorch-images/r3271.humblecore_pytorch113.Dockerfile"
 
   pull_request:
     branches: 
       - main
     paths:
-      - ".github/workflows/foxy.yml"
-      - "base-images/foxy.Dockerfile"
+      - ".github/workflows/r3271-humblecore-pytorch113.yml"
+      - "ros-pytorch-images/r3271.humblecore_pytorch113.Dockerfile"
 
 env:
   REGISTRY: ghcr.io
   OWNER: kalanaratnayake
-  IMAGE_NAME: foxy-base
+  IMAGE_NAME: jetson-ros-pytorch
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency
 concurrency:
@@ -56,15 +61,15 @@ jobs:
         #   username: ${{ github.actor }}
         #   password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push image
+      - 
+        name: Build and Push image
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./base-images/foxy.Dockerfile
+          file: ./ros-pytorch-images/r3271.humblecore_pytorch113.Dockerfile
           push: true
           platforms: linux/arm64
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:base-buildcache
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:base-buildcache,mode=max
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:1-13-humble-r32.7.1-buildcache
+          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:1-13-humble-r32.7.1-buildcache,mode=max
           tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:j-nano
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:r32.7.1
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:1.13-humble-core-r32.7.1

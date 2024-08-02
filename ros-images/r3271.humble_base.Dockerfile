@@ -4,9 +4,7 @@
 #----
 #---------------------------------------------------------------------------------------------------------------------------
 
-FROM ghcr.io/kalanaratnayake/foxy-base:r32.7.1 AS base
-
-LABEL org.opencontainers.image.description="Jetson ROS Humble Core Image"
+FROM ghcr.io/kalanaratnayake/jetson-base:r32.7.1 AS base
 
 #############################################################################################################################
 #####
@@ -33,7 +31,7 @@ RUN apt-get install -y --no-install-recommends cmake \
                                                python3-pip \
                                                python3-venv \
                                                libpython3-dev \
-                                               libboost-python-dev                                          
+                                               libboost-python-dev                                        
                                                
 RUN locale-gen en_US en_US.UTF-8 && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
@@ -42,7 +40,7 @@ ENV PYTHONIOENCODING=utf-8
 
 RUN python3 -m pip install --no-cache-dir   numpy \
                                             pytest-cov \
-                                            opencv-python          
+                                            opencv-python
 
 #############################################################################################################################
 #####
@@ -51,7 +49,7 @@ RUN python3 -m pip install --no-cache-dir   numpy \
 #############################################################################################################################
 
 ARG ROS_VERSION=humble
-ARG ROS_PACKAGE=ros_core
+ARG ROS_PACKAGE=ros_base
 
 RUN add-apt-repository universe
 
@@ -75,7 +73,7 @@ ENV ROS_PYTHON_VERSION=3
 
 WORKDIR ${ROS_ROOT}/src
 
-RUN rosinstall_generator --deps --rosdistro ${ROS_DISTRO} ${ROS_PACKAGE} \
+RUN rosinstall_generator --deps --rosdistro ${ROS_DISTRO} ${ROS_PACKAGE} \                                                          
                                                             demo_nodes_cpp \
                                                             demo_nodes_py \
                                                             example_interfaces \
@@ -97,29 +95,31 @@ RUN rosinstall_generator --deps --rosdistro ${ROS_DISTRO} ${ROS_PACKAGE} \
 
 RUN vcs import ${ROS_ROOT}/src < ros2.${ROS_DISTRO}.${ROS_PACKAGE}.rosinstall
 
-WORKDIR ${ROS_ROOT}
+#-------------------------------
 
-RUN rosdep init && rosdep update
+# WORKDIR ${ROS_ROOT}
 
-RUN rosdep install -y \
-	               --ignore-src \
-	               --from-paths src \
-	               --rosdistro ${ROS_DISTRO} \
-                   --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers"
+# RUN rosdep init && rosdep update
 
-RUN colcon build \
-            --merge-install \
-            --cmake-args -DCMAKE_BUILD_TYPE=Release 
+# RUN rosdep install -y \
+# 	               --ignore-src \
+# 	               --from-paths src \
+# 	               --rosdistro ${ROS_DISTRO} \
+#                    --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers"
 
-WORKDIR /
+# RUN colcon build \
+#             --merge-install \
+#             --cmake-args -DCMAKE_BUILD_TYPE=Release 
 
-# remove ros source and build files.
+# WORKDIR /
 
-RUN rm -rf ${ROS_ROOT}/src
-RUN rm -rf ${ROS_ROOT}/log
-RUN rm -rf ${ROS_ROOT}/build
+# # remove ros source and build files.
 
-RUN apt-get clean
+# RUN rm -rf ${ROS_ROOT}/src
+# RUN rm -rf ${ROS_ROOT}/log
+# RUN rm -rf ${ROS_ROOT}/build
+
+# RUN apt-get clean
 
 #############################################################################################################################
 #####
@@ -127,13 +127,13 @@ RUN apt-get clean
 #####
 #############################################################################################################################
 
-RUN apt-get update -y
+# RUN apt-get update -y
 
-RUN apt-get autoremove -y
+# RUN apt-get autoremove -y
 
-RUN rm -rf /var/lib/apt/lists/*
-RUN rm -rf /tmp/*
-RUN apt-get clean
+# RUN rm -rf /var/lib/apt/lists/*
+# RUN rm -rf /tmp/*
+# RUN apt-get clean
 
 #---------------------------------------------------------------------------------------------------------------------------
 #----
@@ -141,13 +141,13 @@ RUN apt-get clean
 #----
 #---------------------------------------------------------------------------------------------------------------------------
 
-FROM scratch AS final
+# FROM scratch AS final
 
-COPY --from=base / /
+# COPY --from=base / /
 
-COPY ros-images/ros_entrypoint.sh /ros_entrypoint.sh
+# COPY ros-images/ros_entrypoint.sh /ros_entrypoint.sh
 
-RUN chmod +x /ros_entrypoint.sh
+# RUN chmod +x /ros_entrypoint.sh
 
 #############################################################################################################################
 #####
@@ -156,16 +156,16 @@ RUN chmod +x /ros_entrypoint.sh
 #####
 #############################################################################################################################
 
-ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+# ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
-ENV OPENBLAS_CORETYPE=ARMV8
+# ENV OPENBLAS_CORETYPE=ARMV8
 
-ARG ROS_VERSION=humble
+# ARG ROS_VERSION=humble
 
-ENV ROS_DISTRO=${ROS_VERSION}
+# ENV ROS_DISTRO=${ROS_VERSION}
 
-ENV ROS_ROOT=/opt/ros/${ROS_DISTRO}
+# ENV ROS_ROOT=/opt/ros/${ROS_DISTRO}
 
-WORKDIR /
+# WORKDIR /
 
-ENTRYPOINT ["/ros_entrypoint.sh"]
+# ENTRYPOINT ["/ros_entrypoint.sh"]

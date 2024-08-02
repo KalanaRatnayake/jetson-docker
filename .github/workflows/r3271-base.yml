@@ -1,33 +1,26 @@
-name: Jetson ROS Humble Core
+name: Jetson Base r32.7.1
 
 on:
   workflow_dispatch:
-
-  workflow_run:
-    workflows: [Jetson Ubuntu Foxy Base]
-    types:
-      - completed
 
   push:
     branches: 
       - main
     paths:
-      - ".github/workflows/humble_core.yml"
-      - "ros-images/humble_core.Dockerfile"
-      - "ros-images/ros_entrypoint.sh"
+      - ".github/workflows/r3271-base.yml"
+      - "base-images/r3271.Dockerfile"
 
   pull_request:
     branches: 
       - main
     paths:
-      - ".github/workflows/humble_core.yml"
-      - "ros-images/humble_core.Dockerfile"
-      - "ros-images/ros_entrypoint.sh"
+      - ".github/workflows/r3271-base.yml"
+      - "base-images/r3271.Dockerfile"
 
 env:
   REGISTRY: ghcr.io
   OWNER: kalanaratnayake
-  IMAGE_NAME: foxy-ros
+  IMAGE_NAME: jetson-base
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency
 concurrency:
@@ -63,15 +56,14 @@ jobs:
         #   username: ${{ github.actor }}
         #   password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push ROS Humble Core image
+      - name: Build and Push image
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./ros-images/humble_core.Dockerfile
+          file: ./base-images/r3271.Dockerfile
           push: true
           platforms: linux/arm64
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-core-buildcache
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-core-buildcache,mode=max
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:base-buildcache
+          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:base-buildcache,mode=max
           tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-core-j-nano
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-core-r32.7.1
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:r32.7.1

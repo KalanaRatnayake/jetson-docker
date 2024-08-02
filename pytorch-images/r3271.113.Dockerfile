@@ -5,7 +5,7 @@
 #----
 #---------------------------------------------------------------------------------------------------------------------------
 
-FROM ghcr.io/kalanaratnayake/foxy-base:r32.7.1 as base
+FROM ghcr.io/kalanaratnayake/jetson-base:r32.7.1 as base
 
 WORKDIR /
 

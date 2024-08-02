@@ -1,10 +1,10 @@
-name: Jetson ROS Humble Core Pytorch 1.13
+name: Jetson Pytorch 1.13 r32.7.1
 
 on:
   workflow_dispatch:
 
   workflow_run:
-    workflows: [Jetson ROS Humble Core]
+    workflows: [Jetson Base r32.7.1]
     types:
       - completed
 
@@ -12,20 +12,20 @@ on:
     branches: 
       - main
     paths:
-      - ".github/workflows/humble_core_pytorch_1_13.yml"
-      - "ros-pytorch-images/humble_core_pytorch_1_13.Dockerfile"
+      - ".github/workflows/r3271-pytorch113.yml"
+      - "pytorch-images/r3271.113.Dockerfile"
 
   pull_request:
     branches: 
       - main
     paths:
-      - ".github/workflows/humble_core_pytorch_1_13.yml"
-      - "ros-pytorch-images/humble_core_pytorch_1_13.Dockerfile"
+      - ".github/workflows/r3271-pytorch113.yml"
+      - "pytorch-images/r3271.113.Dockerfile"
 
 env:
   REGISTRY: ghcr.io
   OWNER: kalanaratnayake
-  IMAGE_NAME: foxy-ros-pytorch
+  IMAGE_NAME: jetson-pytorch
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency
 concurrency:
@@ -66,11 +66,10 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./ros-pytorch-images/humble_core_pytorch_1_13.Dockerfile
+          file: ./pytorch-images/r3271.113.Dockerfile
           push: true
           platforms: linux/arm64
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:1-13-humble-buildcache
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:1-13-humble-buildcache,mode=max
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:1-13-buildcache
+          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:1-13-buildcache,mode=max
           tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:1-13-humble-core-j-nano
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:1-13-humble-core-r32.7.1
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:1.13-r32.7.1

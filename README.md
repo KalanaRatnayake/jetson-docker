@@ -1,12 +1,11 @@
-# Jetson Nano Docker
+# Jetson Docker
 
-This repository contains docker containers that are built on top of an modified [nvcr.io/nvidia/l4t-base:r32.7.1](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-base/tags) container. The container has been modified by upgrading core Ubuntu 18.04 to Ubuntu 20.04. 
+This repository contains dockerfiles for base images for Jetson Nano and Jetson AGX Orin devices. Following table contains a summary about available images and the Jetson Linux Kernal they are based on.
 
-[dusty-nv/jetson-containers](https://github.com/dusty-nv/jetson-containers) allows building containers for Jetson nano but they are based on offical [nvcr.io/nvidia/l4t-base:r32.7.1](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-base/tags) which is based on Ubuntu 18.04 and is limited by Python 3.6.9. 
-
-Due to this, being inspired from [Qengineering/Jetson-Nano-Ubuntu-20-image](https://github.com/Qengineering/Jetson-Nano-Ubuntu-20-image) and based on [gpshead/Dockerfile](https://gist.github.com/gpshead/0c3a9e0a7b3e180d108b6f4aef59bc19), this container provides an Ubuntu 20.04 version of [nvcr.io/nvidia/l4t-base:r32.7.1](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-base/tags)
-
-> Ubuntu 22.04 was also attempted, but later abandoned due to lack of support for gcc-8, g++8 and clang-8 required by CUDA 10.2 in r32.7.1
+| Name       | Content                                 | Jetson Nano | Jetson AGX Orin |
+| :--------- | :-------------------------------------- | :---------: | :-------------: |
+| foxy-base  | Ubuntu 20.04, Python 3.8.10  |  `r32.7.1` / 822MB
+| Content    | Content Cell  |
 
 ## Docker buildx for ARM64 platform (for AMD64 systems)
 
@@ -18,11 +17,15 @@ docker buildx create --use --driver-opt network=host --name MultiPlatform --plat
 ## Docker container list
 
 <details> 
-<summary> <h3> Jetson Ubuntu Foxy Base Image </h3> </summary>
+<summary> <h3> foxy-base </h3> </summary>
 
-- Size is about 822 MB
-- Contains,
-    * Python 3.8.10
+This image is an modified [nvcr.io/nvidia/l4t-base:r32.7.1](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-base/tags). The image has been modified by upgrading core Ubuntu 18.04 to Ubuntu 20.04. 
+
+[dusty-nv/jetson-containers](https://github.com/dusty-nv/jetson-containers) allows building image for Jetson nano but they are based on offical [nvcr.io/nvidia/l4t-base:r32.7.1](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-base/tags) which is based on Ubuntu 18.04 and is limited by Python 3.6.9. 
+
+Due to this, being inspired from [Qengineering/Jetson-Nano-Ubuntu-20-image](https://github.com/Qengineering/Jetson-Nano-Ubuntu-20-image) and based on [gpshead/Dockerfile](https://gist.github.com/gpshead/0c3a9e0a7b3e180d108b6f4aef59bc19), this image provides an Ubuntu 20.04 version of [nvcr.io/nvidia/l4t-base:r32.7.1](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-base/tags)
+
+> Ubuntu 22.04 was also attempted, but later abandoned due to lack of support for gcc-8, g++8 and clang-8 required by CUDA 10.2 in r32.7.1
 
 ### Pull or Build
 
@@ -31,9 +34,11 @@ Pull the docker container
 docker pull ghcr.io/kalanaratnayake/foxy-base:r32.7.1
 ```
 
+or
+
 Build the docker container
 ```bash
-docker buildx build --load --platform linux/arm64 -f base-images/foxy.Dockerfile -t foxy-base:r32.7.1 .
+docker buildx build --load --platform linux/arm64 -f base-images/foxy.jnano.Dockerfile -t foxy-base:r32.7.1 .
 ```
 
 ### Start

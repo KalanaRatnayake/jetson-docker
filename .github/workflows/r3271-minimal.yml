@@ -1,10 +1,10 @@
-name: Jetson Ubuntu Foxy Minimal
+name: Jetson Minimal r32.7.1
 
 on:
   workflow_dispatch:
 
   workflow_run:
-    workflows: [Jetson Ubuntu Foxy Base]
+    workflows: [Jetson Base r32.7.1]
     types:
       - completed
 
@@ -12,20 +12,20 @@ on:
     branches: 
       - main
     paths:
-      - ".github/workflows/foxy_minimal.yml"
-      - "minimal-images/foxy_minimal.Dockerfile"
+      - ".github/workflows/r3271-minimal.yml"
+      - "minimal-images/r3271.Dockerfile"
 
   pull_request:
     branches: 
       - main
     paths:
-      - ".github/workflows/foxy_minimal.yml"
-      - "minimal-images/foxy_minimal.Dockerfile"
+      - ".github/workflows/r3271-minimal.yml"
+      - "minimal-images/r3271.Dockerfile"
 
 env:
   REGISTRY: ghcr.io
   OWNER: kalanaratnayake
-  IMAGE_NAME: foxy-minimal
+  IMAGE_NAME: jetson-minimal
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency
 concurrency:
@@ -65,11 +65,10 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./minimal-images/foxy_minimal.Dockerfile
+          file: ./minimal-images/r3271.Dockerfile
           push: true
           platforms: linux/arm64
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:minimal-buildcache
           cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:minimal-buildcache,mode=max
           tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:j-nano
             ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:r32.7.1
