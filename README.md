@@ -16,63 +16,31 @@ docker buildx create --use --driver-opt network=host --name MultiPlatform --plat
 
 ## Docker container list
 
-### 1. Jetson-base
+### 1. Jetson Base
 
 #### jetson-base:r32.7.1 
-
 
 ```docker
 FROM ghcr.io/kalanaratnayake/jetson-base:r32.7.1
 ```
-
 [Installation and local build instructions for jetson-base:r32.7.1 ](base-images/r3721.md)
 
-### 2. Jetson-minimal
+<br>
+
+### 2. Jetson Minimal
 
 #### jetson-minimal:r32.7.1 
-
 
 ```docker
 FROM ghcr.io/kalanaratnayake/jetson-minimal:r32.7.1
 ```
+[Installation and local build instructions for jetson-minimal:r32.7.1 ](minimal-images/r3721.md)
 
-- GCC-8, G++-8 for building CUDA 10.2 related applications
-- build-essential package (g++-9, gcc-9, make, dpkg-dev, libc6-dev)
-
-### Pull or Build
-
-Pull the docker container
-```bash
-docker pull ghcr.io/kalanaratnayake/foxy-minimal:r32.7.1
-```
-
-Build the docker container
-```bash
-docker buildx build --load --platform linux/arm64 -f test-images/foxy_test.Dockerfile -t foxy-minimal:r32.7.1 .
-```
-
-### Start
-
-Start the docker container
-```bash
-docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-minimal:r32.7.1 bash
-```
-
-### Test
-
-Run the following commands inside the docker container to test the nvcc and other jetson nano specific functionality
-```bash
-/usr/local/cuda-10.2/bin/cuda-install-samples-10.2.sh .
-cd /NVIDIA_CUDA-10.2_Samples/1_Utilities/deviceQuery
-make clean
-make HOST_COMPILER=/usr/bin/g++-8
-./deviceQuery
-```
 <br>
-</details>
 
-<details> 
-<summary> <h3> Jetson ROS Humble Core Image </h3> </summary>
+### 3. Jetson ROS 
+
+
   
 - Size is about 1.71GB
 - Contains,
