@@ -16,43 +16,25 @@ docker buildx create --use --driver-opt network=host --name MultiPlatform --plat
 
 ## Docker container list
 
-<details> 
-<summary> <h3> foxy-base </h3> </summary>
+### 1. Jetson-base
 
-This image is an modified [nvcr.io/nvidia/l4t-base:r32.7.1](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-base/tags). The image has been modified by upgrading core Ubuntu 18.04 to Ubuntu 20.04. 
+#### jetson-base:r32.7.1 
 
-[dusty-nv/jetson-containers](https://github.com/dusty-nv/jetson-containers) allows building image for Jetson nano but they are based on offical [nvcr.io/nvidia/l4t-base:r32.7.1](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-base/tags) which is based on Ubuntu 18.04 and is limited by Python 3.6.9. 
 
-Due to this, being inspired from [Qengineering/Jetson-Nano-Ubuntu-20-image](https://github.com/Qengineering/Jetson-Nano-Ubuntu-20-image) and based on [gpshead/Dockerfile](https://gist.github.com/gpshead/0c3a9e0a7b3e180d108b6f4aef59bc19), this image provides an Ubuntu 20.04 version of [nvcr.io/nvidia/l4t-base:r32.7.1](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/l4t-base/tags)
-
-> Ubuntu 22.04 was also attempted, but later abandoned due to lack of support for gcc-8, g++8 and clang-8 required by CUDA 10.2 in r32.7.1
-
-### Pull or Build
-
-Pull the docker container
-```bash
-docker pull ghcr.io/kalanaratnayake/foxy-base:r32.7.1
+```docker
+FROM ghcr.io/kalanaratnayake/jetson-base:r32.7.1
 ```
 
-or
+[Installation and local build instructions for jetson-base:r32.7.1 ](base-images/r3721.md)
 
-Build the docker container
-```bash
-docker buildx build --load --platform linux/arm64 -f base-images/foxy.Dockerfile -t foxy-base:r32.7.1 .
+### 2. Jetson-minimal
+
+#### jetson-minimal:r32.7.1 
+
+
+```docker
+FROM ghcr.io/kalanaratnayake/jetson-minimal:r32.7.1
 ```
-
-### Start
-
-Start the docker container
-```bash
-docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.io/kalanaratnayake/foxy-base:r32.7.1 bash
-```
-<br>
-
-</details>
-
-<details> 
-<summary> <h3> Jetson Ubuntu Foxy Minimal Image </h3> </summary>
 
 - GCC-8, G++-8 for building CUDA 10.2 related applications
 - build-essential package (g++-9, gcc-9, make, dpkg-dev, libc6-dev)
@@ -172,10 +154,10 @@ or build with cache locally and push when image compilation can be slow on githu
 ```bash
 docker buildx build --push \
                     --platform linux/arm64 \
-                    --cache-from=type=registry,ref=ghcr.io/kalanaratnayake/foxy-ros:humble-ros-base-buildcache \
-                    --cache-to=type=registry,ref=ghcr.io/kalanaratnayake/foxy-ros:humble-ros-base-buildcache,mode=max  \
-                    -f ros-images/humble_base.Dockerfile  \
-                    -t ghcr.io/kalanaratnayake/foxy-ros:humble-base-r32.7.1 .
+                    --cache-from=type=registry,ref=ghcr.io/kalanaratnayake/jetson-ros:humble-ros-base-r32.7.1-buildcache \
+                    --cache-to=type=registry,ref=ghcr.io/kalanaratnayake/jetson-ros:humble-ros-base-r32.7.1-buildcache,mode=max  \
+                    -f ros-images/r3271.humble_base.Dockerfile  \
+                    -t ghcr.io/kalanaratnayake/jetson-ros:humble-base-r32.7.1 .
 ```
 
 ### Start
