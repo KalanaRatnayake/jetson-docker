@@ -95,17 +95,17 @@ RUN rosinstall_generator --deps --rosdistro ${ROS_DISTRO} ${ROS_PACKAGE} \
 
 RUN vcs import ${ROS_ROOT}/src < ros2.${ROS_DISTRO}.${ROS_PACKAGE}.rosinstall
 
+WORKDIR ${ROS_ROOT}
+
+RUN rosdep init && rosdep update
+
+RUN rosdep install -y \
+	               --ignore-src \
+	               --from-paths src \
+	               --rosdistro ${ROS_DISTRO} \
+                   --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers"
+
 #-------------------------------
-
-# WORKDIR ${ROS_ROOT}
-
-# RUN rosdep init && rosdep update
-
-# RUN rosdep install -y \
-# 	               --ignore-src \
-# 	               --from-paths src \
-# 	               --rosdistro ${ROS_DISTRO} \
-#                    --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers"
 
 # RUN colcon build \
 #             --merge-install \

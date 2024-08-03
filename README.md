@@ -4,8 +4,8 @@ This repository contains dockerfiles for base images for Jetson Nano and Jetson 
 
 | Name       | Content                                 | Jetson Nano | Jetson AGX Orin |
 | :--------- | :-------------------------------------- | :---------: | :-------------: |
-| foxy-base  | Ubuntu 20.04, Python 3.8.10  |  `r32.7.1` / 822MB
-| Content    | Content Cell  |
+| jetson-base    | Ubuntu 20.04, Python 3.8.10  |  `r32.7.1` / 822MB | |
+| jetson-minimal | Ubuntu 20.04, Python 3.8.10, GCC-8, G++-8, build-essential package  |  `r32.7.1` / 1.11GB | |
 
 ## Docker buildx for ARM64 platform (for AMD64 systems)
 
@@ -38,7 +38,7 @@ or
 
 Build the docker container
 ```bash
-docker buildx build --load --platform linux/arm64 -f base-images/foxy.jnano.Dockerfile -t foxy-base:r32.7.1 .
+docker buildx build --load --platform linux/arm64 -f base-images/foxy.Dockerfile -t foxy-base:r32.7.1 .
 ```
 
 ### Start
@@ -54,11 +54,8 @@ docker run --rm -it --runtime nvidia --network host --gpus all -e DISPLAY ghcr.i
 <details> 
 <summary> <h3> Jetson Ubuntu Foxy Minimal Image </h3> </summary>
 
-- Size is about 1.11GB
-- Contains,
-    * Python 3.8.10
-    * GCC-8, G++-8 (for building CUDA 10.2 related applications)
-    * build-essential package (g++-9, gcc-9, make, dpkg-dev, libc6-dev)
+- GCC-8, G++-8 for building CUDA 10.2 related applications
+- build-essential package (g++-9, gcc-9, make, dpkg-dev, libc6-dev)
 
 ### Pull or Build
 
@@ -118,10 +115,10 @@ or build with cache locally and push when image compilation can be slow on githu
 ```bash
 docker buildx build --push \
                     --platform linux/arm64 \
-                    --cache-from=type=registry,ref=ghcr.io/kalanaratnayake/foxy-ros:humble-ros-core-buildcache \
-                    --cache-to=type=registry,ref=ghcr.io/kalanaratnayake/foxy-ros:humble-ros-core-buildcache,mode=max  \
-                    -f ros-images/humble_core.Dockerfile  \
-                    -t ghcr.io/kalanaratnayake/foxy-ros:humble-core-r32.7.1 .
+                    --cache-from=type=registry,ref=ghcr.io/kalanaratnayake/jetson-ros:humble-ros-core-r32.7.1-buildcache \
+                    --cache-to=type=registry,ref=ghcr.io/kalanaratnayake/jetson-ros:humble-ros-core-r32.7.1-buildcache,mode=max  \
+                    -f ros-images/r3271.humble_core.Dockerfile  \
+                    -t ghcr.io/kalanaratnayake/jetson-ros:humble-core-r32.7.1 .
 ```
 
 ### Start
