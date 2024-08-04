@@ -2,14 +2,14 @@
 
 This repository contains dockerfiles for base images for Jetson Nano and Jetson AGX Orin devices. Following table contains a summary about available images and the Jetson Linux Kernal they are based on. :heavy_check_mark: indicates the device in which the image has been tested on.
 
-| Name                            | Size    | Content                                                               | Jetson Nano | Jetson AGX Orin |
-| :---------                      | :----:  | :--------------------------------------                               | :---------: | :-------------: |
-| jetson-base:r32.7.1             |  822 MB | Ubuntu 20.04, Python 3.8.10                                           | :heavy_check_mark: | |
-| jetson-minimal:r32.7.1          | 1.11 GB | Ubuntu 20.04, Python 3.8.10, GCC-8, G++-8, build-essential package    | :heavy_check_mark: | |
-| jetson-ros:humble-core-r32.7.1  | 1.71 GB | Ubuntu 20.04, Python 3.8.10, build-essential package, ROS Humble [Core packages](https://www.ros.org/reps/rep-2001.html#id23)    | :heavy_check_mark: | |
-| jetson-ros:humble-base-r32.7.1  | 1.76 GB | Ubuntu 20.04, Python 3.8.10, build-essential package, ROS Humble [Base packages](https://www.ros.org/reps/rep-2001.html#id24)    | :heavy_check_mark: | |
-| jetson-pytorch:1.13-r32.7.1     | 1.83 GB | Ubuntu 20.04, Python 3.8.10, PyTorch 1.13.0, TorchVision 0.14.0       | :heavy_check_mark: | |
-| jetson-ros-pytorch:1.13-humble-core-r32.7.1  | 3.05 GB | Ubuntu 20.04, Python 3.8.10, build-essential package, ROS Humble [Core packages](https://www.ros.org/reps/rep-2001.html#id23), PyTorch 1.13.0, TorchVision 0.14.0    | :heavy_check_mark: | |
+| Image              |  Tag                     | Size    | Content                                                        | Jetson Nano | Jetson AGX Orin |
+| :----              | :-----                   | :----:  | :--------------------------------------                        | :---------: | :-------------: |
+| jetson-base        | r32.7.1                  |  822 MB | Ubuntu 20.04, Python 3.8.10                                    | <li>- [x] </li> | |
+| jetson-minimal     | r32.7.1                  | 1.11 GB | Ubuntu 20.04, Python 3.8.10, GCC-8, G++-8, build-essentials    | <li>- [x] </li> | |
+| jetson-ros         | humble-core-r32.7.1      | 1.71 GB | Ubuntu 20.04, Python 3.8.10, build-essentials, [ROS Humble Core](https://www.ros.org/reps/rep-2001.html#id23)    | <li>- [x] </li> | |
+| jetson-ros         | humble-base-r32.7.1      | 1.76 GB | Ubuntu 20.04, Python 3.8.10, build-essentials, [ROS Humble Base](https://www.ros.org/reps/rep-2001.html#id24)    | <li>- [x] </li> | |
+| jetson-pytorch     | 1.13-r32.7.1             | 1.83 GB | Ubuntu 20.04, Python 3.8.10, PyTorch 1.13.0, TorchVision 0.14.0       | <li>- [x] </li> | |
+| jetson-ros-pytorch | 1.13-humble-core-r32.7.1 | 3.05 GB | Ubuntu 20.04, Python 3.8.10, build-essentials, [ROS Humble Core](https://www.ros.org/reps/rep-2001.html#id23), PyTorch 1.13.0, TorchVision 0.14.0    | <li>- [x] </li> | |
 
 
 > build essential package for ubuntu 20.04 includes g++-9, gcc-9, make, dpkg-dev, libc6-dev
