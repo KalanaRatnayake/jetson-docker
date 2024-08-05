@@ -12,7 +12,7 @@ This repository contains dockerfiles for base images for Jetson Nano and Jetson 
 | jetson-ros-pytorch | 1.13-humble-core-r32.7.1 | 3.05 GB | `jetson-ros:humble-core-r32.7.1` + PyTorch 1.13.0, TorchVision 0.14.0    | <ul><li> - [x] </li></ul> | |
 
 
-> build essential package for ubuntu 20.04 includes g++-9, gcc-9, make, dpkg-dev, libc6-dev
+> build essential package for ubuntu 20.04 includes g++-9, gcc-9, make, dpkg-dev, libc6-dev \
 > build essential package for ubuntu 22.04 includes g++-11, gcc-11, make, dpkg-dev, libc6-dev
 
 ## Docker buildx for ARM64 platform (for AMD64 systems)
