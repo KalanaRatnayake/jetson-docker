@@ -2,6 +2,8 @@
 
 This repository contains dockerfiles for base images for Jetson Nano and Jetson AGX Orin devices. Following table contains a summary about available images and the main packages they contain. <ul><li> - [x] </li></ul> indicates the device in which the image has been tested on. 
 
+>**jetson-\* images are custom images I created while l4t-\* images are official images from nvidia. l4t-\* images are included here for the completeness**
+
 | Image              |  Tag                     | Size    | Content                                                        | Jetson Nano | Jetson AGX Orin |
 | :----              | :-----                   | :----:  | :--------------------------------------                        | :---------: | :-------------: |
 | jetson-base        | r32.7.1                  |  822 MB | Ubuntu 20.04, Python 3.8.10                                    | <ul><li> - [x] </li></ul> | |
