@@ -1,6 +1,6 @@
 # Jetson Docker
 
-This repository contains dockerfiles for base images for Jetson Nano and Jetson AGX Orin devices. Following table contains a summary about available images and the main packages they contain. <ul><li> - [x] </li></ul> indicates the device in which the image has been tested on. 
+This repository contains dockerfiles for base images for Jetson Nano and Jetson AGX Orin devices. Following table contains a summary about available images and the main packages they contain and the device in which the image has been tested on. 
 
 >**jetson-\* images are custom images I created while l4t-\* images are official images from nvidia. l4t-\* images are included here for the completeness**
 
