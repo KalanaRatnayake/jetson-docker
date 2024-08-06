@@ -1,26 +1,31 @@
-name: Jetson Pytorch 2.4.0 r36.3.0
+name: Jetson ROS Humble Core Pytorch r36.3.0
 
 on:
   workflow_dispatch:
+
+  workflow_run:
+    workflows: [Jetson ROS Humble Core r36.3.0]
+    types:
+      - completed
 
   push:
     branches: 
       - main
     paths:
-      - ".github/workflows/r3630-pytorch204.yml"
-      - "pytorch-images/r3630.204.Dockerfile"
+      - ".github/workflows/r3630-humblecore-pytorch.yml"
+      - "ros-pytorch-images/r3630.humblecore_pytorch.Dockerfile"
 
   pull_request:
     branches: 
       - main
     paths:
-      - ".github/workflows/r3630-pytorch204.yml"
-      - "pytorch-images/r3630.204.Dockerfile"
+      - ".github/workflows/r3630-humblecore-pytorch.yml"
+      - "ros-pytorch-images/r3630.humblecore_pytorch.Dockerfile"
 
 env:
   REGISTRY: ghcr.io
   OWNER: kalanaratnayake
-  IMAGE_NAME: jetson-pytorch
+  IMAGE_NAME: jetson-ros-pytorch
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency
 concurrency:
@@ -61,10 +66,10 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./pytorch-images/r3630.204.Dockerfile
+          file: ./ros-pytorch-images/r3630.humblecore_pytorch.Dockerfile
           push: true
           platforms: linux/arm64
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:r3630-2-4-buildcache
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:r3630-2-4-buildcache,mode=max
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-r36.3.0-buildcache
+          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-r36.3.0-buildcache,mode=max
           tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:2.4-r36.3.0
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-core-r36.3.0
