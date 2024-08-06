@@ -16,9 +16,9 @@ This repository contains dockerfiles for base images for Jetson Nano and Jetson 
 | jetson-ros         | humble-base-r32.7.1      | 1.76 GB | <ul><li> - [x] </li></ul> | |
 | jetson-ros         | humble-base-r36.3.0      | 1.76 GB | | <ul><li> - [x] </li></ul> |
 | jetson-pytorch     | 1.13-r32.7.1             | 1.83 GB | <ul><li> - [x] </li></ul> | |
-| jetson-pytorch     | 2.4-r32.7.1             | 1.83 GB | <ul><li> - [x] </li></ul> | |
+| jetson-pytorch     | r36.3.0                  | 1.83 GB | | <ul><li> - [x] </li></ul> |
 | jetson-ros-pytorch | 1.13-humble-core-r32.7.1 | 3.05 GB | <ul><li> - [x] </li></ul> | |
-| jetson-ros-pytorch | 1.13-humble-core-r32.7.1 | 3.05 GB | <ul><li> - [x] </li></ul> | |
+| jetson-ros-pytorch | humble-core-r36.3.0      | 3.05 GB | | <ul><li> - [x] </li></ul> |
 
 
 | Image              |  Tag                     | Content                                                          |
@@ -29,11 +29,13 @@ This repository contains dockerfiles for base images for Jetson Nano and Jetson 
 | l4t-cuda           | 12.2.12-devel            | `l4t-base:r36.2.0` + CUDA 12.2, GCC-11, G++-11, build-essentials |
 | l4t-cuda           | 12.2.12-runtime          | `l4t-base:r36.2.0` + CUDA 12.2, GCC-11, G++-11, build-essentials |
 | jetson-ros         | humble-core-r32.7.1      | `jetson-base:r32.7.1` + [ROS Humble Core](https://www.ros.org/reps/rep-2001.html#id23)    |
-| jetson-ros         | humble-core-r36.2.0      | `l4t-base:r36.2.0` + [ROS Humble Core](https://www.ros.org/reps/rep-2001.html#id23)    |
+| jetson-ros         | humble-core-r36.3.0      | `l4t-base:r36.2.0` + [ROS Humble Core](https://www.ros.org/reps/rep-2001.html#id23)    |
 | jetson-ros         | humble-base-r32.7.1      | `jetson-base:r32.7.1` + [ROS Humble Base](https://www.ros.org/reps/rep-2001.html#id24)    |
-| jetson-ros         | humble-base-r36.2.0      | `l4t-base:r36.2.0` + [ROS Humble Base](https://www.ros.org/reps/rep-2001.html#id24)    |
-| jetson-pytorch     | 1.13-r32.7.1             | `jetson-base:r32.7.1` +  PyTorch 1.13.0, TorchVision 0.14.0           |
+| jetson-ros         | humble-base-r36.3.0      | `l4t-base:r36.2.0` + [ROS Humble Base](https://www.ros.org/reps/rep-2001.html#id24)    |
+| jetson-pytorch     | 1.13-r32.7.1             | `jetson-base:r32.7.1` + PyTorch 1.13.0, TorchVision 0.14.0           |
+| jetson-pytorch     | r36.3.0                  | `l4t-base:r36.2.0` + PyTorch 2.4.0, TorchVision 0.19.0, TorchAudio 2.4.0   |
 | jetson-ros-pytorch | 1.13-humble-core-r32.7.1 | `jetson-ros:humble-core-r32.7.1` + PyTorch 1.13.0, TorchVision 0.14.0 |
+| jetson-ros-pytorch | humble-core-r36.3.0      | `jetson-ros:humble-core-r36.3.0` + PyTorch 2.4.0, TorchVision 0.19.0, TorchAudio 2.4.0 |
 
 
 > build essential package for ubuntu 20.04 includes g++-9, gcc-9, make, dpkg-dev, libc6-dev \
@@ -108,6 +110,22 @@ FROM ghcr.io/kalanaratnayake/jetson-ros:humble-base-r32.7.1
 ```
 [Installation, Testing and local build instructions for jetson-ros:humble-base-r32.7.1](ros-images/r3271.humble_base.md)
 
+#### jetson-ros:humble-core-r36.3.0
+
+```docker
+FROM ghcr.io/kalanaratnayake/jetson-ros:humble-core-r36.3.0
+```
+[Installation, Testing and local build instructions for jetson-ros:humble-core-r36.3.0](ros-images/r3630.humble_core.md)
+
+
+#### jetson-ros:humble-base-r36.3.0
+
+```docker
+FROM ghcr.io/kalanaratnayake/jetson-ros:humble-base-r36.3.0
+```
+[Installation, Testing and local build instructions for jetson-ros:humble-base-r36.3.0](ros-images/r3630.humble_base.md)
+
+
 <br>
 
 ### 4. Jetson Pytorch 
@@ -119,6 +137,14 @@ FROM ghcr.io/kalanaratnayake/jetson-pytorch:1.13-r32.7.1
 ```
 [Installation, Testing and local build instructions for jetson-pytorch:1.13-r32.7.1](pytorch-images/r3271.113.md)
 
+#### jetson-pytorch:r36.3.0
+
+```docker
+FROM ghcr.io/kalanaratnayake/jetson-pytorch:r36.3.0
+```
+[Installation, Testing and local build instructions for jetson-pytorch:r36.3.0](pytorch-images/r3630.md)
+
+
 <br>
 
 ### 4. Jetson ROS Pytorch 
@@ -129,5 +155,12 @@ FROM ghcr.io/kalanaratnayake/jetson-pytorch:1.13-r32.7.1
 FROM ghcr.io/kalanaratnayake/jetson-ros-pytorch:1.13-humble-core-r32.7.1
 ```
 [Installation, Testing and local build instructions for jetson-ros-pytorch:1.13-humble-core-r32.7.1](ros-pytorch-images/r3271.humblecore_pytorch113.md)
+
+#### jetson-ros-pytorch:humble-core-r36.3.0
+
+```docker
+FROM ghcr.io/kalanaratnayake/jetson-ros-pytorch:humble-core-r36.3.0
+```
+[Installation, Testing and local build instructions for jetson-ros-pytorch:humble-core-r36.3.0](ros-pytorch-images/r3630.humblecore_pytorch.md)
 
 <br>
