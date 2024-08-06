@@ -6,6 +6,8 @@
 
 FROM nvcr.io/nvidia/l4t-base:r36.2.0 AS base
 
+ENV ROS_VERSION=humble
+
 #############################################################################################################################
 #####
 #####   Install core packages, python3 and opencv
@@ -47,8 +49,6 @@ RUN python3 -m pip install --no-cache-dir   numpy \
 #####
 #############################################################################################################################
 
-ARG ROS_VERSION=humble
-
 RUN add-apt-repository universe
 
 RUN sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
@@ -58,12 +58,8 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/r
 
 RUN apt-get update -y
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ros-${ROS_DISTRO}-ros-base
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ros-dev-tools
-
-ENV ROS_DISTRO=${ROS_VERSION}
-ENV ROS_ROOT=/opt/ros/${ROS_DISTRO}
-ENV ROS_PYTHON_VERSION=3
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ros-${ROS_VERSION}-ros-base \
+                                                                              ros-dev-tools
 
 RUN rosdep init && rosdep update
 
@@ -110,9 +106,9 @@ ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
 ENV OPENBLAS_CORETYPE=ARMV8
 
-ARG ROS_VERSION=humble
+ENV ROS_PYTHON_VERSION=3
 
-ENV ROS_DISTRO=${ROS_VERSION}
+ENV ROS_DISTRO=humble
 
 ENV ROS_ROOT=/opt/ros/${ROS_DISTRO}
 
