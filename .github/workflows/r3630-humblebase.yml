@@ -1,0 +1,76 @@
+name: Jetson ROS Humble Base r32.7.1
+
+on:
+  workflow_dispatch:
+
+  workflow_run:
+    workflows: [Jetson Base r32.7.1]
+    types:
+      - completed
+
+  push:
+    branches: 
+      - main
+    paths:
+      - ".github/workflows/r3271-humblebase.yml"
+      - "ros-images/r3271.humble_base.Dockerfile"
+      - "ros-images/ros_entrypoint.sh"
+
+  pull_request:
+    branches: 
+      - main
+    paths:
+      - ".github/workflows/r3271-humblebase.yml"
+      - "ros-images/r3271.humble_base.Dockerfile"
+      - "ros-images/ros_entrypoint.sh"
+
+env:
+  REGISTRY: ghcr.io
+  OWNER: kalanaratnayake
+  IMAGE_NAME: jetson-ros
+
+# https://docs.github.com/en/actions/using-jobs/using-concurrency
+concurrency:
+  # only cancel in-progress jobs or runs for the current workflow - matches against branch & tags
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+  
+jobs:
+
+  build-and-push-image:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to the Container registry
+        run: |
+          docker login --username ${{ env.OWNER }} --password ${{ secrets.GH_PAT }} ghcr.io 
+        # uses: docker/login-action@v3
+        # with:
+        #   registry: ${{ env.REGISTRY }}
+        #   username: ${{ github.actor }}
+        #   password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push ROS Humble Base image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./ros-images/r3271.humble_base.Dockerfile
+          push: true
+          platforms: linux/arm64
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-base-r32.7.1-buildcache
+          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-base-r32.7.1-buildcache,mode=max
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-base-r32.7.1
