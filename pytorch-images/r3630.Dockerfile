@@ -1,4 +1,10 @@
-FROM ghcr.io/kalanaratnayake/jetson-ros:humble-core-r36.3.0 as base
+#---------------------------------------------------------------------------------------------------------------------------
+#----
+#----   Start base image
+#----
+#---------------------------------------------------------------------------------------------------------------------------
+
+FROM nvcr.io/nvidia/l4t-base:r36.2.0 AS base
 
 WORKDIR /
 
@@ -9,10 +15,10 @@ WORKDIR /
 RUN apt-get update -y
 
 #####################################################################################
-##                           Install PyTorch 2.4
+##                           Install PyTorch
 #####################################################################################
 
-RUN python3 -m pip install --no-cache-dir torch==2.4.0 torchvision==0.19.0 torchaudio==2.4.0 --index-url https://download.pytorch.org/whl/cu121
+RUN python3 -m pip install --no-cache-dir torch torchvision torchaudio
 
 #####################################################################################
 ##
@@ -34,27 +40,6 @@ RUN apt-get clean
 #----
 #---------------------------------------------------------------------------------------------------------------------------
 
-FROM scratch AS final
+FROM scratch as final
 
 COPY --from=base / /
-
-#############################################################################################################################
-#####
-#####  ROS Humble environment variables and configuration and set the default DDS middleware to cyclonedds
-#####  https://github.com/ros2/rclcpp/issues/1335
-#####
-#############################################################################################################################
-
-ARG ROS_VERSION=humble
-
-ENV ROS_DISTRO=${ROS_VERSION}
-
-ENV ROS_ROOT=/opt/ros/${ROS_DISTRO}
-
-ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-
-ENV OPENBLAS_CORETYPE=ARMV8
-
-WORKDIR /
-
-ENTRYPOINT ["/ros_entrypoint.sh"]

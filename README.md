@@ -16,6 +16,8 @@ This repository contains dockerfiles for base images for Jetson Nano and Jetson 
 | jetson-ros         | humble-base-r32.7.1      | 1.76 GB | <ul><li> - [x] </li></ul> | |
 | jetson-ros         | humble-base-r36.3.0      | 1.76 GB | | <ul><li> - [x] </li></ul> |
 | jetson-pytorch     | 1.13-r32.7.1             | 1.83 GB | <ul><li> - [x] </li></ul> | |
+| jetson-pytorch     | 2.4-r32.7.1             | 1.83 GB | <ul><li> - [x] </li></ul> | |
+| jetson-ros-pytorch | 1.13-humble-core-r32.7.1 | 3.05 GB | <ul><li> - [x] </li></ul> | |
 | jetson-ros-pytorch | 1.13-humble-core-r32.7.1 | 3.05 GB | <ul><li> - [x] </li></ul> | |
 
 
