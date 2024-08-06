@@ -4,17 +4,30 @@ This repository contains dockerfiles for base images for Jetson Nano and Jetson 
 
 >**jetson-\* images are custom images I created while l4t-\* images are official images from nvidia. l4t-\* images are included here for the completeness**
 
-| Image              |  Tag                     | Size    | Content                                                          | Jetson Nano | Jetson AGX Orin |
-| :----              | :-----                   | :----:  | :--------------------------------------                          | :---------: | :-------------: |
-| jetson-base        | r32.7.1                  |  822 MB | Ubuntu 20.04, Python 3.8.10, CUDA 10.2                           | <ul><li> - [x] </li></ul> | |
-| l4t-base           | r36.2.0                  |  750 MB | Ubuntu 22.04, Python 3.10.12                                     | | <ul><li> - [x] </li></ul> |
-| jetson-minimal     | r32.7.1                  | 1.11 GB | `jetson-base:r32.7.1` + GCC-8, G++-8, build-essentials           | <ul><li> - [x] </li></ul> | |
-| l4t-cuda           | 12.2.12-devel            | 2.81 GB | `l4t-base:r36.2.0` + CUDA 12.2, GCC-11, G++-11, build-essentials | | <ul><li> - [x] </li></ul> |
-| l4t-cuda           | 12.2.12-runtime          | 1.41 GB | `l4t-base:r36.2.0` + CUDA 12.2, GCC-11, G++-11, build-essentials | | <ul><li> - [x] </li></ul> |
-| jetson-ros         | humble-core-r32.7.1      | 1.71 GB | `jetson-base:r32.7.1` + build-essentials, [ROS Humble Core](https://www.ros.org/reps/rep-2001.html#id23)    | <ul><li> - [x] </li></ul> | |
-| jetson-ros         | humble-base-r32.7.1      | 1.76 GB | `jetson-base:r32.7.1` + build-essentials, [ROS Humble Base](https://www.ros.org/reps/rep-2001.html#id24)    | <ul><li> - [x] </li></ul> | |
-| jetson-pytorch     | 1.13-r32.7.1             | 1.83 GB |`jetson-base:r32.7.1` +  PyTorch 1.13.0, TorchVision 0.14.0       | <ul><li> - [x] </li></ul> | |
-| jetson-ros-pytorch | 1.13-humble-core-r32.7.1 | 3.05 GB | `jetson-ros:humble-core-r32.7.1` + PyTorch 1.13.0, TorchVision 0.14.0    | <ul><li> - [x] </li></ul> | |
+| Image              |  Tag                     | Size    | Jetson Nano | Jetson AGX Orin |
+| :----              | :-----                   | :----:  | :---------: | :-------------: |
+| jetson-base        | r32.7.1                  |  822 MB | <ul><li> - [x] </li></ul> | |
+| l4t-base           | r36.2.0                  |  750 MB | | <ul><li> - [x] </li></ul> |
+| jetson-minimal     | r32.7.1                  | 1.11 GB | <ul><li> - [x] </li></ul> | |
+| l4t-cuda           | 12.2.12-devel            | 2.81 GB | | <ul><li> - [x] </li></ul> |
+| l4t-cuda           | 12.2.12-runtime          | 1.41 GB | | <ul><li> - [x] </li></ul> |
+| jetson-ros         | humble-core-r32.7.1      | 1.71 GB | <ul><li> - [x] </li></ul> | |
+| jetson-ros         | humble-base-r32.7.1      | 1.76 GB | <ul><li> - [x] </li></ul> | |
+| jetson-pytorch     | 1.13-r32.7.1             | 1.83 GB | <ul><li> - [x] </li></ul> | |
+| jetson-ros-pytorch | 1.13-humble-core-r32.7.1 | 3.05 GB | <ul><li> - [x] </li></ul> | |
+
+
+| Image              |  Tag                     | Content                                                          |
+| :----              | :-----                   | :--------------------------------------                          |
+| jetson-base        | r32.7.1                  | Ubuntu 20.04, Python 3.8.10, CUDA 10.2                           |
+| l4t-base           | r36.2.0                  | Ubuntu 22.04, Python 3.10.12                                     |
+| jetson-minimal     | r32.7.1                  | `jetson-base:r32.7.1` + GCC-8, G++-8, build-essentials           |
+| l4t-cuda           | 12.2.12-devel            | Ubuntu 22.04, Python 3.10.12, CUDA 12.2, GCC-11, G++-11, build-essentials |
+| l4t-cuda           | 12.2.12-runtime          | Ubuntu 22.04, Python 3.10.12, CUDA 12.2, GCC-11, G++-11, build-essentials |
+| jetson-ros         | humble-core-r32.7.1      | `jetson-base:r32.7.1` + build-essentials, [ROS Humble Core](https://www.ros.org/reps/rep-2001.html#id23)    |
+| jetson-ros         | humble-base-r32.7.1      | `jetson-base:r32.7.1` + build-essentials, [ROS Humble Base](https://www.ros.org/reps/rep-2001.html#id24)    |
+| jetson-pytorch     | 1.13-r32.7.1             | `jetson-base:r32.7.1` +  PyTorch 1.13.0, TorchVision 0.14.0           |
+| jetson-ros-pytorch | 1.13-humble-core-r32.7.1 | `jetson-ros:humble-core-r32.7.1` + PyTorch 1.13.0, TorchVision 0.14.0 |
 
 
 > build essential package for ubuntu 20.04 includes g++-9, gcc-9, make, dpkg-dev, libc6-dev \
