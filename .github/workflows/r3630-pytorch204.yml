@@ -1,26 +1,21 @@
-name: Jetson Pytorch 1.13 r32.7.1
+name: Jetson Pytorch 2.4.0 r36.3.0
 
 on:
   workflow_dispatch:
-
-  workflow_run:
-    workflows: [Jetson Base r32.7.1]
-    types:
-      - completed
 
   push:
     branches: 
       - main
     paths:
-      - ".github/workflows/r3271-pytorch113.yml"
-      - "pytorch-images/r3271.113.Dockerfile"
+      - ".github/workflows/r3630-pytorch204.yml"
+      - "pytorch-images/r3630.204.Dockerfile"
 
   pull_request:
     branches: 
       - main
     paths:
-      - ".github/workflows/r3271-pytorch113.yml"
-      - "pytorch-images/r3271.113.Dockerfile"
+      - ".github/workflows/r3630-pytorch204.yml"
+      - "pytorch-images/r3630.204.Dockerfile"
 
 env:
   REGISTRY: ghcr.io
@@ -66,10 +61,10 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./pytorch-images/r3271.113.Dockerfile
+          file: ./pytorch-images/r3630.204.Dockerfile
           push: true
           platforms: linux/arm64
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:r3271-1-13-buildcache
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:r3271-1-13-buildcache,mode=max
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:r3630-2-4-buildcache
+          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:r3630-2-4-buildcache,mode=max
           tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:1.13-r32.7.1
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:2.4-r36.3.0
