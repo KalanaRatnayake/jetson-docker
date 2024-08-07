@@ -60,7 +60,8 @@ RUN apt-get update -y
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ros-${ROS_VERSION}-ros-core \
                                                                               ros-${ROS_VERSION}-rmw-cyclonedds-cpp \
-                                                                              ros-${ROS_VERSION}-demos \
+                                                                              ros-${ROS_VERSION}-demo-nodes-cpp \
+                                                                              ros-${ROS_VERSION}-demo-nodes-py \
                                                                               ros-dev-tools
 
 RUN rosdep init && rosdep update
