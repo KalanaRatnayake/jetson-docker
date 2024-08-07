@@ -59,6 +59,7 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/r
 RUN apt-get update -y
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ros-${ROS_VERSION}-ros-base \
+                                                                              ros-${ROS_VERSION}-rmw-cyclonedds-cpp \
                                                                               ros-dev-tools
 
 RUN rosdep init && rosdep update
