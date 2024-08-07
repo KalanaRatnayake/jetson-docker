@@ -12,13 +12,13 @@ This repository contains dockerfiles for base images for Jetson Nano and Jetson 
 | l4t-cuda           | 12.2.12-devel            | 2.81 GB | | <ul><li> - [x] </li></ul> |
 | l4t-cuda           | 12.2.12-runtime          | 1.41 GB | | <ul><li> - [x] </li></ul> |
 | jetson-ros         | humble-core-r32.7.1      | 1.71 GB | <ul><li> - [x] </li></ul> | |
-| jetson-ros         | humble-core-r36.3.0      | 1.71 GB | | <ul><li> - [x] </li></ul> |
+| jetson-ros         | humble-core-r36.3.0      | 1.40 GB | | <ul><li> - [x] </li></ul> |
 | jetson-ros         | humble-base-r32.7.1      | 1.76 GB | <ul><li> - [x] </li></ul> | |
-| jetson-ros         | humble-base-r36.3.0      | 1.76 GB | | <ul><li> - [x] </li></ul> |
+| jetson-ros         | humble-base-r36.3.0      | 1.45 GB | | <ul><li> - [x] </li></ul> |
 | jetson-pytorch     | 1.13-r32.7.1             | 1.83 GB | <ul><li> - [x] </li></ul> | |
-| jetson-pytorch     | r36.3.0                  | 1.83 GB | | <ul><li> - [x] </li></ul> |
+| jetson-pytorch     | r36.3.0                  | 1.26 GB | | <ul><li> - [x] </li></ul> |
 | jetson-ros-pytorch | 1.13-humble-core-r32.7.1 | 3.05 GB | <ul><li> - [x] </li></ul> | |
-| jetson-ros-pytorch | humble-core-r36.3.0      | 3.05 GB | | <ul><li> - [x] </li></ul> |
+| jetson-ros-pytorch | humble-core-r36.3.0      | 1.91 GB | | <ul><li> - [x] </li></ul> |
 
 
 | Image              |  Tag                     | Content                                                          |
