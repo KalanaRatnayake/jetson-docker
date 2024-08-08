@@ -18,27 +18,35 @@ RUN dpkg -i cuda-keyring_1.1-1_all.deb
  
 RUN apt-get update -y
 
-RUN apt-get -y install --no-install-recommends libcusparselt0 libcusparselt-dev
+RUN apt-get -y install --no-install-recommends python3-pip \
+                                               libpython3-dev \
+                                               libopenblas-dev \
+                                               libopenblas-base \
+                                               libopenmpi-dev \
+                                               openmpi-common \
+                                               gfortran \
+                                               libomp-dev \
+                                               libcusparselt0 \
+                                               libcusparselt-dev \
+                                               libjpeg-dev \
+                                               zlib1g-dev \
+                                               libavcodec-dev \
+                                               libavformat-dev \
+                                               libswscale-dev
 
 #####################################################################################
 ##                           Install PyTorch 2.4
 #####################################################################################
 
-RUN wget https://developer.download.nvidia.cn/compute/redist/jp/v60/pytorch/torch-2.4.0a0+3bcc3cddb5.nv24.07.16234504-cp310-cp310-linux_aarch64.whl
+RUN wget https://developer.download.nvidia.cn/compute/redist/jp/v60/pytorch/torch-2.4.0a0+3bcc3cddb5.nv24.07.16234504-cp310-cp310-linux_aarch64.whl 
 
-RUN apt-get install -y --no-install-recommends python3-pip libopenblas-base libopenmpi-dev libomp-dev
-
-RUN python3 -m pip install --no-cache-dir 'Cython<3'
-
-RUN python3 -m pip install --no-cache-dir numpy torch-2.4.0a0+3bcc3cddb5.nv24.07.16234504-cp310-cp310-linux_aarch64.whl
+RUN python3 -m pip install --no-cache-dir 'Cython<3' numpy torch-2.4.0a0+3bcc3cddb5.nv24.07.16234504-cp310-cp310-linux_aarch64.whl
 
 RUN rm torch-2.4.0a0+3bcc3cddb5.nv24.07.16234504-cp310-cp310-linux_aarch64.whl
 
 #####################################################################################
 ##                           Install Torch Vision 0.18
 #####################################################################################
-
-RUN apt-get install -y --no-install-recommends libjpeg-dev zlib1g-dev libpython3-dev libopenblas-dev libavcodec-dev libavformat-dev libswscale-dev
 
 RUN git clone --branch v0.19.0 https://github.com/pytorch/vision torchvision   # see below for version of torchvision to download
 
