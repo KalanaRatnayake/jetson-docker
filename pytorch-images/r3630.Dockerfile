@@ -4,49 +4,41 @@
 #----
 #---------------------------------------------------------------------------------------------------------------------------
 
-FROM nvcr.io/nvidia/l4t-cuda:12.2.12-runtime AS base
+FROM nvcr.io/nvidia/l4t-jetpack:r36.3.0 AS base
 
 WORKDIR /
 
-######################################################################################
-##                           Install dependencies
-######################################################################################
-
 RUN apt-get update -y
-RUN apt-get install -y --no-install-recommends python3-pip \
-                                               libopenblas-dev
 
-RUN python3 -m pip install --no-cache-dir numpy
+RUN apt-get install -y --no-install-recommends git wget
 
 #####################################################################################
-##                           Install PyTorch 2.3
+##                           Install PyTorch 2.4
 #####################################################################################
 
-RUN wget -O torch-2.3.0-cp310-cp310-linux_aarch64.whl https://nvidia.box.com/shared/static/mp164asf3sceb570wvjsrezk1p4ftj8t.whl
+RUN wget https://developer.download.nvidia.cn/compute/redist/jp/v60/pytorch/torch-2.4.0a0+3bcc3cddb5.nv24.07.16234504-cp310-cp310-linux_aarch64.whl
 
-RUN python3 -m pip install --no-cache-dir torch-2.3.0-cp310-cp310-linux_aarch64.whl
+RUN apt-get install -y --no-install-recommends python3-pip libopenblas-base libopenmpi-dev libomp-dev
 
-RUN rm torch-2.3.0-cp310-cp310-linux_aarch64.whl
+RUN python3 -m pip install --no-cache-dir 'Cython<3'
+
+RUN python3 -m pip install --no-cache-dir numpy torch-2.4.0a0+3bcc3cddb5.nv24.07.16234504-cp310-cp310-linux_aarch64.whl
+
+RUN rm torch-2.4.0a0+3bcc3cddb5.nv24.07.16234504-cp310-cp310-linux_aarch64.whl
 
 #####################################################################################
 ##                           Install Torch Vision 0.18
 #####################################################################################
 
-RUN wget -O torchvision-0.18.0a0+6043bc2-cp310-cp310-linux_aarch64.whl https://nvidia.box.com/shared/static/xpr06qe6ql3l6rj22cu3c45tz1wzi36p.whl
+RUN apt-get install -y --no-install-recommends libjpeg-dev zlib1g-dev libpython3-dev libopenblas-dev libavcodec-dev libavformat-dev libswscale-dev
 
-RUN python3 -m pip install --no-cache-dir torchvision-0.18.0a0+6043bc2-cp310-cp310-linux_aarch64.whl
+RUN git clone --branch v0.19.0 https://github.com/pytorch/vision torchvision   # see below for version of torchvision to download
 
-RUN rm torchvision-0.18.0a0+6043bc2-cp310-cp310-linux_aarch64.whl
+WORKDIR /torchvision
 
-#####################################################################################
-##                           Install Torch Audio 2.3
-#####################################################################################
+RUN export BUILD_VERSION=0.19.0  && python3 setup.py install --user
 
-RUN wget -O torchaudio-2.3.0+952ea74-cp310-cp310-linux_aarch64.whl https://nvidia.box.com/shared/static/9agsjfee0my4sxckdpuk9x9gt8agvjje.whl
-
-RUN python3 -m pip install --no-cache-dir torchaudio-2.3.0+952ea74-cp310-cp310-linux_aarch64.whl
-
-RUN rm torchaudio-2.3.0+952ea74-cp310-cp310-linux_aarch64.whl
+WORKDIR /
 
 #####################################################################################
 ##
@@ -71,3 +63,7 @@ RUN apt-get clean
 FROM scratch as final
 
 COPY --from=base / /
+
+ENV CUDA_HOME="/usr/local/cuda"
+ENV PATH="/usr/local/cuda/bin:${PATH}"
+ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
