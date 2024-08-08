@@ -70,16 +70,16 @@ RUN rm -rf /var/lib/apt/lists/*
 RUN rm -rf /tmp/*
 RUN apt-get clean
 
-# #---------------------------------------------------------------------------------------------------------------------------
-# #----
-# #----   Start final release image
-# #----
-# #---------------------------------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------------------------
+#----
+#----   Start final release image
+#----
+#---------------------------------------------------------------------------------------------------------------------------
 
-# FROM scratch as final
+FROM scratch as final
 
-# COPY --from=base / /
+COPY --from=base / /
 
-# ENV CUDA_HOME="/usr/local/cuda"
-# ENV PATH="/usr/local/cuda/bin:${PATH}"
-# ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
+ENV CUDA_HOME="/usr/local/cuda"
+ENV PATH="/usr/local/cuda/bin:${PATH}"
+ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
