@@ -16,10 +16,20 @@ RUN apt-get update -y
 RUN apt-get install -y --no-install-recommends python3-pip
 
 #####################################################################################
+##                           Install PyTorch 2.4
+#####################################################################################
+
+RUN wget https://developer.download.nvidia.cn/compute/redist/jp/v60/pytorch/torch-2.4.0a0+3bcc3cddb5.nv24.07.16234504-cp310-cp310-linux_aarch64.whl
+
+RUN python3 -m pip install --no-cache-dir torch-2.4.0a0+3bcc3cddb5.nv24.07.16234504-cp310-cp310-linux_aarch64.whl
+
+RUN rm torch-2.4.0a0+3bcc3cddb5.nv24.07.16234504-cp310-cp310-linux_aarch64.whl
+
+#####################################################################################
 ##                           Install PyTorch
 #####################################################################################
 
-RUN python3 -m pip install --no-cache-dir torch torchvision torchaudio
+RUN python3 -m pip install --no-cache-dir torchvision torchaudio
 
 #####################################################################################
 ##
