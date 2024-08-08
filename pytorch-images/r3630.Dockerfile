@@ -19,7 +19,7 @@ RUN apt-get install -y --no-install-recommends python3-pip
 ##                           Install PyTorch
 #####################################################################################
 
-RUN python3 -m pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+RUN python3 -m pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
 
 #####################################################################################
 ##
