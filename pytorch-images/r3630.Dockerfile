@@ -4,7 +4,7 @@
 #----
 #---------------------------------------------------------------------------------------------------------------------------
 
-FROM nvcr.io/nvidia/l4t-base:r36.2.0 AS base
+FROM nvcr.io/nvidia/l4t-cuda:12.2.12-runtime AS base
 
 WORKDIR /
 
@@ -19,7 +19,7 @@ RUN apt-get install -y --no-install-recommends python3-pip
 ##                           Install PyTorch
 #####################################################################################
 
-RUN python3 -m pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+RUN python3 -m pip install --no-cache-dir torch torchvision torchaudio
 
 #####################################################################################
 ##
