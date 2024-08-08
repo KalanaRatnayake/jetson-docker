@@ -12,6 +12,12 @@ RUN apt-get update -y
 
 RUN apt-get install -y --no-install-recommends git wget
 
+RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/arm64/cuda-keyring_1.1-1_all.debsudo dpkg -i cuda-keyring_1.1-1_all.deb
+ 
+RUN apt-get update -y
+
+RUN apt-get -y install --no-install-recommends libcusparselt0 libcusparselt-dev
+
 #####################################################################################
 ##                           Install PyTorch 2.4
 #####################################################################################
