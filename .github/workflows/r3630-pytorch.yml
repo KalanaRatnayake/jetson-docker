@@ -38,6 +38,11 @@ jobs:
       packages: write
 
     steps:
+      - name: Remove unnecessary files
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          
       - name: Check out the repository
         uses: actions/checkout@v4
 
