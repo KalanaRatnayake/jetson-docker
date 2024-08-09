@@ -68,6 +68,8 @@ RUN git clone --branch v2.4.0 https://github.com/pytorch/audio torchaudio
 
 WORKDIR /torchaudio
 
+RUN python3 -m pip install --no-cache-dir cmake ninja
+
 RUN export BUILD_VERSION=2.4.0  && python3 setup.py install
 
 WORKDIR /
