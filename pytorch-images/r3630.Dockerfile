@@ -34,27 +34,45 @@ RUN apt-get -y install --no-install-recommends python3-pip \
                                                libavformat-dev \
                                                libswscale-dev
 
+RUN apt-get remove -y python3-numpy 
+
 #####################################################################################
 ##                           Install PyTorch 2.4
 #####################################################################################
 
 RUN wget https://developer.download.nvidia.cn/compute/redist/jp/v60/pytorch/torch-2.4.0a0+3bcc3cddb5.nv24.07.16234504-cp310-cp310-linux_aarch64.whl 
 
-RUN python3 -m pip install --no-cache-dir 'Cython<3' numpy torch-2.4.0a0+3bcc3cddb5.nv24.07.16234504-cp310-cp310-linux_aarch64.whl
+RUN python3 -m pip install --no-cache-dir 'Cython<3' numpy==1.26.4 torch-2.4.0a0+3bcc3cddb5.nv24.07.16234504-cp310-cp310-linux_aarch64.whl
 
 RUN rm torch-2.4.0a0+3bcc3cddb5.nv24.07.16234504-cp310-cp310-linux_aarch64.whl
 
 #####################################################################################
-##                           Install Torch Vision 0.18
+##                           Install Torch Vision 0.19
 #####################################################################################
 
-RUN git clone --branch v0.19.0 https://github.com/pytorch/vision torchvision   # see below for version of torchvision to download
+RUN git clone --branch v0.19.0 https://github.com/pytorch/vision torchvision
 
 WORKDIR /torchvision
 
-RUN export BUILD_VERSION=0.19.0  && python3 setup.py install --user
+RUN export BUILD_VERSION=0.19.0  && python3 setup.py install
 
 WORKDIR /
+
+RUN rm -rf /torchvision
+
+#####################################################################################
+##                           Install Torch Audio 2.4
+#####################################################################################
+
+RUN git clone --branch v2.4.0 https://github.com/pytorch/audio torchaudio
+
+WORKDIR /torchaudio
+
+RUN export BUILD_VERSION=2.4.0  && python3 setup.py install
+
+WORKDIR /
+
+RUN rm -rf /torchaudio
 
 #####################################################################################
 ##
@@ -68,6 +86,7 @@ RUN apt-get autoremove -y
 
 RUN rm -rf /var/lib/apt/lists/*
 RUN rm -rf /tmp/*
+
 RUN apt-get clean
 
 #---------------------------------------------------------------------------------------------------------------------------
