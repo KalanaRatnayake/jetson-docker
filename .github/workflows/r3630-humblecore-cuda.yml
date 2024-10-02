@@ -1,4 +1,4 @@
-name: Jetson ROS Humble Core r36.3.0
+name: Jetson ROS Humble Core CUDA r36.3.0
 
 on:
   workflow_dispatch:

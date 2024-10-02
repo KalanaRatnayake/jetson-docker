@@ -4,7 +4,7 @@
 #----
 #---------------------------------------------------------------------------------------------------------------------------
 
-FROM nvcr.io/nvidia/l4t-cuda:r36.2.0 AS base
+FROM nvcr.io/nvidia/l4t-cuda:12.2.12-runtime AS base
 
 ENV ROS_VERSION=humble
 

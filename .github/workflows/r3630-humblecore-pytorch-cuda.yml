@@ -1,4 +1,4 @@
-name: Jetson ROS Humble Core Pytorch r36.3.0
+name: Jetson ROS Humble Core Pytorch CUDA r36.3.0
 
 on:
   workflow_dispatch:
