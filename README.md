@@ -41,11 +41,17 @@ This repository contains dockerfiles for base images for Jetson Nano and Jetson 
 > build essential package for ubuntu 20.04 includes g++-9, gcc-9, make, dpkg-dev, libc6-dev \
 > build essential package for ubuntu 22.04 includes g++-11, gcc-11, make, dpkg-dev, libc6-dev
 
-## Docker buildx for ARM64 platform (for AMD64 systems)
+## Docker buildx for ARM64 platform on AMD64 systems
 
 Run the following command on a AMD64 computer to setup buildx to build arm64 docker containers.
 ```bash
 docker buildx create --use --driver-opt network=host --name MultiPlatform --platform linux/arm64
+```
+## Docker buildx for ARM64 platform on Jetson devices
+
+Run the following command on a Jetson device to setup buildx to build arm64 docker containers.
+```bash
+docker buildx create --use --driver=docker-container --name=container --buildkitd-flags '--debug' --bootstrap
 ```
 
 ## Docker container list
