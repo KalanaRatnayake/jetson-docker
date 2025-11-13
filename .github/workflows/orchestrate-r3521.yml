@@ -1,4 +1,4 @@
-name: Orchestrate r35.2.1 pipeline
+name: 02. Orchestrate r35.2.1 pipeline
 
 on:
   workflow_dispatch:
