@@ -19,295 +19,43 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Base r32.7.1
-        env:
-          WORKFLOW_FILE: .github/workflows/r3271-base.yml
-          REF: main
-          LABEL: Build Base r32.7.1
-        run: |
-          set -euo pipefail
-          owner_repo="${GITHUB_REPOSITORY}"
-          api="${GITHUB_API_URL:-https://api.github.com}"
-          token="${{ secrets.GITHUB_TOKEN }}"
-          start="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          echo "Dispatching $LABEL for $WORKFLOW_FILE at $start"
-          curl -sSL -X POST -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $token" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "$api/repos/$owner_repo/actions/workflows/$(basename "$WORKFLOW_FILE")/dispatches" \
-            -d "{\"ref\":\"$REF\"}"
-          echo "Waiting for run to start..."
-          attempt=0
-          run_id=""
-          while [ $attempt -lt 120 ]; do
-            runs_json="$(curl -sSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $token" "$api/repos/$owner_repo/actions/workflows/$(basename "$WORKFLOW_FILE")/runs?event=workflow_dispatch&branch=$REF&per_page=5")"
-            run_id=$(echo "$runs_json" | jq -r ".workflow_runs[] | select(.created_at >= \"$start\") | .id" | head -n1)
-            if [ -n "$run_id" ] && [ "$run_id" != "null" ]; then
-              break
-            fi
-            sleep 5
-            attempt=$((attempt+1))
-          done
-          if [ -z "$run_id" ] || [ "$run_id" = "null" ]; then
-            echo "Failed to find dispatched run for $WORKFLOW_FILE" >&2
-            exit 1
-          fi
-          echo "Run id: $run_id"
-          echo "Polling run status..."
-          for i in $(seq 1 720); do
-            run_json=$(curl -sSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $token" "$api/repos/$owner_repo/actions/runs/$run_id")
-            status=$(echo "$run_json" | jq -r .status)
-            conclusion=$(echo "$run_json" | jq -r .conclusion)
-            echo "status=$status conclusion=$conclusion"
-            if [ "$status" = "completed" ]; then
-              test "$conclusion" = "success"
-              exit $?
-            fi
-            sleep 10
-          done
-          echo "Timeout waiting for $WORKFLOW_FILE" >&2
-          exit 1
+        uses: KalanaRatnayake/sequential-dispatcher@v1
+        with:
+          workflow_file: .github/workflows/r3271-base.yml
+          ref: main
+          label: Build Base r32.7.1
 
       - name: Build Minimal r32.7.1
-        env:
-          WORKFLOW_FILE: .github/workflows/r3271-minimal.yml
-          REF: main
-          LABEL: Build Minimal r32.7.1
-        run: |
-          set -euo pipefail
-          owner_repo="${GITHUB_REPOSITORY}"
-          api="${GITHUB_API_URL:-https://api.github.com}"
-          token="${{ secrets.GITHUB_TOKEN }}"
-          start="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          echo "Dispatching $LABEL for $WORKFLOW_FILE at $start"
-          curl -sSL -X POST -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $token" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "$api/repos/$owner_repo/actions/workflows/$(basename "$WORKFLOW_FILE")/dispatches" \
-            -d "{\"ref\":\"$REF\"}"
-          echo "Waiting for run to start..."
-          attempt=0
-          run_id=""
-          while [ $attempt -lt 120 ]; do
-            runs_json="$(curl -sSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $token" "$api/repos/$owner_repo/actions/workflows/$(basename "$WORKFLOW_FILE")/runs?event=workflow_dispatch&branch=$REF&per_page=5")"
-            run_id=$(echo "$runs_json" | jq -r ".workflow_runs[] | select(.created_at >= \"$start\") | .id" | head -n1)
-            if [ -n "$run_id" ] && [ "$run_id" != "null" ]; then
-              break
-            fi
-            sleep 5
-            attempt=$((attempt+1))
-          done
-          if [ -z "$run_id" ] || [ "$run_id" = "null" ]; then
-            echo "Failed to find dispatched run for $WORKFLOW_FILE" >&2
-            exit 1
-          fi
-          echo "Run id: $run_id"
-          echo "Polling run status..."
-          for i in $(seq 1 720); do
-            run_json=$(curl -sSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $token" "$api/repos/$owner_repo/actions/runs/$run_id")
-            status=$(echo "$run_json" | jq -r .status)
-            conclusion=$(echo "$run_json" | jq -r .conclusion)
-            echo "status=$status conclusion=$conclusion"
-            if [ "$status" = "completed" ]; then
-              test "$conclusion" = "success"
-              exit $?
-            fi
-            sleep 10
-          done
-          echo "Timeout waiting for $WORKFLOW_FILE" >&2
-          exit 1
+        uses: KalanaRatnayake/sequential-dispatcher@v1
+        with:
+          workflow_file: .github/workflows/r3271-minimal.yml
+          ref: main
+          label: Build Minimal r32.7.1
 
       - name: Build ROS Humble Core r32.7.1
-        env:
-          WORKFLOW_FILE: .github/workflows/r3271-humblecore.yml
-          REF: main
-          LABEL: Build ROS Humble Core r32.7.1
-        run: |
-          set -euo pipefail
-          owner_repo="${GITHUB_REPOSITORY}"
-          api="${GITHUB_API_URL:-https://api.github.com}"
-          token="${{ secrets.GITHUB_TOKEN }}"
-          start="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          echo "Dispatching $LABEL for $WORKFLOW_FILE at $start"
-          curl -sSL -X POST -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $token" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "$api/repos/$owner_repo/actions/workflows/$(basename "$WORKFLOW_FILE")/dispatches" \
-            -d "{\"ref\":\"$REF\"}"
-          echo "Waiting for run to start..."
-          attempt=0
-          run_id=""
-          while [ $attempt -lt 120 ]; do
-            runs_json="$(curl -sSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $token" "$api/repos/$owner_repo/actions/workflows/$(basename "$WORKFLOW_FILE")/runs?event=workflow_dispatch&branch=$REF&per_page=5")"
-            run_id=$(echo "$runs_json" | jq -r ".workflow_runs[] | select(.created_at >= \"$start\") | .id" | head -n1)
-            if [ -n "$run_id" ] && [ "$run_id" != "null" ]; then
-              break
-            fi
-            sleep 5
-            attempt=$((attempt+1))
-          done
-          if [ -z "$run_id" ] || [ "$run_id" = "null" ]; then
-            echo "Failed to find dispatched run for $WORKFLOW_FILE" >&2
-            exit 1
-          fi
-          echo "Run id: $run_id"
-          echo "Polling run status..."
-          for i in $(seq 1 720); do
-            run_json=$(curl -sSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $token" "$api/repos/$owner_repo/actions/runs/$run_id")
-            status=$(echo "$run_json" | jq -r .status)
-            conclusion=$(echo "$run_json" | jq -r .conclusion)
-            echo "status=$status conclusion=$conclusion"
-            if [ "$status" = "completed" ]; then
-              test "$conclusion" = "success"
-              exit $?
-            fi
-            sleep 10
-          done
-          echo "Timeout waiting for $WORKFLOW_FILE" >&2
-          exit 1
+        uses: KalanaRatnayake/sequential-dispatcher@v1
+        with:
+          workflow_file: .github/workflows/r3271-humblecore.yml
+          ref: main
+          label: Build ROS Humble Core r32.7.1
 
       - name: Build ROS Humble Base r32.7.1
-        env:
-          WORKFLOW_FILE: .github/workflows/r3271-humblebase.yml
-          REF: main
-          LABEL: Build ROS Humble Base r32.7.1
-        run: |
-          set -euo pipefail
-          owner_repo="${GITHUB_REPOSITORY}"
-          api="${GITHUB_API_URL:-https://api.github.com}"
-          token="${{ secrets.GITHUB_TOKEN }}"
-          start="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          echo "Dispatching $LABEL for $WORKFLOW_FILE at $start"
-          curl -sSL -X POST -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $token" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "$api/repos/$owner_repo/actions/workflows/$(basename "$WORKFLOW_FILE")/dispatches" \
-            -d "{\"ref\":\"$REF\"}"
-          echo "Waiting for run to start..."
-          attempt=0
-          run_id=""
-          while [ $attempt -lt 120 ]; do
-            runs_json="$(curl -sSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $token" "$api/repos/$owner_repo/actions/workflows/$(basename "$WORKFLOW_FILE")/runs?event=workflow_dispatch&branch=$REF&per_page=5")"
-            run_id=$(echo "$runs_json" | jq -r ".workflow_runs[] | select(.created_at >= \"$start\") | .id" | head -n1)
-            if [ -n "$run_id" ] && [ "$run_id" != "null" ]; then
-              break
-            fi
-            sleep 5
-            attempt=$((attempt+1))
-          done
-          if [ -z "$run_id" ] || [ "$run_id" = "null" ]; then
-            echo "Failed to find dispatched run for $WORKFLOW_FILE" >&2
-            exit 1
-          fi
-          echo "Run id: $run_id"
-          echo "Polling run status..."
-          for i in $(seq 1 720); do
-            run_json=$(curl -sSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $token" "$api/repos/$owner_repo/actions/runs/$run_id")
-            status=$(echo "$run_json" | jq -r .status)
-            conclusion=$(echo "$run_json" | jq -r .conclusion)
-            echo "status=$status conclusion=$conclusion"
-            if [ "$status" = "completed" ]; then
-              test "$conclusion" = "success"
-              exit $?
-            fi
-            sleep 10
-          done
-          echo "Timeout waiting for $WORKFLOW_FILE" >&2
-          exit 1
+        uses: KalanaRatnayake/sequential-dispatcher@v1
+        with:
+          workflow_file: .github/workflows/r3271-humblebase.yml
+          ref: main
+          label: Build ROS Humble Base r32.7.1
 
       - name: Build PyTorch r32.7.1
-        env:
-          WORKFLOW_FILE: .github/workflows/r3271-pytorch.yml
-          REF: main
-          LABEL: Build PyTorch r32.7.1
-        run: |
-          set -euo pipefail
-          owner_repo="${GITHUB_REPOSITORY}"
-          api="${GITHUB_API_URL:-https://api.github.com}"
-          token="${{ secrets.GITHUB_TOKEN }}"
-          start="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          echo "Dispatching $LABEL for $WORKFLOW_FILE at $start"
-          curl -sSL -X POST -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $token" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "$api/repos/$owner_repo/actions/workflows/$(basename "$WORKFLOW_FILE")/dispatches" \
-            -d "{\"ref\":\"$REF\"}"
-          echo "Waiting for run to start..."
-          attempt=0
-          run_id=""
-          while [ $attempt -lt 120 ]; do
-            runs_json="$(curl -sSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $token" "$api/repos/$owner_repo/actions/workflows/$(basename "$WORKFLOW_FILE")/runs?event=workflow_dispatch&branch=$REF&per_page=5")"
-            run_id=$(echo "$runs_json" | jq -r ".workflow_runs[] | select(.created_at >= \"$start\") | .id" | head -n1)
-            if [ -n "$run_id" ] && [ "$run_id" != "null" ]; then
-              break
-            fi
-            sleep 5
-            attempt=$((attempt+1))
-          done
-          if [ -z "$run_id" ] || [ "$run_id" = "null" ]; then
-            echo "Failed to find dispatched run for $WORKFLOW_FILE" >&2
-            exit 1
-          fi
-          echo "Run id: $run_id"
-          echo "Polling run status..."
-          for i in $(seq 1 720); do
-            run_json=$(curl -sSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $token" "$api/repos/$owner_repo/actions/runs/$run_id")
-            status=$(echo "$run_json" | jq -r .status)
-            conclusion=$(echo "$run_json" | jq -r .conclusion)
-            echo "status=$status conclusion=$conclusion"
-            if [ "$status" = "completed" ]; then
-              test "$conclusion" = "success"
-              exit $?
-            fi
-            sleep 10
-          done
-          echo "Timeout waiting for $WORKFLOW_FILE" >&2
-          exit 1
+        uses: KalanaRatnayake/sequential-dispatcher@v1
+        with:
+          workflow_file: .github/workflows/r3271-pytorch.yml
+          ref: main
+          label: Build PyTorch r32.7.1
 
       - name: Build ROS + PyTorch Humble Core r32.7.1
-        env:
-          WORKFLOW_FILE: .github/workflows/r3271-pytorch-humblecore.yml
-          REF: main
-          LABEL: Build ROS + PyTorch Humble Core r32.7.1
-        run: |
-          set -euo pipefail
-          owner_repo="${GITHUB_REPOSITORY}"
-          api="${GITHUB_API_URL:-https://api.github.com}"
-          token="${{ secrets.GITHUB_TOKEN }}"
-          start="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          echo "Dispatching $LABEL for $WORKFLOW_FILE at $start"
-          curl -sSL -X POST -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $token" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "$api/repos/$owner_repo/actions/workflows/$(basename "$WORKFLOW_FILE")/dispatches" \
-            -d "{\"ref\":\"$REF\"}"
-          echo "Waiting for run to start..."
-          attempt=0
-          run_id=""
-          while [ $attempt -lt 120 ]; do
-            runs_json="$(curl -sSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $token" "$api/repos/$owner_repo/actions/workflows/$(basename "$WORKFLOW_FILE")/runs?event=workflow_dispatch&branch=$REF&per_page=5")"
-            run_id=$(echo "$runs_json" | jq -r ".workflow_runs[] | select(.created_at >= \"$start\") | .id" | head -n1)
-            if [ -n "$run_id" ] && [ "$run_id" != "null" ]; then
-              break
-            fi
-            sleep 5
-            attempt=$((attempt+1))
-          done
-          if [ -z "$run_id" ] || [ "$run_id" = "null" ]; then
-            echo "Failed to find dispatched run for $WORKFLOW_FILE" >&2
-            exit 1
-          fi
-          echo "Run id: $run_id"
-          echo "Polling run status..."
-          for i in $(seq 1 720); do
-            run_json=$(curl -sSL -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $token" "$api/repos/$owner_repo/actions/runs/$run_id")
-            status=$(echo "$run_json" | jq -r .status)
-            conclusion=$(echo "$run_json" | jq -r .conclusion)
-            echo "status=$status conclusion=$conclusion"
-            if [ "$status" = "completed" ]; then
-              test "$conclusion" = "success"
-              exit $?
-            fi
-            sleep 10
-          done
-          echo "Timeout waiting for $WORKFLOW_FILE" >&2
-          exit 1
+        uses: KalanaRatnayake/sequential-dispatcher@v1
+        with:
+          workflow_file: .github/workflows/r3271-pytorch-humblecore.yml
+          ref: main
+          label: Build ROS + PyTorch Humble Core r32.7.1
