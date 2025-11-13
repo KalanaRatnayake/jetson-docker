@@ -8,14 +8,14 @@ on:
       - main
     paths:
       - ".github/workflows/r3630-pytorch.yml"
-      - "pytorch-images/r3630.Dockerfile"
+      - "pytorch/r3630.Dockerfile"
 
   pull_request:
     branches: 
       - main
     paths:
       - ".github/workflows/r3630-pytorch.yml"
-      - "pytorch-images/r3630.Dockerfile"
+      - "pytorch/r3630.Dockerfile"
 
 env:
   REGISTRY: ghcr.io
@@ -31,7 +31,7 @@ concurrency:
 jobs:
 
   build-and-push-image:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
 
     permissions:
       contents: write
@@ -46,8 +46,7 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      # QEMU not required on native ARM runners
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -66,7 +65,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./pytorch-images/r3630.Dockerfile
+          file: ./pytorch/r3630.Dockerfile
           push: true
           platforms: linux/arm64
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:r3630-buildcache

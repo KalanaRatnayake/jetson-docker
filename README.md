@@ -1,45 +1,16 @@
 # Jetson Docker
 
-This repository contains dockerfiles for base images for Jetson Nano and Jetson AGX Orin devices. Following table contains a summary about available images and the main packages they contain and the device in which the image has been tested on. 
+This repository contains Dockerfiles for base and application images for Jetson Nano and Jetson AGX Orin devices. Below is a quick summary, with full category pages for details and per-version instructions.
 
->**jetson-\* images are custom images I created while l4t-\* images are official images from nvidia. l4t-\* images are included here for the completeness**
+## Documentation
 
-| Image              |  Tag                     | Size    | Jetson Nano | Jetson AGX Orin |
-| :----              | :-----                   | :----:  | :---------: | :-------------: |
-| jetson-base        | r32.7.1                  |  822 MB | <ul><li> - [x] </li></ul> | |
-| l4t-base           | r36.2.0                  |  750 MB | | <ul><li> - [x] </li></ul> |
-| jetson-minimal     | r32.7.1                  | 1.11 GB | <ul><li> - [x] </li></ul> | |
-| l4t-cuda           | 12.2.12-devel            | 2.81 GB | | <ul><li> - [x] </li></ul> |
-| l4t-cuda           | 12.2.12-runtime          | 1.41 GB | | <ul><li> - [x] </li></ul> |
-| jetson-ros         | humble-core-r32.7.1      | 1.71 GB | <ul><li> - [x] </li></ul> | |
-| jetson-ros         | humble-core-r36.3.0      | 1.40 GB | | <ul><li> - [x] </li></ul> |
-| jetson-ros         | humble-base-r32.7.1      | 1.76 GB | <ul><li> - [x] </li></ul> | |
-| jetson-ros         | humble-base-r36.3.0      | 1.45 GB | | <ul><li> - [x] </li></ul> |
-| jetson-pytorch     | 1.13-r32.7.1             | 1.83 GB | <ul><li> - [x] </li></ul> | |
-| jetson-pytorch     | r36.3.0                  | 1.26 GB | | <ul><li> - [x] </li></ul> |
-| jetson-ros-pytorch | 1.13-humble-core-r32.7.1 | 3.05 GB | <ul><li> - [x] </li></ul> | |
-| jetson-ros-pytorch | humble-core-r36.3.0      | 1.91 GB | | <ul><li> - [x] </li></ul> |
+- Base images: [docs/base.md](docs/base.md)
+- Minimal and CUDA images: [docs/minimal.md](docs/minimal.md)
+- ROS Humble images: [docs/ros.md](docs/ros.md)
+- PyTorch images: [docs/pytorch.md](docs/pytorch.md)
+- ROS + PyTorch images: [docs/ros-pytorch.md](docs/ros-pytorch.md)
 
-
-| Image              |  Tag                     | Content                                                          |
-| :----              | :-----                   | :--------------------------------------                          |
-| jetson-base        | r32.7.1                  | Ubuntu 20.04, Python 3.8.10, CUDA 10.2                           |
-| l4t-base           | r36.2.0                  | Ubuntu 22.04, Python 3.10.12                                     |
-| jetson-minimal     | r32.7.1                  | `jetson-base:r32.7.1` + GCC-8, G++-8, build-essentials           |
-| l4t-cuda           | 12.2.12-devel            | `l4t-base:r36.2.0` + CUDA 12.2, GCC-11, G++-11, build-essentials |
-| l4t-cuda           | 12.2.12-runtime          | `l4t-base:r36.2.0` + CUDA 12.2, GCC-11, G++-11, build-essentials |
-| jetson-ros         | humble-core-r32.7.1      | `jetson-base:r32.7.1` + [ROS Humble Core](https://www.ros.org/reps/rep-2001.html#id23)    |
-| jetson-ros         | humble-core-r36.3.0      | `l4t-base:r36.2.0` + [ROS Humble Core](https://www.ros.org/reps/rep-2001.html#id23)    |
-| jetson-ros         | humble-base-r32.7.1      | `jetson-base:r32.7.1` + [ROS Humble Base](https://www.ros.org/reps/rep-2001.html#id24)    |
-| jetson-ros         | humble-base-r36.3.0      | `l4t-base:r36.2.0` + [ROS Humble Base](https://www.ros.org/reps/rep-2001.html#id24)    |
-| jetson-pytorch     | 1.13-r32.7.1             | `jetson-base:r32.7.1` + PyTorch 1.13.0, TorchVision 0.14.0           |
-| jetson-pytorch     | r36.3.0                  | `l4t-base:r36.2.0` + PyTorch 2.4.0, TorchVision 0.19.0, TorchAudio 2.4.0   |
-| jetson-ros-pytorch | 1.13-humble-core-r32.7.1 | `jetson-ros:humble-core-r32.7.1` + PyTorch 1.13.0, TorchVision 0.14.0 |
-| jetson-ros-pytorch | humble-core-r36.3.0      | `jetson-ros:humble-core-r36.3.0` + PyTorch 2.4.0, TorchVision 0.19.0, TorchAudio 2.4.0 |
-
-
-> build essential package for ubuntu 20.04 includes g++-9, gcc-9, make, dpkg-dev, libc6-dev \
-> build essential package for ubuntu 22.04 includes g++-11, gcc-11, make, dpkg-dev, libc6-dev
+Jump into a page to see supported tags, sizes, how to use, and links to detailed build/test guides. “jetson-*” images are custom images; “l4t-*” images are NVIDIA official.
 
 ## Docker buildx for ARM64 platform on AMD64 systems
 
@@ -54,119 +25,26 @@ Run the following command on a Jetson device to setup buildx to build arm64 dock
 docker buildx create --use --driver=docker-container --name=container --buildkitd-flags '--debug' --bootstrap
 ```
 
-## Docker container list
+## Repository layout
 
-### 1. Jetson Base
+- base/ — base Dockerfiles and assets
+- minimal/ — minimal and CUDA Dockerfiles
+- ros/ — ROS 2 Humble Dockerfiles and entrypoint
+- pytorch/ — PyTorch Dockerfiles
+- ros-pytorch/ — combined ROS + PyTorch Dockerfiles
 
-#### jetson-base:r32.7.1 
+## CI orchestrators
 
-```docker
-FROM ghcr.io/kalanaratnayake/jetson-base:r32.7.1
-```
-[Installation and local build instructions for jetson-base:r32.7.1 ](base-images/r3271.md)
+Use the orchestrator workflows to build images in sequence on native ARM runners, without juggling dependencies manually:
 
-#### l4t-base:r36.2.0 
+- r32.7.1: Actions → “Orchestrate r32.7.1 pipeline”
+- r35.2.1: Actions → “Orchestrate r35.2.1 pipeline”
+- r36.3.0: Actions → “Orchestrate r36.3.0 pipeline”
 
-```docker
-FROM nvcr.io/nvidia/l4t-base:r36.2.0
-```
-[Installation, Testing instructions for l4t-base:r36.2.0 ](base-images/r3620.md)
+What they do
+- Dispatch each workflow (Base, Minimal, ROS, PyTorch, ROS+PyTorch) in the right order and wait for completion between steps.
+- Child workflows also define automatic triggers, but builds triggered by workflow completion are skipped to avoid duplicates. Orchestrators take priority.
 
-<br>
-
-### 2. Jetson Minimal
-
-#### jetson-minimal:r32.7.1 
-
-```docker
-FROM ghcr.io/kalanaratnayake/jetson-minimal:r32.7.1
-```
-[Installation, Testing and local build instructions for jetson-minimal:r32.7.1](minimal-images/r3271.md)
-
-#### l4t-cuda:12.2.12-devel 
-
-```docker
-FROM nvcr.io/nvidia/l4t-cuda:12.2.12-devel
-```
-[Installation, Testing instructions for l4t-cuda:12.2.12-devel](minimal-images/r3620d.md)
-
-#### l4t-cuda:12.2.12-runtime 
-
-```docker
-FROM nvcr.io/nvidia/l4t-cuda:12.2.12-runtime
-```
-[Installation instructions for l4t-cuda:12.2.12-runtime](minimal-images/r3620r.md)
-
-<br>
-
-### 3. Jetson ROS 
-
-#### jetson-ros:humble-core-r32.7.1
-
-```docker
-FROM ghcr.io/kalanaratnayake/jetson-ros:humble-core-r32.7.1
-```
-[Installation, Testing and local build instructions for jetson-ros:humble-core-r32.7.1](ros-images/r3271.humble_core.md)
-
-
-#### jetson-ros:humble-base-r32.7.1
-
-```docker
-FROM ghcr.io/kalanaratnayake/jetson-ros:humble-base-r32.7.1
-```
-[Installation, Testing and local build instructions for jetson-ros:humble-base-r32.7.1](ros-images/r3271.humble_base.md)
-
-#### jetson-ros:humble-core-r36.3.0
-
-```docker
-FROM ghcr.io/kalanaratnayake/jetson-ros:humble-core-r36.3.0
-```
-[Installation, Testing and local build instructions for jetson-ros:humble-core-r36.3.0](ros-images/r3630.humble_core.md)
-
-
-#### jetson-ros:humble-base-r36.3.0
-
-```docker
-FROM ghcr.io/kalanaratnayake/jetson-ros:humble-base-r36.3.0
-```
-[Installation, Testing and local build instructions for jetson-ros:humble-base-r36.3.0](ros-images/r3630.humble_base.md)
-
-
-<br>
-
-### 4. Jetson Pytorch 
-
-#### jetson-pytorch:1.13-r32.7.1
-
-```docker
-FROM ghcr.io/kalanaratnayake/jetson-pytorch:1.13-r32.7.1
-```
-[Installation, Testing and local build instructions for jetson-pytorch:1.13-r32.7.1](pytorch-images/r3271.113.md)
-
-#### jetson-pytorch:r36.3.0
-
-```docker
-FROM ghcr.io/kalanaratnayake/jetson-pytorch:r36.3.0
-```
-[Installation, Testing and local build instructions for jetson-pytorch:r36.3.0](pytorch-images/r3630.md)
-
-
-<br>
-
-### 4. Jetson ROS Pytorch 
-
-#### jetson-ros-pytorch:1.13-humble-core-r32.7.1
-
-```docker
-FROM ghcr.io/kalanaratnayake/jetson-ros-pytorch:1.13-humble-core-r32.7.1
-```
-[Installation, Testing and local build instructions for jetson-ros-pytorch:1.13-humble-core-r32.7.1](ros-pytorch-images/r3271.humblecore_pytorch113.md)
-
-#### jetson-ros-pytorch:humble-core-r36.3.0
-
-```docker
-FROM ghcr.io/kalanaratnayake/jetson-ros-pytorch:humble-core-r36.3.0
-```
-[Installation, Testing and local build instructions for jetson-ros-pytorch:humble-core-r36.3.0](ros-pytorch-images/r3630.humblecore_pytorch.md)
-
-<br>
+Tips
+- You can still run any individual workflow via its “Run workflow” button or on push/PR.
+- All CI runs use GitHub’s ubuntu-24.04-arm runners (no QEMU emulation).

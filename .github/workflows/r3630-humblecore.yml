@@ -8,16 +8,16 @@ on:
       - main
     paths:
       - ".github/workflows/r3630-humblecore.yml"
-      - "ros-images/r3630.humble_core.Dockerfile"
-      - "ros-images/ros_entrypoint.sh"
+      - "ros/humble/r3630.core.Dockerfile"
+      - "ros/humble/ros_entrypoint.sh"
 
   pull_request:
     branches: 
       - main
     paths:
       - ".github/workflows/r3630-humblecore.yml"
-      - "ros-images/r3630.humble_core.Dockerfile"
-      - "ros-images/ros_entrypoint.sh"
+      - "ros/humble/r3630.core.Dockerfile"
+      - "ros/humble/ros_entrypoint.sh"
 
 env:
   REGISTRY: ghcr.io
@@ -33,7 +33,7 @@ concurrency:
 jobs:
 
   build-and-push-image:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
 
     permissions:
       contents: write
@@ -43,8 +43,7 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      # QEMU not required on native ARM runners
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -62,7 +61,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./ros-images/r3630.humble_core.Dockerfile
+          file: ./ros/humble/r3630.core.Dockerfile
           push: true
           platforms: linux/arm64
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-core-r36.3.0-buildcache

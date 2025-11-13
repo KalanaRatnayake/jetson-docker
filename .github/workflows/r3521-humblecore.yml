@@ -1,27 +1,22 @@
-name: Jetson ROS Humble Core r32.7.1
+name: Jetson ROS Humble Core r35.2.1
 
 on:
   workflow_dispatch:
-
-  workflow_run:
-    workflows: [Jetson Base r32.7.1]
-    types:
-      - completed
 
   push:
     branches: 
       - main
     paths:
-      - ".github/workflows/r3271-humblecore.yml"
-      - "ros/humble/r3271.core.Dockerfile"
+      - ".github/workflows/r3521-humblecore.yml"
+      - "ros/humble/r3521.core.Dockerfile"
       - "ros/humble/ros_entrypoint.sh"
 
   pull_request:
     branches: 
       - main
     paths:
-      - ".github/workflows/r3271-humblecore.yml"
-      - "ros/humble/r3271.core.Dockerfile"
+      - ".github/workflows/r3521-humblecore.yml"
+      - "ros/humble/r3521.core.Dockerfile"
       - "ros/humble/ros_entrypoint.sh"
 
 env:
@@ -38,7 +33,6 @@ concurrency:
 jobs:
 
   build-and-push-image:
-    if: ${{ github.event_name != 'workflow_run' }}
     runs-on: ubuntu-24.04-arm
 
     permissions:
@@ -67,10 +61,10 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./ros/humble/r3271.core.Dockerfile
+          file: ./ros/humble/r3521.core.Dockerfile
           push: true
           platforms: linux/arm64
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-core-r32.7.1-buildcache
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-core-r32.7.1-buildcache,mode=max
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-core-r35.2.1-buildcache
+          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-core-r35.2.1-buildcache,mode=max
           tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-core-r32.7.1
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-core-r35.2.1

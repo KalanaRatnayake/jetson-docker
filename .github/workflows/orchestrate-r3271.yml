@@ -1,0 +1,61 @@
+name: Orchestrate r32.7.1 pipeline
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: orchestrate-r3271-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  dispatch-sequence:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Base r32.7.1
+        uses: peter-evans/workflow-dispatch@v3
+        with:
+          workflow: .github/workflows/r3271-base.yml
+          ref: main
+          wait-for-completion: true
+
+      - name: Build Minimal r32.7.1
+        uses: peter-evans/workflow-dispatch@v3
+        with:
+          workflow: .github/workflows/r3271-minimal.yml
+          ref: main
+          wait-for-completion: true
+
+      - name: Build ROS Humble Core r32.7.1
+        uses: peter-evans/workflow-dispatch@v3
+        with:
+          workflow: .github/workflows/r3271-humblecore.yml
+          ref: main
+          wait-for-completion: true
+
+      - name: Build ROS Humble Base r32.7.1
+        uses: peter-evans/workflow-dispatch@v3
+        with:
+          workflow: .github/workflows/r3271-humblebase.yml
+          ref: main
+          wait-for-completion: true
+
+      - name: Build PyTorch r32.7.1
+        uses: peter-evans/workflow-dispatch@v3
+        with:
+          workflow: .github/workflows/r3271-pytorch.yml
+          ref: main
+          wait-for-completion: true
+
+      - name: Build ROS + PyTorch Humble Core r32.7.1
+        uses: peter-evans/workflow-dispatch@v3
+        with:
+          workflow: .github/workflows/r3271-pytorch-humblecore.yml
+          ref: main
+          wait-for-completion: true

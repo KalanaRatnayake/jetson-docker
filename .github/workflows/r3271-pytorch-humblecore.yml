@@ -1,10 +1,11 @@
-name: Jetson ROS Humble Core r32.7.1
+name: Jetson ROS Humble Core Pytorch r32.7.1
 
 on:
   workflow_dispatch:
 
+  # Build only after the base PyTorch image is available
   workflow_run:
-    workflows: [Jetson Base r32.7.1]
+    workflows: [Jetson Pytorch r32.7.1]
     types:
       - completed
 
@@ -12,22 +13,20 @@ on:
     branches: 
       - main
     paths:
-      - ".github/workflows/r3271-humblecore.yml"
-      - "ros/humble/r3271.core.Dockerfile"
-      - "ros/humble/ros_entrypoint.sh"
+      - ".github/workflows/r3271-pytorch-humblecore.yml"
+      - "ros-pytorch/humble/r3271.core_pytorch.Dockerfile"
 
   pull_request:
     branches: 
       - main
     paths:
-      - ".github/workflows/r3271-humblecore.yml"
-      - "ros/humble/r3271.core.Dockerfile"
-      - "ros/humble/ros_entrypoint.sh"
+      - ".github/workflows/r3271-pytorch-humblecore.yml"
+      - "ros-pytorch/humble/r3271.core_pytorch.Dockerfile"
 
 env:
   REGISTRY: ghcr.io
   OWNER: kalanaratnayake
-  IMAGE_NAME: jetson-ros
+  IMAGE_NAME: jetson-ros-pytorch
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency
 concurrency:
@@ -63,14 +62,15 @@ jobs:
         #   username: ${{ github.actor }}
         #   password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push ROS Humble Core image
+      - 
+        name: Build and Push image
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./ros/humble/r3271.core.Dockerfile
+          file: ./ros-pytorch/humble/r3271.core_pytorch.Dockerfile
           push: true
           platforms: linux/arm64
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-core-r32.7.1-buildcache
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-core-r32.7.1-buildcache,mode=max
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-r32.7.1-buildcache
+          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-r32.7.1-buildcache,mode=max
           tags: |
             ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-core-r32.7.1

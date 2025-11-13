@@ -8,14 +8,14 @@ on:
       - main
     paths:
       - ".github/workflows/r3271-base.yml"
-      - "base-images/r3271.Dockerfile"
+      - "base/r3271.Dockerfile"
 
   pull_request:
     branches: 
       - main
     paths:
       - ".github/workflows/r3271-base.yml"
-      - "base-images/r3271.Dockerfile"
+      - "base/r3271.Dockerfile"
 
 env:
   REGISTRY: ghcr.io
@@ -31,7 +31,7 @@ concurrency:
 jobs:
 
   build-and-push-image:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
 
     permissions:
       contents: write
@@ -41,8 +41,7 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v4
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      # QEMU not required on native ARM runners
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -60,7 +59,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./base-images/r3271.Dockerfile
+          file: ./base/r3271.Dockerfile
           push: true
           platforms: linux/arm64
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:base-buildcache

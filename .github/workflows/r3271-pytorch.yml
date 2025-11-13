@@ -1,4 +1,4 @@
-name: Jetson ROS Humble Core r32.7.1
+name: Jetson Pytorch r32.7.1
 
 on:
   workflow_dispatch:
@@ -12,22 +12,20 @@ on:
     branches: 
       - main
     paths:
-      - ".github/workflows/r3271-humblecore.yml"
-      - "ros/humble/r3271.core.Dockerfile"
-      - "ros/humble/ros_entrypoint.sh"
+      - ".github/workflows/r3271-pytorch.yml"
+      - "pytorch/r3271.Dockerfile"
 
   pull_request:
     branches: 
       - main
     paths:
-      - ".github/workflows/r3271-humblecore.yml"
-      - "ros/humble/r3271.core.Dockerfile"
-      - "ros/humble/ros_entrypoint.sh"
+      - ".github/workflows/r3271-pytorch.yml"
+      - "pytorch/r3271.Dockerfile"
 
 env:
   REGISTRY: ghcr.io
   OWNER: kalanaratnayake
-  IMAGE_NAME: jetson-ros
+  IMAGE_NAME: jetson-pytorch
 
 # https://docs.github.com/en/actions/using-jobs/using-concurrency
 concurrency:
@@ -63,14 +61,15 @@ jobs:
         #   username: ${{ github.actor }}
         #   password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push ROS Humble Core image
+      - 
+        name: Build and Push image
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./ros/humble/r3271.core.Dockerfile
+          file: ./pytorch/r3271.Dockerfile
           push: true
           platforms: linux/arm64
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-core-r32.7.1-buildcache
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-ros-core-r32.7.1-buildcache,mode=max
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:r3271-buildcache
+          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:r3271-buildcache,mode=max
           tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-core-r32.7.1
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:r32.7.1

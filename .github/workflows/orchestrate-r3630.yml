@@ -1,0 +1,47 @@
+name: Orchestrate r36.3.0 pipeline
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: orchestrate-r3630-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  dispatch-sequence:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build PyTorch r36.3.0
+        uses: peter-evans/workflow-dispatch@v3
+        with:
+          workflow: .github/workflows/r3630-pytorch.yml
+          ref: main
+          wait-for-completion: true
+
+      - name: Build ROS Humble Core r36.3.0
+        uses: peter-evans/workflow-dispatch@v3
+        with:
+          workflow: .github/workflows/r3630-humblecore.yml
+          ref: main
+          wait-for-completion: true
+
+      - name: Build ROS Humble Base r36.3.0
+        uses: peter-evans/workflow-dispatch@v3
+        with:
+          workflow: .github/workflows/r3630-humblebase.yml
+          ref: main
+          wait-for-completion: true
+
+      - name: Build ROS + PyTorch Humble Core r36.3.0
+        uses: peter-evans/workflow-dispatch@v3
+        with:
+          workflow: .github/workflows/r3630-pytorch-humblecore.yml
+          ref: main
+          wait-for-completion: true
