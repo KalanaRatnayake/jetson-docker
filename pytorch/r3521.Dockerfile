@@ -4,7 +4,7 @@
 #----
 #---------------------------------------------------------------------------------------------------------------------------
 
-FROM nvcr.io/nvidia/l4t-cuda:11.4.19-runtime AS base
+FROM nvcr.io/nvidia/l4t-cuda:11.4.19-devel AS base
 
 WORKDIR /
 
@@ -23,7 +23,6 @@ RUN apt-get -y install --no-install-recommends python3-pip \
                                                libopenblas-dev \
                                                libopenmpi-dev \
                                                libomp-dev \
-                                               libcudnn8 \
                                                libjpeg-dev \
                                                zlib1g-dev \
                                                libpython3-dev \
