@@ -19,17 +19,13 @@ RUN dpkg -i cuda-keyring_1.1-1_all.deb
 RUN apt-get update -y
 
 RUN apt-get -y install --no-install-recommends python3-pip \
-                                               libpython3-dev \
-                                               libopenblas-dev \
                                                libopenblas-base \
+                                               libopenblas-dev \
                                                libopenmpi-dev \
-                                               openmpi-common \
-                                               gfortran \
                                                libomp-dev \
-                                               libcusparselt0 \
-                                               libcusparselt-dev \
                                                libjpeg-dev \
                                                zlib1g-dev \
+                                               libpython3-dev \
                                                libavcodec-dev \
                                                libavformat-dev \
                                                libswscale-dev
@@ -42,7 +38,7 @@ RUN apt-get remove -y python3-numpy
 
 RUN wget https://developer.download.nvidia.cn/compute/redist/jp/v512/pytorch/torch-2.1.0a0+41361538.nv23.06-cp38-cp38-linux_aarch64.whl
 
-RUN python3 -m pip install --no-cache-dir 'Cython<3' numpy==1.26.1 torch-2.1.0a0+41361538.nv23.06-cp38-cp38-linux_aarch64.whl
+RUN python3 -m pip install --no-cache-dir 'Cython<3' numpy torch-2.1.0a0+41361538.nv23.06-cp38-cp38-linux_aarch64.whl
 
 RUN rm torch-2.1.0a0+41361538.nv23.06-cp38-cp38-linux_aarch64.whl
 
