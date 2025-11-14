@@ -47,6 +47,13 @@ RUN rm torch-2.1.0a0+41361538.nv23.06-cp38-cp38-linux_aarch64.whl
 ##                           Install Torch Vision 0.16
 #####################################################################################
 
+# Pre-install build/runtime deps that torchvision setup will otherwise fetch.
+# This avoids building Pillow from source and ensures pybind11 is available.
+RUN python3 -m pip install --no-cache-dir \
+    'pybind11>=2.10' \
+    'requests<3' \
+    'pillow<11'
+
 RUN git clone --branch v0.16.0 https://github.com/pytorch/vision torchvision
 
 WORKDIR /torchvision
