@@ -36,7 +36,8 @@ RUN apt-get remove -y python3-numpy
 ##                           Install PyTorch 2.3
 #####################################################################################
 
-RUN wget https://nvidia.box.com/shared/static/mp164asf3sceb570wvjsrezk1p4ftj8t.whl
+RUN wget -O torch-2.3.0-cp310-cp310-linux_aarch64.whl \
+    https://nvidia.box.com/shared/static/mp164asf3sceb570wvjsrezk1p4ftj8t.whl
 
 RUN python3 -m pip install --no-cache-dir 'Cython<3' numpy torch-2.3.0-cp310-cp310-linux_aarch64.whl
 
@@ -46,7 +47,8 @@ RUN rm torch-2.3.0-cp310-cp310-linux_aarch64.whl
 ##                           Install Torch Vision 0.18
 #####################################################################################
 
-RUN wget https://nvidia.box.com/shared/static/xpr06qe6ql3l6rj22cu3c45tz1wzi36p.whl
+RUN wget -O torchvision-0.18.0a0+6043bc2-cp310-cp310-linux_aarch64.whl \
+    https://nvidia.box.com/shared/static/xpr06qe6ql3l6rj22cu3c45tz1wzi36p.whl
 
 RUN python3 -m pip install --no-cache-dir torchvision-0.18.0a0+6043bc2-cp310-cp310-linux_aarch64.whl
 
@@ -56,7 +58,8 @@ RUN rm torchvision-0.18.0a0+6043bc2-cp310-cp310-linux_aarch64.whl
 ##                           Install Torch Audio 2.3
 #####################################################################################
 
-RUN wget https://nvidia.box.com/shared/static/9agsjfee0my4sxckdpuk9x9gt8agvjje.whl
+RUN wget -O torchaudio-2.3.0+952ea74-cp310-cp310-linux_aarch64.whl \
+    https://nvidia.box.com/shared/static/9agsjfee0my4sxckdpuk9x9gt8agvjje.whl
 
 RUN python3 -m pip install --no-cache-dir torchaudio-2.3.0+952ea74-cp310-cp310-linux_aarch64.whl
 
@@ -83,7 +86,8 @@ RUN apt-get clean
 #----
 #---------------------------------------------------------------------------------------------------------------------------
 
-FROM nvcr.io/nvidia/l4t-cuda:12.6.11-runtime AS final
+# Match final image CUDA version to base (CUDA 12.2) to avoid runtime mismatches
+FROM nvcr.io/nvidia/l4t-cuda:12.2.12-runtime AS final
 
 COPY --from=base / /
 
