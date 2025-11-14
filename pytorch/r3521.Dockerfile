@@ -4,7 +4,7 @@
 #----
 #---------------------------------------------------------------------------------------------------------------------------
 
-FROM nvcr.io/nvidia/l4t-cuda:12.2.12-runtime AS base
+FROM nvcr.io/nvidia/l4t-cuda:11.4.19-runtime AS base
 
 WORKDIR /
 

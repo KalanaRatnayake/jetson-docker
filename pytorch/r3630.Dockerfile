@@ -38,7 +38,7 @@ RUN apt-get remove -y python3-numpy
 
 RUN wget https://nvidia.box.com/shared/static/mp164asf3sceb570wvjsrezk1p4ftj8t.whl
 
-RUN python3 -m pip install --no-cache-dir 'Cython<3' numpy torch-2.3.0-cp310-cp310-linux_aarch64
+RUN python3 -m pip install --no-cache-dir 'Cython<3' numpy torch-2.3.0-cp310-cp310-linux_aarch64.whl
 
 RUN rm torch-2.3.0-cp310-cp310-linux_aarch64.whl
 
