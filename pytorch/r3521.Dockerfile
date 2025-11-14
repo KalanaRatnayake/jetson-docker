@@ -11,7 +11,8 @@ WORKDIR /
 RUN apt-get update -y
 
 RUN apt-get install -y --no-install-recommends git \
-                                               wget \ 
+                                               wget \
+                                               curl \
                                                python3-pip \
                                                libopenblas-dev 
 
@@ -28,8 +29,8 @@ RUN apt-get remove -y python3-numpy
 RUN wget https://developer.download.nvidia.cn/compute/redist/jp/v512/pytorch/torch-2.1.0a0+41361538.nv23.06-cp38-cp38-linux_aarch64.whl
 
 RUN python3 -m pip install --upgrade pip && \
-    python3 -m pip install numpy==’1.26.1’ && \
-    python3 -m pip install --no-cache torch-2.1.0a0+41361538.nv23.06-cp38-cp38-linux_aarch64.whl
+    python3 -m pip install numpy==1.26.1 && \
+    python3 -m pip install --no-cache-dir torch-2.1.0a0+41361538.nv23.06-cp38-cp38-linux_aarch64.whl
 
 RUN rm torch-2.1.0a0+41361538.nv23.06-cp38-cp38-linux_aarch64.whl
 
@@ -84,7 +85,7 @@ RUN apt-get clean
 #----
 #---------------------------------------------------------------------------------------------------------------------------
 
-FROM nvcr.io/nvidia/l4t-cuda:12.2.12-devel as final
+FROM nvcr.io/nvidia/l4t-cuda:12.2.12-devel AS final
 
 COPY --from=base / /
 

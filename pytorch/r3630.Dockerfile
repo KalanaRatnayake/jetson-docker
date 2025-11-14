@@ -11,13 +11,12 @@ WORKDIR /
 RUN apt-get update -y
 
 RUN apt-get install -y --no-install-recommends git \
-                                               wget \ 
+                                               wget \
                                                python3-pip \
                                                libopenblas-dev 
 
-RUN  wget raw.githubusercontent.com/pytorch/pytorch/5c6af2b583709f6176898c017424dc9981023c28/.ci/docker/common/install_cusparselt.sh && \
-    export CUDA_VERSION=12.6 && \
-    bash ./install_cusparselt.sh
+# cuSPARSELt install script from PyTorch CI does not support CUDA 12.6 yet; skip for r3630.
+# If needed later, install libcusparselt via NVIDIA apt repository or an updated script.
 
 RUN apt-get remove -y python3-numpy 
 
@@ -83,7 +82,7 @@ RUN apt-get clean
 #----
 #---------------------------------------------------------------------------------------------------------------------------
 
-FROM nvcr.io/nvidia/l4t-cuda:12.6.11-runtime as final
+FROM nvcr.io/nvidia/l4t-cuda:12.6.11-runtime AS final
 
 COPY --from=base / /
 
