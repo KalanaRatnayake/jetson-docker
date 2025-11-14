@@ -32,6 +32,13 @@ jobs:
           ref: main
           label: Build Minimal r32.7.1
 
+      - name: Build PyTorch r32.7.1
+        uses: KalanaRatnayake/sequential-dispatcher@v1
+        with:
+          workflow_file: .github/workflows/r3271-pytorch.yml
+          ref: main
+          label: Build PyTorch r32.7.1
+
       - name: Build ROS Humble Core r32.7.1
         uses: KalanaRatnayake/sequential-dispatcher@v1
         with:
@@ -45,13 +52,6 @@ jobs:
           workflow_file: .github/workflows/r3271-humblebase.yml
           ref: main
           label: Build ROS Humble Base r32.7.1
-
-      - name: Build PyTorch r32.7.1
-        uses: KalanaRatnayake/sequential-dispatcher@v1
-        with:
-          workflow_file: .github/workflows/r3271-pytorch.yml
-          ref: main
-          label: Build PyTorch r32.7.1
 
       - name: Build ROS + PyTorch Humble Core r32.7.1
         uses: KalanaRatnayake/sequential-dispatcher@v1
