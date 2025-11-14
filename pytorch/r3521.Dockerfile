@@ -28,7 +28,8 @@ RUN apt-get -y install --no-install-recommends python3-pip \
                                                libpython3-dev \
                                                libavcodec-dev \
                                                libavformat-dev \
-                                               libswscale-dev
+                                               libswscale-dev \
+                                               libcudnn8
 
 RUN apt-get remove -y python3-numpy 
 
