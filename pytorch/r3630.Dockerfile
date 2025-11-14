@@ -10,16 +10,31 @@ WORKDIR /
 
 RUN apt-get update -y
 
-RUN apt-get install -y --no-install-recommends git \
-                                               wget \
-                                               python3-pip \
-                                               libopenblas-dev 
+RUN apt-get install -y --no-install-recommends git wget
 
-# cuSPARSELt install script from PyTorch CI does not support CUDA 12.6 yet; skip for r3630.
-# If needed later, install libcusparselt via NVIDIA apt repository or an updated script.
+RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/arm64/cuda-keyring_1.1-1_all.deb
+
+RUN dpkg -i cuda-keyring_1.1-1_all.deb
+ 
+RUN apt-get update -y
+
+RUN apt-get -y install --no-install-recommends python3-pip \
+                                               libpython3-dev \
+                                               libopenblas-dev \
+                                               libopenblas-base \
+                                               libopenmpi-dev \
+                                               openmpi-common \
+                                               gfortran \
+                                               libomp-dev \
+                                               libcusparselt0 \
+                                               libcusparselt-dev \
+                                               libjpeg-dev \
+                                               zlib1g-dev \
+                                               libavcodec-dev \
+                                               libavformat-dev \
+                                               libswscale-dev
 
 RUN apt-get remove -y python3-numpy 
-
 
 #####################################################################################
 ##                           Install PyTorch 2.4

@@ -10,15 +10,29 @@ WORKDIR /
 
 RUN apt-get update -y
 
-RUN apt-get install -y --no-install-recommends git \
-                                               wget \
-                                               curl \
-                                               python3-pip \
-                                               libopenblas-dev 
+RUN apt-get install -y --no-install-recommends git wget
 
-RUN  wget raw.githubusercontent.com/pytorch/pytorch/5c6af2b583709f6176898c017424dc9981023c28/.ci/docker/common/install_cusparselt.sh && \
-    export CUDA_VERSION=12.2 && \
-    bash ./install_cusparselt.sh
+RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/arm64/cuda-keyring_1.1-1_all.deb
+
+RUN dpkg -i cuda-keyring_1.1-1_all.deb
+ 
+RUN apt-get update -y
+
+RUN apt-get -y install --no-install-recommends python3-pip \
+                                               libpython3-dev \
+                                               libopenblas-dev \
+                                               libopenblas-base \
+                                               libopenmpi-dev \
+                                               openmpi-common \
+                                               gfortran \
+                                               libomp-dev \
+                                               libcusparselt0 \
+                                               libcusparselt-dev \
+                                               libjpeg-dev \
+                                               zlib1g-dev \
+                                               libavcodec-dev \
+                                               libavformat-dev \
+                                               libswscale-dev
 
 RUN apt-get remove -y python3-numpy 
 
@@ -28,9 +42,7 @@ RUN apt-get remove -y python3-numpy
 
 RUN wget https://developer.download.nvidia.cn/compute/redist/jp/v512/pytorch/torch-2.1.0a0+41361538.nv23.06-cp38-cp38-linux_aarch64.whl
 
-RUN python3 -m pip install --upgrade pip && \
-    python3 -m pip install numpy==1.26.1 && \
-    python3 -m pip install --no-cache-dir torch-2.1.0a0+41361538.nv23.06-cp38-cp38-linux_aarch64.whl
+RUN python3 -m pip install --no-cache-dir 'Cython<3' numpy==1.26.1 torch-2.1.0a0+41361538.nv23.06-cp38-cp38-linux_aarch64.whl
 
 RUN rm torch-2.1.0a0+41361538.nv23.06-cp38-cp38-linux_aarch64.whl
 
