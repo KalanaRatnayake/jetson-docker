@@ -1,4 +1,4 @@
-name: Jetson ROS Humble Core Pytorch r35.2.1
+name: Jetson ROS Humble Pytorch r35.2.1
 
 on:
   workflow_dispatch:
@@ -13,14 +13,14 @@ on:
     branches: 
       - main
     paths:
-      - ".github/workflows/r3521-pytorch-humblecore.yml"
+      - ".github/workflows/r3521-pytorch-humble.yml"
       - "ros-pytorch/humble/r3521.Dockerfile"
 
   pull_request:
     branches: 
       - main
     paths:
-      - ".github/workflows/r3521-pytorch-humblecore.yml"
+      - ".github/workflows/r3521-pytorch-humble.yml"
       - "ros-pytorch/humble/r3521.Dockerfile"
 
 env:
