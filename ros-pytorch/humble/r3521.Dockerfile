@@ -107,7 +107,10 @@ RUN rosdep install -y \
 # - Also explicitly point CMake to Python3 to avoid any ambiguity.
 RUN colcon build \
             --merge-install \
-            --cmake-args -DCMAKE_BUILD_TYPE=Release -DPython3_EXECUTABLE=/usr/bin/python3
+            --cmake-args \
+                -DCMAKE_BUILD_TYPE=Release \
+                -DPython3_EXECUTABLE=/usr/bin/python3 \
+                -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 
 
 WORKDIR /
