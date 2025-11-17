@@ -99,11 +99,16 @@ RUN rosdep install -y \
 	               --ignore-src \
 	               --from-paths src \
 	               --rosdistro ${ROS_DISTRO} \
-                   --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers"
+                   --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers pybind11-dev pybind11 python3-pybind11"
 
+# NOTE:
+# - Skip installing system pybind11 to avoid pulling a CMake config that references Python 2.7 includes on L4T r35.2.1 (Ubuntu 20.04).
+#   This allows the ROS pybind11_vendor package to fetch/build a compatible pybind11 for Python3.
+# - Also explicitly point CMake to Python3 to avoid any ambiguity.
 RUN colcon build \
             --merge-install \
-            --cmake-args -DCMAKE_BUILD_TYPE=Release 
+            --cmake-args -DCMAKE_BUILD_TYPE=Release -DPython3_EXECUTABLE=/usr/bin/python3
+
 
 WORKDIR /
 
