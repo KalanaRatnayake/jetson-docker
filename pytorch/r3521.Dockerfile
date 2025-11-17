@@ -15,6 +15,7 @@ RUN apt-get install -y --no-install-recommends git wget
 RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/arm64/cuda-keyring_1.1-1_all.deb
 
 RUN dpkg -i cuda-keyring_1.1-1_all.deb
+RUN rm -f cuda-keyring_1.1-1_all.deb
  
 RUN apt-get update -y
 
@@ -29,9 +30,7 @@ RUN apt-get -y install --no-install-recommends python3-pip \
                                                libavcodec-dev \
                                                libavformat-dev \
                                                libswscale-dev \
-                                               libcudnn8 \
-                                               cmake \
-                                               ninja-build
+                                               libcudnn8
 
 RUN apt-get remove -y python3-numpy 
 
@@ -74,11 +73,17 @@ RUN git clone --branch v2.1.0 https://github.com/pytorch/audio torchaudio
 
 WORKDIR /torchaudio
 
+# torchaudio's build requires CMake >= 3.18; install a newer CMake just for the build
+RUN python3 -m pip install --no-cache-dir cmake ninja
+
 RUN export BUILD_VERSION=2.1.0  && python3 setup.py install
 
 WORKDIR /
 
 RUN rm -rf /torchaudio
+
+# Remove the pip CMake so downstream images use system CMake (avoids ROS build policy issues)
+RUN python3 -m pip uninstall -y cmake || true
 
 #####################################################################################
 ##
