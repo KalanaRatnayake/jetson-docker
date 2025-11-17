@@ -1,6 +1,10 @@
-FROM ghcr.io/kalanaratnayake/jetson-pytorch:r35.2.1 as base
+#---------------------------------------------------------------------------------------------------------------------------
+#----
+#----   Start base image
+#----
+#---------------------------------------------------------------------------------------------------------------------------
 
-ENV ROS_VERSION=humble
+FROM ghcr.io/kalanaratnayake/jetson-pytorch:r35.2.1 as base
 
 #############################################################################################################################
 #####
@@ -27,7 +31,7 @@ RUN apt-get install -y --no-install-recommends cmake \
                                                python3-pip \
                                                python3-venv \
                                                libpython3-dev \
-                                               libboost-python-dev                                          
+                                               libboost-python-dev                                        
                                                
 RUN locale-gen en_US en_US.UTF-8 && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
@@ -36,7 +40,7 @@ ENV PYTHONIOENCODING=utf-8
 
 RUN python3 -m pip install --no-cache-dir   numpy \
                                             pytest-cov \
-                                            opencv-python          
+                                            opencv-python
 
 #############################################################################################################################
 #####
@@ -69,7 +73,7 @@ ENV ROS_PYTHON_VERSION=3
 
 WORKDIR ${ROS_ROOT}/src
 
-RUN rosinstall_generator --deps --rosdistro ${ROS_DISTRO} ${ROS_PACKAGE} \
+RUN rosinstall_generator --deps --rosdistro ${ROS_DISTRO} ${ROS_PACKAGE} \                                                          
                                                             demo_nodes_cpp \
                                                             demo_nodes_py \
                                                             example_interfaces \
@@ -107,10 +111,7 @@ RUN rosdep install -y \
 # - Also explicitly point CMake to Python3 to avoid any ambiguity.
 RUN colcon build \
             --merge-install \
-            --cmake-args \
-                -DCMAKE_BUILD_TYPE=Release \
-                -DPython3_EXECUTABLE=/usr/bin/python3 \
-                -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+            --cmake-args -DCMAKE_BUILD_TYPE=Release -DPython3_EXECUTABLE=/usr/bin/python3
 
 
 WORKDIR /
