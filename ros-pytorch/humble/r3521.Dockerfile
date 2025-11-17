@@ -45,7 +45,7 @@ RUN python3 -m pip install --no-cache-dir   numpy \
 #############################################################################################################################
 
 ARG ROS_VERSION=humble
-ARG ROS_PACKAGE=ros_core
+ARG ROS_PACKAGE=ros_base
 
 RUN add-apt-repository universe
 
