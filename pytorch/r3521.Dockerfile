@@ -29,7 +29,9 @@ RUN apt-get -y install --no-install-recommends python3-pip \
                                                libavcodec-dev \
                                                libavformat-dev \
                                                libswscale-dev \
-                                               libcudnn8
+                                               libcudnn8 \
+                                               cmake \
+                                               ninja-build
 
 RUN apt-get remove -y python3-numpy 
 
@@ -71,8 +73,6 @@ RUN rm -rf /torchvision
 RUN git clone --branch v2.1.0 https://github.com/pytorch/audio torchaudio
 
 WORKDIR /torchaudio
-
-RUN python3 -m pip install --no-cache-dir cmake ninja
 
 RUN export BUILD_VERSION=2.1.0  && python3 setup.py install
 
