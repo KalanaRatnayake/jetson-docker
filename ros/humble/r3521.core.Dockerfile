@@ -73,24 +73,12 @@ ENV ROS_PYTHON_VERSION=3
 
 WORKDIR ${ROS_ROOT}/src
 
-RUN rosinstall_generator --deps --rosdistro ${ROS_DISTRO} ${ROS_PACKAGE} \
+RUN rosinstall_generator --deps --rosdistro ${ROS_DISTRO} ${ROS_PACKAGE} \                                                          
                                                             demo_nodes_cpp \
                                                             demo_nodes_py \
                                                             example_interfaces \
-                                                            camera_calibration_parsers \
-                                                            camera_info_manager \
-                                                            cv_bridge \
-                                                            v4l2_camera \
-                                                            vision_opencv \
-                                                            vision_msgs \
-                                                            image_geometry \
-                                                            image_pipeline \
-                                                            image_transport \
-                                                            compressed_image_transport \
-                                                            compressed_depth_image_transport \
                                                             cyclonedds \
                                                             rmw_cyclonedds \
-                                                            rosbag2_storage_mcap \
                                                         > ros2.${ROS_DISTRO}.${ROS_PACKAGE}.rosinstall
 
 RUN vcs import ${ROS_ROOT}/src < ros2.${ROS_DISTRO}.${ROS_PACKAGE}.rosinstall
@@ -103,11 +91,15 @@ RUN rosdep install -y \
 	               --ignore-src \
 	               --from-paths src \
 	               --rosdistro ${ROS_DISTRO} \
-                   --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers"
+                   --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers pybind11-dev pybind11 python3-pybind11"
 
+# NOTE:
+# - Skip installing system pybind11 to avoid pulling a CMake config that references Python 2.7 includes on L4T r35.2.1 (Ubuntu 20.04).
+#   This allows the ROS pybind11_vendor package to fetch/build a compatible pybind11 for Python3.
+# - Also explicitly point CMake to Python3 to avoid any ambiguity.
 RUN colcon build \
             --merge-install \
-            --cmake-args -DCMAKE_BUILD_TYPE=Release 
+            --cmake-args -DCMAKE_BUILD_TYPE=Release -DPython3_EXECUTABLE=/usr/bin/python3
 
 WORKDIR /
 

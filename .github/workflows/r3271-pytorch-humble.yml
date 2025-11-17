@@ -14,14 +14,14 @@ on:
       - main
     paths:
       - ".github/workflows/r3271-pytorch-humblecore.yml"
-      - "ros-pytorch/humble/r3271.core_pytorch.Dockerfile"
+      - "ros-pytorch/humble/r3271.Dockerfile"
 
   pull_request:
     branches: 
       - main
     paths:
       - ".github/workflows/r3271-pytorch-humblecore.yml"
-      - "ros-pytorch/humble/r3271.core_pytorch.Dockerfile"
+      - "ros-pytorch/humble/r3271.Dockerfile"
 
 env:
   REGISTRY: ghcr.io
@@ -67,10 +67,10 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./ros-pytorch/humble/r3271.core_pytorch.Dockerfile
+          file: ./ros-pytorch/humble/r3271.Dockerfile
           push: true
           platforms: linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-core-r32.7.1
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-r32.7.1

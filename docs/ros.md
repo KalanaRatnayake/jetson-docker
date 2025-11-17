@@ -1,9 +1,11 @@
 # ROS Humble images
 
-Ready-to-use ROS 2 Humble images for Jetson. Choose between Core and Base variants.
+Ready-to-use ROS 2 Humble images for Jetson. Choose between Core and Base variants. Both are Headless versions of ROS2 with minimum packages to function.
 
-- Core: communication libraries, common tools, no desktop GUI
-- Base: Core plus additional CLI tools, still headless
+- Core: Communication libraries, examples
+- Base: Core + Image handling support and ROSBag support.
+
+Use Core package if your system only requires basic control functionality without any image handling. Use base package if your system expects image handling, camera access and extended functionality.
 
 ## Available tags
 

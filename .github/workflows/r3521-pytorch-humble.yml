@@ -1,10 +1,11 @@
-name: Jetson ROS Humble Core Pytorch r36.3.0
+name: Jetson ROS Humble Core Pytorch r35.2.1
 
 on:
   workflow_dispatch:
 
+  # Build only after the base PyTorch image is available
   workflow_run:
-    workflows: [Jetson Pytorch r36.3.0]
+    workflows: [Jetson Pytorch r35.2.1]
     types:
       - completed
 
@@ -12,15 +13,15 @@ on:
     branches: 
       - main
     paths:
-      - ".github/workflows/r3630-pytorch-humblecore.yml"
-      - "ros-pytorch/humble/r3630.core_pytorch.Dockerfile"
+      - ".github/workflows/r3521-pytorch-humblecore.yml"
+      - "ros-pytorch/humble/r3521.Dockerfile"
 
   pull_request:
     branches: 
       - main
     paths:
-      - ".github/workflows/r3630-pytorch-humblecore.yml"
-      - "ros-pytorch/humble/r3630.core_pytorch.Dockerfile"
+      - ".github/workflows/r3521-pytorch-humblecore.yml"
+      - "ros-pytorch/humble/r3521.Dockerfile"
 
 env:
   REGISTRY: ghcr.io
@@ -66,10 +67,10 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./ros-pytorch/humble/r3630.core_pytorch.Dockerfile
+          file: ./ros-pytorch/humble/r3521.Dockerfile
           push: true
           platforms: linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-core-r36.3.0
+            ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.IMAGE_NAME }}:humble-r35.2.1
